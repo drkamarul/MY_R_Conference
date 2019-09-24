@@ -26,6 +26,10 @@ RStudio Cloud http://bit.ly/Reg_in_med
 
 ```{r}
 library(tidyverse)
+library(here)
+library(readxl)
+library(kableExtra)
+library(cdata)
 ```
 
 
@@ -43,11 +47,149 @@ library(tidyverse)
 
 ## Read data
 
+
+```{r}
+PUP2 <- read_excel(here('datasets', 'PUP2.xlsx'))
+```
+
+## Data wrangling and EDA
+
+```{r}
+library(summarytools)
+descr(PUP2)
+```
+
+
+
+```{r}
+descr(PUP2[PUP2$outcome == 'dead',], stats = c('mean', 'sd', 'min', 'med', 'max'),
+      transpose = TRUE)
+```
+
+```{r}
+descr(PUP2[PUP2$outcome == 'alive',], stats = c('mean', 'sd', 'min', 'med', 'max'),
+      transpose = TRUE)
+```
+
+Categorical and numerical
+
+```{r}
+glimpse(PUP2)
+desc_cat <- PUP2 %>% group_by(outcome) %>% summarize_if(is.numeric, mean)
+desc_cat
+pivot_to_rowrecs(desc_cat, columnToTakeKeysFrom = 'outcome', columnToTakeValuesFrom = 'age',
+                 rowKeyColumns = c()) %>% print(.)
+```
+
+
 ## Estimation
 
-## Inference
+### univariate 
+
+```{r }
+library(broom)
+options(scipen = 999)
+glimpse(PUP2)
+PUP2 <- PUP2 %>% mutate(oc2 = factor(outcome))
+
+PUP2 %>% select(oc2, age, sepsis, SSSI) %>% 
+  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
+  map_dfr(., tidy, .id = 'variable')
+
+
+PUP2 %>% select(oc2, age, sepsis, SSSI) %>% 
+  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
+  map_dfr(., broom::tidy, .id = 'variable')
+
+PUP2 %>% select(oc2, age, sepsis, SSSI) %>% 
+  map_dfr(~tidy(glm(oc2 ~ .x, family = binomial, data = PUP2), conf.int = T), .id = 'variable')
+```
+
+### for co-morbid
+
+```{r}
+options(scipen = 999)
+crude_b_co <- PUP2 %>% select(diabetes, hypertension, systolic, diastolic, tenderness,
+                                guarding, PULP, trad_med_steroid, NSAIDS, admission_to_op_hrs,
+                              hemoglobin, platelet) %>%
+  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
+  map_dfr(~tidy(., conf.int = TRUE), .id = 'variable')
+crude_b_co
+
+crude_or_co <- PUP2 %>% select(diabetes, hypertension, systolic, diastolic, tenderness,
+                                guarding, PULP, trad_med_steroid, NSAIDS, admission_to_op_hrs,
+                               hemoglobin, platelet) %>%
+  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
+  map_dfr(~tidy(., exponentiate = TRUE, conf.int = TRUE), .id = 'variable')
+crude_or_co
+
+model_comorbid <- data.frame(crude_b_co, crude_or_co)
+model_comorbid
+write_csv(model_comorbid, 'uni_var_comorbid.csv')
+```
+
+### for co-clinical
+
+```{r}
+options(scipen = 999)
+crude_b_clin <- PUP2 %>% select(age, ASA, gender, vomiting, nausea, fever, diarrhea, malena,
+                           onset_more_24_hrs, degree_perforation) %>%
+  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
+  map_dfr(~tidy(., conf.int = TRUE), .id = 'variable')
+crude_b_clin
+
+crude_or_clin <- PUP2 %>% select(age, ASA, gender, vomiting, nausea, fever, diarrhea, malena,
+                           onset_more_24_hrs, degree_perforation) %>% 
+  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
+  map_dfr(~tidy(., exponentiate = TRUE, conf.int = TRUE), .id = 'variable')
+crude_or_clin
+
+model_clin <- data.frame(crude_b_clin, crude_or_clin)
+model_clin
+write_csv(model_clin, 'uni_var_clinical.csv')
+```
+
+
+### Multivariables analysis
+
+Outcome - oc2
+primary variables - ASA, degree of perforation, PULP, NSAIDS, Hg, malena, onset more than 24 
+confounding - age, gender, diabetes, hypertension, 
+
+```{r}
+model_mv <- glm(oc2 ~ ASA + degree_perforation + onset_more_24_hrs + PULP + 
+                  hemoglobin + malena + age + gender + diabetes +  hypertension, 
+                family = binomial(link = 'logit'), data = PUP2)
+summary(model_mv)
+```
 
 ## Model checking
+
+### ROC curve
+
+### Hosmer-Lemeshow test
+
+## Final model
+
+
+```{r}
+model_ASA <- glm(oc2 ~ factor(ASA) + age + gender + diabetes + hypertension, 
+                family = binomial(link = 'logit'), data = PUP2)
+model_perf <- glm(oc2 ~ degree_perforation + age + gender + diabetes + hypertension, 
+                family = binomial(link = 'logit'), data = PUP2)
+model_PULP <- glm(oc2 ~ PULP + age + gender + diabetes + hypertension, 
+                family = binomial(link = 'logit'), data = PUP2)
+model_24hrs <- glm(oc2 ~ onset_more_24_hrs + age + gender + diabetes + hypertension, 
+                family = binomial(link = 'logit'), data = PUP2)
+m_ASA <- tidy(model_ASA, exponentiate = TRUE, conf.int = TRUE)
+m_perf <- tidy(model_perf,  exponentiate = TRUE, conf.int = TRUE)
+m_pulp <- tidy(model_PULP,  exponentiate = TRUE, conf.int = TRUE)
+m_24 <- tidy(model_24hrs,  exponentiate = TRUE, conf.int = TRUE)
+multi_var <- bind_rows(m_ASA, m_perf, m_pulp, m_24) %>% 
+  filter(term %in% c("factor(ASA)2", "factor(ASA)3", 
+                     "degree_perforationmoderate", "degree_perforationsmall",
+                     "PULP", "onset_more_24_hrsyes"))
+```
 
 # Poisson regression (10 mins)
 
