@@ -14,9 +14,37 @@ knitr::opts_chunk$set(echo = TRUE)
 
 My name is 
 
+http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
+
+Research profiles
+
+https://scholar.google.com/citations?user=XVf2_QcAAAAJ&hl=en&authuser=1
+
+Research interest
+
+Medical epidemiology
+Statistical modelling
+Machine learning 
+
+FRGS grant to study deep learning on mammography to predict breast cancer 
+
 # Regression (5 mins)
 
+an analysis
+
+to explain
+
+to predict
+
 # Motivation (5 mins)
+
+When the outcome is continuous and follows Gaussian distribution as a function of covariates
+
+When the outcome is categorical, binary especially and it follows Bernoulli distribution is a function of covariates
+
+When the outcome is count and it follows the Poisson distribution as a function of covariates
+
+When the outcome is time-to-event, a semi-parametric regression 
 
 # Setting up R environment
 
@@ -35,7 +63,14 @@ library(cdata)
 
 # Linear regression (15 mins)
 
+When the outcome is continuous and follows Gaussian distribution as a function of covariates
+
 ## Read data
+
+```{r}
+
+```
+
 
 ## Estimation
 
