@@ -2,7 +2,9 @@
 title: "Regression Analysis in Health and Medicine Using R"
 author: "Assoc Prof Kamarul Imran Musa"
 date: "9/23/2019"
-output: html_document
+output: 
+  html_document: 
+    keep_md: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -10,69 +12,162 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# About myself
+# Introduction
 
-My name is 
+## About myself
 
-http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
+My name is Kamarul Imran. I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
 
-Research profiles
+## Research profiles
 
-https://scholar.google.com/citations?user=XVf2_QcAAAAJ&hl=en&authuser=1
+My research profile at Google Scholar is available here  https://scholar.google.com/citations?user=XVf2_QcAAAAJ&hl=en&authuser=1. My SCOPUS author ID is here 
 
-Research interest
+## Research interest
 
-Medical epidemiology
-Statistical modelling
-Machine learning 
-
-FRGS grant to study deep learning on mammography to predict breast cancer 
+My research interests include medical epidemiology, statistical modelling and machine learning. Recently, I was awarded with the FRGS grant (RM125,000) to understand the roles of machine learning and statistical models on mammography images to predict breast cancer.  
 
 # Regression (5 mins)
 
-an analysis
+In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships among variables. It includes many techniques for modeling and analyzing several variables, when the focus is on the relationship between a dependent variable and one or more independent variables (or 'predictors').
 
-to explain
+Most commonly, regression analysis estimates the conditional expectation of the dependent variable given the independent variables – that is, the average value of the dependent variable when the independent variables are fixed. 
 
-to predict
+Source: https://en.wikipedia.org/wiki/Regression_analysis
 
 # Motivation (5 mins)
 
-When the outcome is continuous and follows Gaussian distribution as a function of covariates
+## Linear regression
 
-When the outcome is categorical, binary especially and it follows Bernoulli distribution is a function of covariates
+When the outcome is continuous and follows Gaussian distribution as a function of covariates. 
+
+## Logistic regression
+
+When the outcome is categorical, binary especially and it follows Bernoulli distribution is a function of covariates. 
+
+## Poisson regression
 
 When the outcome is count and it follows the Poisson distribution as a function of covariates
 
-When the outcome is time-to-event, a semi-parametric regression 
+## Cox proportional hazard regression
+
+When the outcome is time-to-event, a Cox semi-parametric regression is the most regression. 
 
 # Setting up R environment
 
-RStudio Cloud http://bit.ly/Reg_in_med
+We will be using RStudio Cloud. 
+
+On its webpage, it is stated the THE MISSION as 
+
+*We created RStudio Cloud to make it easy for professionals, hobbyists, trainers, teachers and students to do, share, teach and learn data science using R.*
+
+I have prepared the environment for our workshop in RStudio Cloud. Click this link http://bit.ly/Reg_in_med
+
+# Style of presentation
+
+**Code-along** 
 
 # Load required libraries
 
 ```{r}
 library(tidyverse)
 library(here)
+library(haven)
 library(readxl)
 library(kableExtra)
 library(cdata)
+library(corrplot)
+library(survival)
 ```
 
 
 # Linear regression (15 mins)
 
-When the outcome is continuous and follows Gaussian distribution as a function of covariates
+## Statistical concepts
+
+In multiple regression model, we assume that a linear relationship exists between some variable $Y$, which we call the dependent variable (or the outcome or the regressand), and $k$ independent variables (or the predictor, covariate, explanatory or the regressor) such as $X_1 ,X_2 ,...,X_k$.
+
+The independent variables are sometimes referred to as explanatory variables, because of their use in explaining the variation in $Y$. They are also called predictor variables, because of their use in predicting $Y$ and covariates.
+
+## Model assumptions 
+
+The assumptions in simple linear regression still apply in multiple linear regression. As in simple linear regression, we test the assumptions after running the analysis (in our case using a statistical software).
+
+The assumptions for multiple linear regression are:
+
+1.  The $X_i$ are non-random (fixed) variables. This condition indicates that any inferences that are drawn from sample data apply only to the set of $X$ values observed and not to some larger collection of $X_s$.
+2.  For each set of $X_i$ values there is a subpopulation of $Y$ values which are normally distributed. To construct certain confidence intervals and test hypotheses, it must be known, or the researcher must be willing to assume, that these subpopulations of Y values are normally distributed.
+3. The variances of the sub-populations of $Y$ are all equal.
+4. The $Y$ values are independent. That is, the values of $Y$ selected for one set of $X$ values do not depend on the values of $Y$ selected at another set of $X$ values.
+
+Figure \@ref(fig:LinearityAssumption) sums the first 3 assumptions:
+
+```{r  LinearityAssumption, echo=FALSE, out.width='50%', fig.cap='Linearity Assumptions', fig.align='center'}
+knitr::include_graphics(here("image","linearity2.png")) 
+```
+
+Generally, the equation of multiple linear regression model is:
+
+$$Y_i = \beta_0 + \beta_1X_{1i} + ... + \beta_kX_{ki} + \epsilon_i$$
 
 ## Read data
 
 ```{r}
+met <- read_xlsx(here('datasets', 'metab_syndrome.xlsx'))
+glimpse(met)
+```
 
+## data wrangling
+
+```{r}
+summary(met)
 ```
 
 
+```{r}
+met <- met %>% mutate_at(vars(-ID), ~as.numeric(.))
+summary(met)
+```
+
+## EDA
+
+
+```{r}
+met_num <- met %>% select_if(is.numeric)
+```
+
+The results of correlation matrix
+
+```{r}
+cor.met <- cor(met_num, use="complete.obs", method="pearson")
+head(round(cor.met,2))
+```
+
+This the correlogram
+
+```{r}
+corrplot(cor.met, method="circle")
+```
+
+
+
 ## Estimation
+
+```{r}
+met_hba1c <- lm(HBA1C ~ FBS, data = met)
+summary(met_hba1c)
+```
+
+```{r}
+met_hba1c_mv <- lm(HBA1C ~ FBS + AGE + MSBPR + MDBPR, data = met)
+summary(met_hba1c_mv)
+```
+
+### model comparison
+
+```{r}
+#anova(met_hba1c, met_hba1c_mv)
+```
+
 
 ## Inference
 
@@ -238,12 +333,108 @@ multi_var <- bind_rows(m_ASA, m_perf, m_pulp, m_24) %>%
 
 # Cox proportional hazard regression (10 min)
 
+Survival analysis is just another name for time to event  analysis. The term survival analysis is predominately used in biomedical sciences where the interest is in observing time to death either of patients or of laboratory animals. Time to event analysis has also been used widely in the social sciences where interest is on analyzing time to events such as job changes, marriage, birth of children and so forth.
+
+Regression is popular because plausible model can be fitted. In survival analysis, one method of analyses is the Cox proportional hazard regression. In survival analysis, the outcome variable (dependent variable) is TIME TO THE OCCURRENCE OF AN EVENT or shortly known as the time-to-event variable.
+
+## Survival data
+
+In survival analysis, we follow a subject of interest until a certain time (the last follow up). Different patients will have different follow-up times.
+
+For example, we observe a group of patients; with the outcome variable named as 'status' and the outcome coded as 'death' or 'alive'. The status at the last follow up, can be an event either of 'death' or of other than death - 'non-death'. The researcher must choose between 'death' and 'non-death to consider if the event of interest has occurred or not. If he chooses (interested in) 'death', then any patient (who is under the follow-up) who dies during the follow-up will be considered as a 'failure'. Any other patients who are under  the same follow-up and still survive until the latest follow-up is known as a 'censor' case.
+
+
+In survival data, time (duration of follow up) is the 'survival time' (example months, weeks, days) and event is 'the failure status' (for example death, relapse and recurrence)
+
 ## Read data
 
+```{r}
+stroke <- read_dta(here('datasets', 'stroke_outcome.dta'))
+str(stroke)
+glimpse(stroke)
+```
+
+## Data wrangling
+
+```{r}
+stroke2 <- stroke %>% mutate_if(is.labelled, funs(as_factor(.))) 
+glimpse(stroke2)
+```
+
+The data must have at least
+
+1.  duration taken to develop event of interest (time variable)
+2.  event of interest (event variable)
+
+You can calculate the duration from the starting point (for example, date of admission, date of discharge) until the point of event occurs (for example, date of death, date of relapse)
+
+```{r  censoring, echo=FALSE, out.width='70%', fig.cap='Types of censoring', fig.align='center'}
+knitr::include_graphics(here('image', 'censor2.png')) 
+```
+
+Figure \@ref(fig:censoring) shows types of censoring.
+
+Censoring is a problem is the survival analysis. Censoring occurs when we know the survival time for an individual but we do not know the survival time exactly. The common causes of censor are:
+
+1.  study ends - no event even after study ends
+2.  lost to follow up - abscond
+3.  withdraws
+
 ## Estimation
+
+### The Cox proportional haazard regression
+
+In medicine and epidemiology, the most used survival model uses the Cox proportional hazard regression. It is a semi-parametric model. This is because we do not specify the exact distribution of the baseline hazard.
+
+The formula for Cox PH model $h(t,X) = h_0(t)\exp^{\sum_{i=1}^p\beta_iX_i}$
+
+where $h_0(t)$ is the baseline hazard and $\exp^{\sum_{i=1}^p\beta_iX_i}$ is the exponential of the linear predictors.
+
+### Null model
+
+```{r}
+cox.null <- coxph(Surv(time = days, event = outcome == 'dead') ~ 1,
+                 data = stroke2)
+summary(cox.null)
+```
+
+### Conditional model
+
+
+```{r}
+cox.sbp <- coxph(Surv(time = days, event = outcome == 'dead') ~ sbp,
+                 data = stroke2)
+summary(cox.sbp)
+```
+
+Main effect model
+
+```{r}
+cox.gcs.age <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
+                       age + gcs:age, data = stroke2)
+summary(cox.gcs.age)
+```
+
+Model with interaction
+
+```{r}
+cox.gcs.age.noia <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
+                       age, data = stroke2)
+summary(cox.gcs.age.noia)
+```
 
 ## Inference
 
 ## Model checking
+
+
+### Testing the assumption of proportional hazard 
+
+We can use `survival::cox.zph()`
+
+```{r}
+prop.h <- cox.zph(cox.gcs.age.noia, transform = 'km', global = TRUE)
+prop.h
+```
 
 # QA (5 mins)
