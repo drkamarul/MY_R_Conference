@@ -1,34 +1,47 @@
 ---
 title: "Regression Analysis in Health and Medicine Using R"
 author: "Assoc Prof Kamarul Imran Musa"
-date: "9/23/2019"
-output: 
-  html_document: 
+date: "`r Sys.Date()`"
+output:
+  html_document:
     keep_md: yes
+  toc: TRUE
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+\newpage
 
 # Introduction
 
 ## About myself
 
-My name is Kamarul Imran. I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
+My name is Kamarul Imran. 
+
+I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
 
 ## Research profiles
 
-My research profile at Google Scholar is available here  https://scholar.google.com/citations?user=XVf2_QcAAAAJ&hl=en&authuser=1. My SCOPUS author ID is here 
+My research profile at Google Scholar is available here  https://scholar.google.com/citations?user=XVf2_QcAAAAJ&hl=en&authuser=1. 
+
+My SCOPUS author ID is 57194536466
 
 ## Research interest
 
-My research interests include medical epidemiology, statistical modelling and machine learning. Recently, I was awarded with the FRGS grant (RM125,000) to understand the roles of machine learning and statistical models on mammography images to predict breast cancer.  
+My research interests include medical epidemiology, statistical modelling and machine learning. 
+
+Recently, I was awarded with the FRGS grant (RM125,000) to understand the roles of machine learning and statistical models on mammography images to predict breast cancer. 
+
+Emails: drkamarul@usm.my 
 
 # Regression (5 mins)
 
-In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships among variables. It includes many techniques for modeling and analyzing several variables, when the focus is on the relationship between a dependent variable and one or more independent variables (or 'predictors').
+In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships among variables. 
+
+It includes many techniques for modeling and analyzing several variables, when the focus is on the relationship between a dependent variable and one or more independent variables (or 'predictors').
 
 Most commonly, regression analysis estimates the conditional expectation of the dependent variable given the independent variables – that is, the average value of the dependent variable when the independent variables are fixed. 
 
@@ -38,29 +51,43 @@ Source: https://en.wikipedia.org/wiki/Regression_analysis
 
 ## Linear regression
 
-When the outcome is continuous and follows Gaussian distribution as a function of covariates. 
+Analysis of data with the outcome variable as a continuous variable and the expected outcome follows Gaussian distribution (as a function of covariates). 
 
 ## Logistic regression
 
-When the outcome is categorical, binary especially and it follows Bernoulli distribution is a function of covariates. 
+Analysis of data with the outcome variable is  a binary categorical variable and the expected outcome follows Bernoulli distribution (as a function of covariates). 
 
 ## Poisson regression
 
-When the outcome is count and it follows the Poisson distribution as a function of covariates
+Analysis of data with the outcome variable is a count variable and the expected outcome follows the Poisson distribution (as a function of covariates).
 
 ## Cox proportional hazard regression
 
-When the outcome is time-to-event, a Cox semi-parametric regression is the most regression. 
+Analysis of data with the outcome variable is time-to-event variable, a Cox semi-parametric regression is the most regression. 
 
 # Setting up R environment
 
 We will be using RStudio Cloud. 
 
+I have prepared the environment for our workshop in RStudio Cloud. Click this link http://bit.ly/Reg_in_med
+
+```{r  cloud1, echo=FALSE, out.width='50%', fig.cap='Linearity Assumptions', fig.align='center'}
+library(here)
+knitr::include_graphics(here("image","rstudio_cloud1.PNG")) 
+```
+
+```{r  cloud2, echo=FALSE, out.width='50%', fig.cap='Linearity Assumptions', fig.align='center'}
+knitr::include_graphics(here("image","rstudio_cloud2.PNG")) 
+```
+
+```{r  cloud3, echo=FALSE, out.width='50%', fig.cap='Linearity Assumptions', fig.align='center'}
+knitr::include_graphics(here("image","rstudio_cloud3.PNG")) 
+```
+
+
 On its webpage, it is stated the THE MISSION as 
 
 *We created RStudio Cloud to make it easy for professionals, hobbyists, trainers, teachers and students to do, share, teach and learn data science using R.*
-
-I have prepared the environment for our workshop in RStudio Cloud. Click this link http://bit.ly/Reg_in_med
 
 # Style of presentation
 
@@ -74,6 +101,7 @@ library(here)
 library(haven)
 library(readxl)
 library(kableExtra)
+library(broom)
 library(cdata)
 library(corrplot)
 library(survival)
@@ -90,15 +118,6 @@ The independent variables are sometimes referred to as explanatory variables, be
 
 ## Model assumptions 
 
-The assumptions in simple linear regression still apply in multiple linear regression. As in simple linear regression, we test the assumptions after running the analysis (in our case using a statistical software).
-
-The assumptions for multiple linear regression are:
-
-1.  The $X_i$ are non-random (fixed) variables. This condition indicates that any inferences that are drawn from sample data apply only to the set of $X$ values observed and not to some larger collection of $X_s$.
-2.  For each set of $X_i$ values there is a subpopulation of $Y$ values which are normally distributed. To construct certain confidence intervals and test hypotheses, it must be known, or the researcher must be willing to assume, that these subpopulations of Y values are normally distributed.
-3. The variances of the sub-populations of $Y$ are all equal.
-4. The $Y$ values are independent. That is, the values of $Y$ selected for one set of $X$ values do not depend on the values of $Y$ selected at another set of $X$ values.
-
 Figure \@ref(fig:LinearityAssumption) sums the first 3 assumptions:
 
 ```{r  LinearityAssumption, echo=FALSE, out.width='50%', fig.cap='Linearity Assumptions', fig.align='center'}
@@ -111,38 +130,85 @@ $$Y_i = \beta_0 + \beta_1X_{1i} + ... + \beta_kX_{ki} + \epsilon_i$$
 
 ## Read data
 
+This is the data that we collected in the general population. It is part of a larger dataset. 
+
+We would like to understand the problem of Metabolic Syndrome among Malaysians. There were more than 4000 participants. 
+
+We use **readxl::read_xlsx()** to read MS Excel datasets. And then use **dplyr::glimpse()** to briefly view the data.  
+
 ```{r}
 met <- read_xlsx(here('datasets', 'metab_syndrome.xlsx'))
 glimpse(met)
 ```
 
+You will see that there are a mix of variables
+
+- character (correctly and wrongly assigned)
+- double 
+
+That justify that MS Excel is not a good collection or data storage medium. You may want to use other alternatives like EpiData Entry or ODK. 
+
+
 ## data wrangling
+
+Let us get the summary of the data. You can use **summary()** to provide you with a brief but insightful summary or descriptive statistics for your data. 
+
+You will notice that there is no summary statistics for variables of class character. 
+
 
 ```{r}
 summary(met)
 ```
 
+We will convert the character variables (wrongly classed) to the correct numeric class variables. 
+
+We will use **dplyr::mutate_at()**
 
 ```{r}
 met <- met %>% mutate_at(vars(-ID), ~as.numeric(.))
 summary(met)
 ```
 
+Look at variables for outliers and NA for variable PULSE, MOGTT2H, TOTCHOL, FBS.
+
+Let us do some more data wrangling
+
+```{r}
+met <- met %>% filter(HBA1C > 2.5, HBA1C < 25.0, 
+                      LDL > 0.5, HDL > 0.2,  
+                      TOTCHOL > 2.0, TOTCHOL < 15.0,
+                      FBS > 2, FBS < 20,
+                      PULSE < 140) %>% 
+  mutate(BMI = WEIGHT/(HEIGHT^2)) %>% 
+  mutate(OVERWEIGHT = if_else(BMI >=25.0,'overwt','not_overwt')) 
+```
+
+Let us check the summary stat again
+
+```{r}
+summary(met)
+```
+
 ## EDA
 
+We could do correlational analysis to give us idea for possible multicollinearity issues.
+
+Multicollinerity is the situation where one pair or more than one pairs of variables are higly correlated with each other. 
+
+If we include collinear variables in the model (as covariates), the regression parameters will be biased (wrong). 
 
 ```{r}
 met_num <- met %>% select_if(is.numeric)
 ```
 
-The results of correlation matrix
+The results of correlation matrix are:
 
 ```{r}
 cor.met <- cor(met_num, use="complete.obs", method="pearson")
 head(round(cor.met,2))
 ```
 
-This the correlogram
+This the correlogram to represent the correlation matrix:
 
 ```{r}
 corrplot(cor.met, method="circle")
@@ -152,26 +218,74 @@ corrplot(cor.met, method="circle")
 
 ## Estimation
 
+When we assume that the expected values for the outcome variable given the covariates are normally distributed, then we can perform linear regression. 
+
+In R, this can be done using `lm()`. This is the model where the expected values of HBA1C is model as a function of FBS (fasting blood sugar).
+
 ```{r}
 met_hba1c <- lm(HBA1C ~ FBS, data = met)
 summary(met_hba1c)
 ```
+
+Run another linear regression model with these covariates:
 
 ```{r}
 met_hba1c_mv <- lm(HBA1C ~ FBS + AGE + MSBPR + MDBPR, data = met)
 summary(met_hba1c_mv)
 ```
 
-### model comparison
+Should we add Diabetes Status (DMDX)?
 
 ```{r}
-#anova(met_hba1c, met_hba1c_mv)
+met_hba1c_mv2 <- lm(HBA1C ~ FBS + AGE + MSBPR + MDBPR + BMI + HDL + LDL +
+                      factor(DMDX), data = met)
+summary(met_hba1c_mv2)
 ```
 
 
+### Adding interaction
+
+We will add an interaction term (DMDX with AGE) in the covariates
+
+```{r}
+met_hba1c_ia <- lm(HBA1C ~ FBS + AGE + MSBPR + MDBPR + BMI + HDL + LDL + 
+                     BMI + factor(DMDX):AGE, data = met)
+summary(met_hba1c_ia)
+```
+
 ## Inference
 
+We can take advantage of **broom** package to produce better outputs
+
+```{r}
+tidy(met_hba1c_mv2, conf.int = TRUE)
+```
+
+To get the predicted values
+
+```{r}
+pred_met <- augment(met_hba1c_mv2)
+head(pred_met)
+```
+
+
 ## Model checking
+
+Remember the LINE assumptions
+
+```{r}
+ggplot(data = pred_met, aes(x = .fitted, y = .std.resid)) +
+  geom_point()
+```
+
+Perhaps, we should do further treatment of our data. 
+
+```{r}
+pred_met %>% filter(between(.std.resid, -3, 3)) %>% 
+                      ggplot(aes(x = .fitted, y = .std.resid)) +
+                      geom_point()
+```
+
 
 # Logistic regression (15 mins)
 

@@ -1,32 +1,45 @@
 ---
 title: "Regression Analysis in Health and Medicine Using R"
 author: "Assoc Prof Kamarul Imran Musa"
-date: "9/23/2019"
-output: 
-  html_document: 
+date: "2019-09-29"
+output:
+  html_document:
     keep_md: yes
+  toc: TRUE
+  pdf_document: default
 ---
 
 
 
+\newpage
 
 # Introduction
 
 ## About myself
 
-My name is Kamarul Imran. I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
+My name is Kamarul Imran. 
+
+I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
 
 ## Research profiles
 
-My research profile at Google Scholar is available here  https://scholar.google.com/citations?user=XVf2_QcAAAAJ&hl=en&authuser=1. My SCOPUS author ID is here 
+My research profile at Google Scholar is available here  https://scholar.google.com/citations?user=XVf2_QcAAAAJ&hl=en&authuser=1. 
+
+My SCOPUS author ID is 57194536466
 
 ## Research interest
 
-My research interests include medical epidemiology, statistical modelling and machine learning. Recently, I was awarded with the FRGS grant (RM125,000) to understand the roles of machine learning and statistical models on mammography images to predict breast cancer.  
+My research interests include medical epidemiology, statistical modelling and machine learning. 
+
+Recently, I was awarded with the FRGS grant (RM125,000) to understand the roles of machine learning and statistical models on mammography images to predict breast cancer. 
+
+Emails: drkamarul@usm.my 
 
 # Regression (5 mins)
 
-In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships among variables. It includes many techniques for modeling and analyzing several variables, when the focus is on the relationship between a dependent variable and one or more independent variables (or 'predictors').
+In statistical modeling, regression analysis is a set of statistical processes for estimating the relationships among variables. 
+
+It includes many techniques for modeling and analyzing several variables, when the focus is on the relationship between a dependent variable and one or more independent variables (or 'predictors').
 
 Most commonly, regression analysis estimates the conditional expectation of the dependent variable given the independent variables – that is, the average value of the dependent variable when the independent variables are fixed. 
 
@@ -36,29 +49,50 @@ Source: https://en.wikipedia.org/wiki/Regression_analysis
 
 ## Linear regression
 
-When the outcome is continuous and follows Gaussian distribution as a function of covariates. 
+Analysis of data with the outcome variable as a continuous variable and the expected outcome follows Gaussian distribution (as a function of covariates). 
 
 ## Logistic regression
 
-When the outcome is categorical, binary especially and it follows Bernoulli distribution is a function of covariates. 
+Analysis of data with the outcome variable is  a binary categorical variable and the expected outcome follows Bernoulli distribution (as a function of covariates). 
 
 ## Poisson regression
 
-When the outcome is count and it follows the Poisson distribution as a function of covariates
+Analysis of data with the outcome variable is a count variable and the expected outcome follows the Poisson distribution (as a function of covariates).
 
 ## Cox proportional hazard regression
 
-When the outcome is time-to-event, a Cox semi-parametric regression is the most regression. 
+Analysis of data with the outcome variable is time-to-event variable, a Cox semi-parametric regression is the most regression. 
 
 # Setting up R environment
 
 We will be using RStudio Cloud. 
 
+I have prepared the environment for our workshop in RStudio Cloud. Click this link http://bit.ly/Reg_in_med
+
+
+```
+## here() starts at C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference
+```
+
+<div class="figure" style="text-align: center">
+<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud1.PNG" alt="Linearity Assumptions" width="50%" />
+<p class="caption">Linearity Assumptions</p>
+</div>
+
+<div class="figure" style="text-align: center">
+<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud2.PNG" alt="Linearity Assumptions" width="50%" />
+<p class="caption">Linearity Assumptions</p>
+</div>
+
+<div class="figure" style="text-align: center">
+<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud3.PNG" alt="Linearity Assumptions" width="50%" />
+<p class="caption">Linearity Assumptions</p>
+</div>
+
+
 On its webpage, it is stated the THE MISSION as 
 
 *We created RStudio Cloud to make it easy for professionals, hobbyists, trainers, teachers and students to do, share, teach and learn data science using R.*
-
-I have prepared the environment for our workshop in RStudio Cloud. Click this link http://bit.ly/Reg_in_med
 
 # Style of presentation
 
@@ -90,13 +124,6 @@ library(tidyverse)
 
 ```r
 library(here)
-```
-
-```
-## here() starts at C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference
-```
-
-```r
 library(haven)
 library(readxl)
 library(kableExtra)
@@ -114,6 +141,7 @@ library(kableExtra)
 ```
 
 ```r
+library(broom)
 library(cdata)
 library(corrplot)
 ```
@@ -137,15 +165,6 @@ The independent variables are sometimes referred to as explanatory variables, be
 
 ## Model assumptions 
 
-The assumptions in simple linear regression still apply in multiple linear regression. As in simple linear regression, we test the assumptions after running the analysis (in our case using a statistical software).
-
-The assumptions for multiple linear regression are:
-
-1.  The $X_i$ are non-random (fixed) variables. This condition indicates that any inferences that are drawn from sample data apply only to the set of $X$ values observed and not to some larger collection of $X_s$.
-2.  For each set of $X_i$ values there is a subpopulation of $Y$ values which are normally distributed. To construct certain confidence intervals and test hypotheses, it must be known, or the researcher must be willing to assume, that these subpopulations of Y values are normally distributed.
-3. The variances of the sub-populations of $Y$ are all equal.
-4. The $Y$ values are independent. That is, the values of $Y$ selected for one set of $X$ values do not depend on the values of $Y$ selected at another set of $X$ values.
-
 Figure \@ref(fig:LinearityAssumption) sums the first 3 assumptions:
 
 <div class="figure" style="text-align: center">
@@ -158,6 +177,12 @@ Generally, the equation of multiple linear regression model is:
 $$Y_i = \beta_0 + \beta_1X_{1i} + ... + \beta_kX_{ki} + \epsilon_i$$
 
 ## Read data
+
+This is the data that we collected in the general population. It is part of a larger dataset. 
+
+We would like to understand the problem of Metabolic Syndrome among Malaysians. There were more than 4000 participants. 
+
+We use **readxl::read_xlsx()** to read MS Excel datasets. And then use **dplyr::glimpse()** to briefly view the data.  
 
 
 ```r
@@ -250,7 +275,20 @@ glimpse(met)
 ## $ LDL     <chr> "3.45", "3.7", "3.96", "4.68", "4.33", "3.03", "4.59",...
 ```
 
+You will see that there are a mix of variables
+
+- character (correctly and wrongly assigned)
+- double 
+
+That justify that MS Excel is not a good collection or data storage medium. You may want to use other alternatives like EpiData Entry or ODK. 
+
+
 ## data wrangling
+
+Let us get the summary of the data. You can use **summary()** to provide you with a brief but insightful summary or descriptive statistics for your data. 
+
+You will notice that there is no summary statistics for variables of class character. 
+
 
 
 ```r
@@ -300,6 +338,9 @@ summary(met)
 ## 
 ```
 
+We will convert the character variables (wrongly classed) to the correct numeric class variables. 
+
+We will use **dplyr::mutate_at()**
 
 
 ```r
@@ -389,15 +430,85 @@ summary(met)
 ##  NA's   :53
 ```
 
+Look at variables for outliers and NA for variable PULSE, MOGTT2H, TOTCHOL, FBS.
+
+Let us do some more data wrangling
+
+
+```r
+met <- met %>% filter(HBA1C > 2.5, HBA1C < 25.0, 
+                      LDL > 0.5, HDL > 0.2,  
+                      TOTCHOL > 2.0, TOTCHOL < 15.0,
+                      FBS > 2, FBS < 20,
+                      PULSE < 140) %>% 
+  mutate(BMI = WEIGHT/(HEIGHT^2)) %>% 
+  mutate(OVERWEIGHT = if_else(BMI >=25.0,'overwt','not_overwt')) 
+```
+
+Let us check the summary stat again
+
+
+```r
+summary(met)
+```
+
+```
+##       ID                 AGE            DMDX            HEIGHT     
+##  Length:4078        Min.   :18.0   Min.   :0.0000   Min.   :1.270  
+##  Class :character   1st Qu.:38.0   1st Qu.:0.0000   1st Qu.:1.510  
+##  Mode  :character   Median :48.0   Median :0.0000   Median :1.560  
+##                     Mean   :47.9   Mean   :0.1096   Mean   :1.569  
+##                     3rd Qu.:58.0   3rd Qu.:0.0000   3rd Qu.:1.630  
+##                     Max.   :89.0   Max.   :1.0000   Max.   :1.960  
+##                     NA's   :1                                      
+##      WEIGHT           WAIST             NECK            HIP        
+##  Min.   : 30.00   Min.   : 50.80   Min.   :22.00   Min.   : 61.00  
+##  1st Qu.: 53.80   1st Qu.: 77.00   1st Qu.:33.00   1st Qu.: 91.00  
+##  Median : 62.23   Median : 86.00   Median :35.00   Median : 97.00  
+##  Mean   : 63.89   Mean   : 86.41   Mean   :35.36   Mean   : 97.89  
+##  3rd Qu.: 72.00   3rd Qu.: 95.00   3rd Qu.:38.00   3rd Qu.:104.00  
+##  Max.   :187.80   Max.   :154.50   Max.   :50.00   Max.   :160.00  
+##  NA's   :2        NA's   :1        NA's   :3       NA's   :1       
+##      PULSE            MSBPR           MDBPR            HBA1C       
+##  Min.   : 24.00   Min.   : 68.5   Min.   : 41.50   Min.   : 3.800  
+##  1st Qu.: 69.00   1st Qu.:117.1   1st Qu.: 70.00   1st Qu.: 5.100  
+##  Median : 78.00   Median :130.0   Median : 78.00   Median : 5.400  
+##  Mean   : 78.29   Mean   :133.8   Mean   : 78.57   Mean   : 5.803  
+##  3rd Qu.: 86.00   3rd Qu.:147.0   3rd Qu.: 86.00   3rd Qu.: 5.800  
+##  Max.   :135.00   Max.   :237.0   Max.   :128.50   Max.   :15.000  
+##                                                                    
+##       FBS            MOGTT2H          TOTCHOL           HDL       
+##  Min.   : 2.030   Min.   : 0.160   Min.   : 2.13   Min.   :0.280  
+##  1st Qu.: 4.442   1st Qu.: 5.200   1st Qu.: 4.97   1st Qu.:1.110  
+##  Median : 5.160   Median : 6.630   Median : 5.70   Median :1.320  
+##  Mean   : 5.628   Mean   : 7.368   Mean   : 5.79   Mean   :1.354  
+##  3rd Qu.: 6.000   3rd Qu.: 8.430   3rd Qu.: 6.52   3rd Qu.:1.550  
+##  Max.   :19.340   Max.   :37.370   Max.   :14.91   Max.   :4.430  
+##                   NA's   :477                                     
+##       LDL             BMI          OVERWEIGHT       
+##  Min.   : 0.51   Min.   : 9.241   Length:4078       
+##  1st Qu.: 2.81   1st Qu.:22.232   Class :character  
+##  Median : 3.46   Median :25.402   Mode  :character  
+##  Mean   : 3.56   Mean   :25.938                     
+##  3rd Qu.: 4.23   3rd Qu.:28.870                     
+##  Max.   :10.56   Max.   :57.040                     
+##                  NA's   :2
+```
+
 ## EDA
 
+We could do correlational analysis to give us idea for possible multicollinearity issues.
+
+Multicollinerity is the situation where one pair or more than one pairs of variables are higly correlated with each other. 
+
+If we include collinear variables in the model (as covariates), the regression parameters will be biased (wrong). 
 
 
 ```r
 met_num <- met %>% select_if(is.numeric)
 ```
 
-The results of correlation matrix
+The results of correlation matrix are:
 
 
 ```r
@@ -407,33 +518,37 @@ head(round(cor.met,2))
 
 ```
 ##          AGE  DMDX HEIGHT WEIGHT WAIST NECK  HIP PULSE MSBPR MDBPR HBA1C
-## AGE     1.00  0.02  -0.21  -0.07  0.13 0.04 0.00 -0.09  0.45  0.23  0.15
-## DMDX    0.02  1.00  -0.01   0.02  0.01 0.02 0.01  0.01  0.02  0.03  0.09
-## HEIGHT -0.21 -0.01   1.00   0.41  0.15 0.40 0.11 -0.09 -0.05  0.01 -0.04
-## WEIGHT -0.07  0.02   0.41   1.00  0.80 0.67 0.80 -0.02  0.19  0.27  0.17
-## WAIST   0.13  0.01   0.15   0.80  1.00 0.60 0.62 -0.01  0.27  0.29  0.22
+## AGE     1.00  0.02  -0.21  -0.08  0.12 0.04 0.00 -0.15  0.45  0.23  0.15
+## DMDX    0.02  1.00  -0.01   0.02  0.01 0.02 0.01  0.03  0.02  0.03  0.09
+## HEIGHT -0.21 -0.01   1.00   0.41  0.15 0.40 0.11 -0.19 -0.05  0.01 -0.04
+## WEIGHT -0.08  0.02   0.41   1.00  0.80 0.67 0.80 -0.03  0.18  0.27  0.17
+## WAIST   0.12  0.01   0.15   0.80  1.00 0.60 0.61  0.00  0.27  0.29  0.23
 ## NECK    0.04  0.02   0.40   0.67  0.60 1.00 0.51 -0.04  0.21  0.25  0.14
-##          FBS MOGTT2H TOTCHOL   HDL   LDL
-## AGE     0.17    0.21    0.31  0.16  0.26
-## DMDX    0.07    0.09    0.00  0.00  0.00
-## HEIGHT -0.04   -0.14   -0.07 -0.19 -0.07
-## WEIGHT  0.13    0.15    0.05 -0.22  0.10
-## WAIST   0.15    0.21    0.12 -0.20  0.14
-## NECK    0.13    0.12    0.08 -0.28  0.10
+##          FBS MOGTT2H TOTCHOL   HDL   LDL   BMI
+## AGE     0.17    0.20    0.31  0.17  0.26  0.02
+## DMDX    0.07    0.09    0.00  0.00  0.00  0.02
+## HEIGHT -0.05   -0.15   -0.08 -0.19 -0.07 -0.09
+## WEIGHT  0.13    0.15    0.05 -0.23  0.10  0.87
+## WAIST   0.16    0.22    0.12 -0.21  0.13  0.79
+## NECK    0.15    0.13    0.09 -0.29  0.10  0.51
 ```
 
-This the correlogram
+This the correlogram to represent the correlation matrix:
 
 
 ```r
 corrplot(cor.met, method="circle")
 ```
 
-![](regression_analysis_files/figure-html/unnamed-chunk-7-1.png)<!-- -->
+![](regression_analysis_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
 
 
 
 ## Estimation
+
+When we assume that the expected values for the outcome variable given the covariates are normally distributed, then we can perform linear regression. 
+
+In R, this can be done using `lm()`. This is the model where the expected values of HBA1C is model as a function of FBS (fasting blood sugar).
 
 
 ```r
@@ -448,20 +563,21 @@ summary(met_hba1c)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -8.7901 -0.4813 -0.1234  0.2879  8.5037 
+## -6.0666 -0.4776 -0.1052  0.3091  8.5293 
 ## 
 ## Coefficients:
 ##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept) 3.694079   0.038342   96.34   <2e-16 ***
-## FBS         0.375933   0.006171   60.92   <2e-16 ***
+## (Intercept) 3.502193   0.040972   85.48   <2e-16 ***
+## FBS         0.408802   0.006702   60.99   <2e-16 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.056 on 4199 degrees of freedom
-##   (140 observations deleted due to missingness)
-## Multiple R-squared:  0.4692,	Adjusted R-squared:  0.4691 
-## F-statistic:  3711 on 1 and 4199 DF,  p-value: < 2.2e-16
+## Residual standard error: 1.021 on 4076 degrees of freedom
+## Multiple R-squared:  0.4772,	Adjusted R-squared:  0.4771 
+## F-statistic:  3720 on 1 and 4076 DF,  p-value: < 2.2e-16
 ```
+
+Run another linear regression model with these covariates:
 
 
 ```r
@@ -476,35 +592,175 @@ summary(met_hba1c_mv)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
-## -8.6043 -0.4846 -0.1237  0.2943  8.6385 
+## -6.0630 -0.4718 -0.1051  0.3098  8.6575 
 ## 
 ## Coefficients:
 ##              Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)  3.186079   0.112838  28.236  < 2e-16 ***
-## FBS          0.368395   0.006282  58.641  < 2e-16 ***
-## AGE          0.008505   0.001280   6.645 3.41e-11 ***
-## MSBPR       -0.004956   0.001100  -4.504 6.84e-06 ***
-## MDBPR        0.010263   0.001961   5.233 1.75e-07 ***
+## (Intercept)  3.009202   0.111352  27.024  < 2e-16 ***
+## FBS          0.400576   0.006822  58.721  < 2e-16 ***
+## AGE          0.008054   0.001259   6.396 1.77e-10 ***
+## MSBPR       -0.004954   0.001080  -4.588 4.61e-06 ***
+## MDBPR        0.010390   0.001928   5.390 7.43e-08 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 1.048 on 4195 degrees of freedom
-##   (141 observations deleted due to missingness)
-## Multiple R-squared:  0.4771,	Adjusted R-squared:  0.4766 
-## F-statistic: 956.8 on 4 and 4195 DF,  p-value: < 2.2e-16
+## Residual standard error: 1.014 on 4072 degrees of freedom
+##   (1 observation deleted due to missingness)
+## Multiple R-squared:  0.485,	Adjusted R-squared:  0.4845 
+## F-statistic: 958.8 on 4 and 4072 DF,  p-value: < 2.2e-16
 ```
 
-### model comparison
+Should we add Diabetes Status (DMDX)?
 
 
 ```r
-#anova(met_hba1c, met_hba1c_mv)
+met_hba1c_mv2 <- lm(HBA1C ~ FBS + AGE + MSBPR + MDBPR + BMI + HDL + LDL +
+                      factor(DMDX), data = met)
+summary(met_hba1c_mv2)
+```
+
+```
+## 
+## Call:
+## lm(formula = HBA1C ~ FBS + AGE + MSBPR + MDBPR + BMI + HDL + 
+##     LDL + factor(DMDX), data = met)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -5.0202 -0.4007 -0.0588  0.2985  8.9164 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    3.170719   0.130759  24.249  < 2e-16 ***
+## FBS            0.318074   0.007102  44.785  < 2e-16 ***
+## AGE            0.003454   0.001210   2.854  0.00434 ** 
+## MSBPR         -0.004441   0.001003  -4.425 9.88e-06 ***
+## MDBPR          0.007240   0.001827   3.964 7.51e-05 ***
+## BMI            0.013409   0.003019   4.441 9.18e-06 ***
+## HDL           -0.039540   0.044232  -0.894  0.37141    
+## LDL            0.073575   0.014573   5.049 4.64e-07 ***
+## factor(DMDX)1  1.330114   0.053865  24.693  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.9412 on 4066 degrees of freedom
+##   (3 observations deleted due to missingness)
+## Multiple R-squared:  0.5569,	Adjusted R-squared:  0.556 
+## F-statistic: 638.8 on 8 and 4066 DF,  p-value: < 2.2e-16
 ```
 
 
+### Adding interaction
+
+We will add an interaction term (DMDX with AGE) in the covariates
+
+
+```r
+met_hba1c_ia <- lm(HBA1C ~ FBS + AGE + MSBPR + MDBPR + BMI + HDL + LDL + 
+                     BMI + factor(DMDX):AGE, data = met)
+summary(met_hba1c_ia)
+```
+
+```
+## 
+## Call:
+## lm(formula = HBA1C ~ FBS + AGE + MSBPR + MDBPR + BMI + HDL + 
+##     LDL + BMI + factor(DMDX):AGE, data = met)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -4.9723 -0.4058 -0.0636  0.2996  8.8956 
+## 
+## Coefficients:
+##                     Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)        3.1571144  0.1314862  24.011  < 2e-16 ***
+## FBS                0.3261471  0.0070492  46.267  < 2e-16 ***
+## AGE                0.0021908  0.0012275   1.785   0.0744 .  
+## MSBPR             -0.0048355  0.0010087  -4.794 1.69e-06 ***
+## MDBPR              0.0081048  0.0018366   4.413 1.05e-05 ***
+## BMI                0.0139733  0.0030353   4.604 4.28e-06 ***
+## HDL               -0.0368679  0.0444880  -0.829   0.4073    
+## LDL                0.0747112  0.0146571   5.097 3.60e-07 ***
+## AGE:factor(DMDX)1  0.0220591  0.0009336  23.629  < 2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.9464 on 4066 degrees of freedom
+##   (3 observations deleted due to missingness)
+## Multiple R-squared:  0.552,	Adjusted R-squared:  0.5511 
+## F-statistic: 626.2 on 8 and 4066 DF,  p-value: < 2.2e-16
+```
+
 ## Inference
 
+We can take advantage of **broom** package to produce better outputs
+
+
+```r
+tidy(met_hba1c_mv2, conf.int = TRUE)
+```
+
+```
+## # A tibble: 9 x 7
+##   term          estimate std.error statistic   p.value conf.low conf.high
+##   <chr>            <dbl>     <dbl>     <dbl>     <dbl>    <dbl>     <dbl>
+## 1 (Intercept)    3.17      0.131      24.2   1.96e-121  2.91      3.43   
+## 2 FBS            0.318     0.00710    44.8   0.         0.304     0.332  
+## 3 AGE            0.00345   0.00121     2.85  4.34e-  3  0.00108   0.00583
+## 4 MSBPR         -0.00444   0.00100    -4.43  9.88e-  6 -0.00641  -0.00247
+## 5 MDBPR          0.00724   0.00183     3.96  7.51e-  5  0.00366   0.0108 
+## 6 BMI            0.0134    0.00302     4.44  9.18e-  6  0.00749   0.0193 
+## 7 HDL           -0.0395    0.0442     -0.894 3.71e-  1 -0.126     0.0472 
+## 8 LDL            0.0736    0.0146      5.05  4.64e-  7  0.0450    0.102  
+## 9 factor(DMDX)1  1.33      0.0539     24.7   1.47e-125  1.22      1.44
+```
+
+To get the predicted values
+
+
+```r
+pred_met <- augment(met_hba1c_mv2)
+head(pred_met)
+```
+
+```
+## # A tibble: 6 x 17
+##   .rownames HBA1C   FBS   AGE MSBPR MDBPR   BMI   HDL   LDL factor.DMDX.
+##   <chr>     <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <fct>       
+## 1 1           5.3  5.82    46  133   83.5  27.3  0.84  3.45 0           
+## 2 2           5.6  6.29    47  163   84    18.4  1.45  3.7  0           
+## 3 3           5.7  8.29    48  146.  93.5  41.0  0.82  3.96 0           
+## 4 4           7.2  8.39    63  206.  94    36    1.79  4.68 1           
+## 5 5           5.4  5.23    39  129   70    27.8  1.04  4.33 0           
+## 6 6           5.7  6.45    74  190.  92    24.5  1.62  3.03 0           
+## # ... with 7 more variables: .fitted <dbl>, .se.fit <dbl>, .resid <dbl>,
+## #   .hat <dbl>, .sigma <dbl>, .cooksd <dbl>, .std.resid <dbl>
+```
+
+
 ## Model checking
+
+Remember the LINE assumptions
+
+
+```r
+ggplot(data = pred_met, aes(x = .fitted, y = .std.resid)) +
+  geom_point()
+```
+
+![](regression_analysis_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+
+Perhaps, we should do further treatment of our data. 
+
+
+```r
+pred_met %>% filter(between(.std.resid, -3, 3)) %>% 
+                      ggplot(aes(x = .fitted, y = .std.resid)) +
+                      geom_point()
+```
+
+![](regression_analysis_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+
 
 # Logistic regression (15 mins)
 
