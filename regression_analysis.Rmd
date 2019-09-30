@@ -4,9 +4,11 @@ author: "Assoc Prof Kamarul Imran Musa"
 date: "`r Sys.Date()`"
 output:
   html_document:
+    toc: true
+    toc_float: 
+      collapsed: true
     keep_md: yes
-  toc: TRUE
-  pdf_document: default
+    theme: lumen
 ---
 
 ```{r setup, include=FALSE}
@@ -19,9 +21,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## About myself
 
-My name is Kamarul Imran. 
+My name is Kamarul Imran, but just call me KIM. 
 
-I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
+I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. 
+
+My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
+
+Currently also a teaching associate (sessional lecturer) at Monash Universiti Malaysia. I teach business analytics course for a Master programme. 
+
 
 ## Research profiles
 
@@ -29,13 +36,35 @@ My research profile at Google Scholar is available here  https://scholar.google.
 
 My SCOPUS author ID is 57194536466
 
-## Research interest
+```{r  scopus, echo=FALSE, message =FALSE, out.width='70%', fig.align='center'}
+library(here)
+knitr::include_graphics(here("image","scopus.PNG")) 
+```
+
+## Research interests
 
 My research interests include medical epidemiology, statistical modelling and machine learning. 
 
-Recently, I was awarded with the FRGS grant (RM125,000) to understand the roles of machine learning and statistical models on mammography images to predict breast cancer. 
+Recently, I was awarded with the FRGS grant (RM125,000) to understand the roles of  mammography images and clinical conditions on the performance of machine learning and statistical models to predict breast cancer. 
 
-Emails: drkamarul@usm.my 
+Email: drkamarul@usm.my 
+
+Twitter: @kamarul_imran
+
+Personal page: https://myanalytics.com.my/
+
+```{r  webpage1, echo=FALSE, out.width='60%', fig.align='center'}
+knitr::include_graphics(here("image","myweb.PNG")) 
+```
+
+## Our R course
+
+We conduct regular R courses. But we also receive invitation to conduct trainings on R and on data and statistical analysis.
+
+```{r  webpage2, echo=FALSE, out.width='50%',  fig.align='center'}
+knitr::include_graphics(here("image","short-course.PNG")) 
+```
+
 
 # Regression (5 mins)
 
@@ -65,22 +94,30 @@ Analysis of data with the outcome variable is a count variable and the expected 
 
 Analysis of data with the outcome variable is time-to-event variable, a Cox semi-parametric regression is the most regression. 
 
-# Setting up R environment
+# Setting up R environment (10 min)
 
 We will be using RStudio Cloud. 
 
-I have prepared the environment for our workshop in RStudio Cloud. Click this link http://bit.ly/Reg_in_med
+I have prepared the environment for our workshop in RStudio Cloud.
 
-```{r  cloud1, echo=FALSE, out.width='50%', fig.cap='Linearity Assumptions', fig.align='center'}
-library(here)
+Click this link http://bit.ly/Reg_in_med.
+
+Please:
+
+- Click on the link
+- Register
+- Log in
+- Click on the project **Regression Analysis in Health and Medicine**
+
+```{r  cloud1, echo=FALSE, out.width='50%', fig.align='center'}
 knitr::include_graphics(here("image","rstudio_cloud1.PNG")) 
 ```
 
-```{r  cloud2, echo=FALSE, out.width='50%', fig.cap='Linearity Assumptions', fig.align='center'}
+```{r  cloud2, echo=FALSE, out.width='50%',  fig.align='center'}
 knitr::include_graphics(here("image","rstudio_cloud2.PNG")) 
 ```
 
-```{r  cloud3, echo=FALSE, out.width='50%', fig.cap='Linearity Assumptions', fig.align='center'}
+```{r  cloud3, echo=FALSE, out.width='50%',  fig.align='center'}
 knitr::include_graphics(here("image","rstudio_cloud3.PNG")) 
 ```
 
@@ -92,6 +129,12 @@ On its webpage, it is stated the THE MISSION as
 # Style of presentation
 
 **Code-along** 
+
+Type and try to understand
+
+```{r  coding, echo=FALSE, out.width='50%', fig.cap='https://giphy.com/gifs/batman-arkham-footage-QHE5gWI0QjqF2', fig.align='center'}
+knitr::include_graphics(here("image","code.gif")) 
+```
 
 # Load required libraries
 
@@ -108,7 +151,7 @@ library(survival)
 ```
 
 
-# Linear regression (15 mins)
+# Linear regression (25 mins)
 
 ## Statistical concepts
 
@@ -130,13 +173,17 @@ $$Y_i = \beta_0 + \beta_1X_{1i} + ... + \beta_kX_{ki} + \epsilon_i$$
 
 ## Read data
 
-This is the data that we collected in the general population. It is part of a larger dataset. 
+This is the data that our research team collected among the Malaysian general population. It is part of a larger dataset. 
 
-We would like to understand the problem of Metabolic Syndrome among Malaysians. There were more than 4000 participants. 
+We would like to understand the problem of Metabolic Syndrome among Malaysians. 
 
-We use **readxl::read_xlsx()** to read MS Excel datasets. And then use **dplyr::glimpse()** to briefly view the data.  
+There were more than 4000 participants. 
 
-```{r}
+We use **readxl::read_xlsx()** to read MS Excel datasets. 
+
+And then use **dplyr::glimpse()** to briefly view the data.  
+
+```{r, warning=FALSE}
 met <- read_xlsx(here('datasets', 'metab_syndrome.xlsx'))
 glimpse(met)
 ```
@@ -149,7 +196,7 @@ You will see that there are a mix of variables
 That justify that MS Excel is not a good collection or data storage medium. You may want to use other alternatives like EpiData Entry or ODK. 
 
 
-## data wrangling
+## Data wrangling
 
 Let us get the summary of the data. You can use **summary()** to provide you with a brief but insightful summary or descriptive statistics for your data. 
 
@@ -166,12 +213,30 @@ We will use **dplyr::mutate_at()**
 
 ```{r}
 met <- met %>% mutate_at(vars(-ID), ~as.numeric(.))
+```
+
+Let us see the summary statistics again
+
+```{r}
 summary(met)
 ```
 
 Look at variables for outliers and NA for variable PULSE, MOGTT2H, TOTCHOL, FBS.
 
-Let us do some more data wrangling
+## Exploratory data analysis
+
+For example, let us explore variable Hba1c
+
+```{r}
+met %>% ggplot(aes(x = HBA1C)) + geom_histogram() 
+```
+
+
+Let us do some more data wrangling using
+
+- filter()
+- mutate()
+
 
 ```{r}
 met <- met %>% filter(HBA1C > 2.5, HBA1C < 25.0, 
@@ -189,7 +254,14 @@ Let us check the summary stat again
 summary(met)
 ```
 
-## EDA
+What happen to Hba1c?
+
+```{r}
+met %>% ggplot(aes(x = HBA1C)) + geom_histogram() +
+  facet_wrap(~DMDX)
+```
+
+## Further EDA
 
 We could do correlational analysis to give us idea for possible multicollinearity issues.
 
@@ -273,6 +345,14 @@ head(pred_met)
 
 Remember the LINE assumptions
 
+
+```{r}
+ggplot(data = pred_met, aes(x = .fitted)) +
+  geom_histogram()
+```
+
+Next,
+
 ```{r}
 ggplot(data = pred_met, aes(x = .fitted, y = .std.resid)) +
   geom_point()
@@ -283,272 +363,16 @@ Perhaps, we should do further treatment of our data.
 ```{r}
 pred_met %>% filter(between(.std.resid, -3, 3)) %>% 
                       ggplot(aes(x = .fitted, y = .std.resid)) +
-                      geom_point()
-```
-
-
-# Logistic regression (15 mins)
-
-## Read data
-
-
-```{r}
-PUP2 <- read_excel(here('datasets', 'PUP2.xlsx'))
-```
-
-## Data wrangling and EDA
-
-```{r}
-library(summarytools)
-descr(PUP2)
+                      geom_point() 
 ```
 
 
 
-```{r}
-descr(PUP2[PUP2$outcome == 'dead',], stats = c('mean', 'sd', 'min', 'med', 'max'),
-      transpose = TRUE)
+```{r child = "regression_analysis2.Rmd"}
 ```
 
-```{r}
-descr(PUP2[PUP2$outcome == 'alive',], stats = c('mean', 'sd', 'min', 'med', 'max'),
-      transpose = TRUE)
+```{r child = "regression_analysis3.Rmd"}
 ```
 
-Categorical and numerical
-
-```{r}
-glimpse(PUP2)
-desc_cat <- PUP2 %>% group_by(outcome) %>% summarize_if(is.numeric, mean)
-desc_cat
-pivot_to_rowrecs(desc_cat, columnToTakeKeysFrom = 'outcome', columnToTakeValuesFrom = 'age',
-                 rowKeyColumns = c()) %>% print(.)
-```
-
-
-## Estimation
-
-### univariate 
-
-```{r }
-library(broom)
-options(scipen = 999)
-glimpse(PUP2)
-PUP2 <- PUP2 %>% mutate(oc2 = factor(outcome))
-
-PUP2 %>% select(oc2, age, sepsis, SSSI) %>% 
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(., tidy, .id = 'variable')
-
-
-PUP2 %>% select(oc2, age, sepsis, SSSI) %>% 
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(., broom::tidy, .id = 'variable')
-
-PUP2 %>% select(oc2, age, sepsis, SSSI) %>% 
-  map_dfr(~tidy(glm(oc2 ~ .x, family = binomial, data = PUP2), conf.int = T), .id = 'variable')
-```
-
-### for co-morbid
-
-```{r}
-options(scipen = 999)
-crude_b_co <- PUP2 %>% select(diabetes, hypertension, systolic, diastolic, tenderness,
-                                guarding, PULP, trad_med_steroid, NSAIDS, admission_to_op_hrs,
-                              hemoglobin, platelet) %>%
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(~tidy(., conf.int = TRUE), .id = 'variable')
-crude_b_co
-
-crude_or_co <- PUP2 %>% select(diabetes, hypertension, systolic, diastolic, tenderness,
-                                guarding, PULP, trad_med_steroid, NSAIDS, admission_to_op_hrs,
-                               hemoglobin, platelet) %>%
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(~tidy(., exponentiate = TRUE, conf.int = TRUE), .id = 'variable')
-crude_or_co
-
-model_comorbid <- data.frame(crude_b_co, crude_or_co)
-model_comorbid
-write_csv(model_comorbid, 'uni_var_comorbid.csv')
-```
-
-### for co-clinical
-
-```{r}
-options(scipen = 999)
-crude_b_clin <- PUP2 %>% select(age, ASA, gender, vomiting, nausea, fever, diarrhea, malena,
-                           onset_more_24_hrs, degree_perforation) %>%
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(~tidy(., conf.int = TRUE), .id = 'variable')
-crude_b_clin
-
-crude_or_clin <- PUP2 %>% select(age, ASA, gender, vomiting, nausea, fever, diarrhea, malena,
-                           onset_more_24_hrs, degree_perforation) %>% 
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(~tidy(., exponentiate = TRUE, conf.int = TRUE), .id = 'variable')
-crude_or_clin
-
-model_clin <- data.frame(crude_b_clin, crude_or_clin)
-model_clin
-write_csv(model_clin, 'uni_var_clinical.csv')
-```
-
-
-### Multivariables analysis
-
-Outcome - oc2
-primary variables - ASA, degree of perforation, PULP, NSAIDS, Hg, malena, onset more than 24 
-confounding - age, gender, diabetes, hypertension, 
-
-```{r}
-model_mv <- glm(oc2 ~ ASA + degree_perforation + onset_more_24_hrs + PULP + 
-                  hemoglobin + malena + age + gender + diabetes +  hypertension, 
-                family = binomial(link = 'logit'), data = PUP2)
-summary(model_mv)
-```
-
-## Model checking
-
-### ROC curve
-
-### Hosmer-Lemeshow test
-
-## Final model
-
-
-```{r}
-model_ASA <- glm(oc2 ~ factor(ASA) + age + gender + diabetes + hypertension, 
-                family = binomial(link = 'logit'), data = PUP2)
-model_perf <- glm(oc2 ~ degree_perforation + age + gender + diabetes + hypertension, 
-                family = binomial(link = 'logit'), data = PUP2)
-model_PULP <- glm(oc2 ~ PULP + age + gender + diabetes + hypertension, 
-                family = binomial(link = 'logit'), data = PUP2)
-model_24hrs <- glm(oc2 ~ onset_more_24_hrs + age + gender + diabetes + hypertension, 
-                family = binomial(link = 'logit'), data = PUP2)
-m_ASA <- tidy(model_ASA, exponentiate = TRUE, conf.int = TRUE)
-m_perf <- tidy(model_perf,  exponentiate = TRUE, conf.int = TRUE)
-m_pulp <- tidy(model_PULP,  exponentiate = TRUE, conf.int = TRUE)
-m_24 <- tidy(model_24hrs,  exponentiate = TRUE, conf.int = TRUE)
-multi_var <- bind_rows(m_ASA, m_perf, m_pulp, m_24) %>% 
-  filter(term %in% c("factor(ASA)2", "factor(ASA)3", 
-                     "degree_perforationmoderate", "degree_perforationsmall",
-                     "PULP", "onset_more_24_hrsyes"))
-```
-
-# Poisson regression (10 mins)
-
-## Read data
-
-## Estimation
-
-## Inference
-
-## Model checking
-
-# Cox proportional hazard regression (10 min)
-
-Survival analysis is just another name for time to event  analysis. The term survival analysis is predominately used in biomedical sciences where the interest is in observing time to death either of patients or of laboratory animals. Time to event analysis has also been used widely in the social sciences where interest is on analyzing time to events such as job changes, marriage, birth of children and so forth.
-
-Regression is popular because plausible model can be fitted. In survival analysis, one method of analyses is the Cox proportional hazard regression. In survival analysis, the outcome variable (dependent variable) is TIME TO THE OCCURRENCE OF AN EVENT or shortly known as the time-to-event variable.
-
-## Survival data
-
-In survival analysis, we follow a subject of interest until a certain time (the last follow up). Different patients will have different follow-up times.
-
-For example, we observe a group of patients; with the outcome variable named as 'status' and the outcome coded as 'death' or 'alive'. The status at the last follow up, can be an event either of 'death' or of other than death - 'non-death'. The researcher must choose between 'death' and 'non-death to consider if the event of interest has occurred or not. If he chooses (interested in) 'death', then any patient (who is under the follow-up) who dies during the follow-up will be considered as a 'failure'. Any other patients who are under  the same follow-up and still survive until the latest follow-up is known as a 'censor' case.
-
-
-In survival data, time (duration of follow up) is the 'survival time' (example months, weeks, days) and event is 'the failure status' (for example death, relapse and recurrence)
-
-## Read data
-
-```{r}
-stroke <- read_dta(here('datasets', 'stroke_outcome.dta'))
-str(stroke)
-glimpse(stroke)
-```
-
-## Data wrangling
-
-```{r}
-stroke2 <- stroke %>% mutate_if(is.labelled, funs(as_factor(.))) 
-glimpse(stroke2)
-```
-
-The data must have at least
-
-1.  duration taken to develop event of interest (time variable)
-2.  event of interest (event variable)
-
-You can calculate the duration from the starting point (for example, date of admission, date of discharge) until the point of event occurs (for example, date of death, date of relapse)
-
-```{r  censoring, echo=FALSE, out.width='70%', fig.cap='Types of censoring', fig.align='center'}
-knitr::include_graphics(here('image', 'censor2.png')) 
-```
-
-Figure \@ref(fig:censoring) shows types of censoring.
-
-Censoring is a problem is the survival analysis. Censoring occurs when we know the survival time for an individual but we do not know the survival time exactly. The common causes of censor are:
-
-1.  study ends - no event even after study ends
-2.  lost to follow up - abscond
-3.  withdraws
-
-## Estimation
-
-### The Cox proportional haazard regression
-
-In medicine and epidemiology, the most used survival model uses the Cox proportional hazard regression. It is a semi-parametric model. This is because we do not specify the exact distribution of the baseline hazard.
-
-The formula for Cox PH model $h(t,X) = h_0(t)\exp^{\sum_{i=1}^p\beta_iX_i}$
-
-where $h_0(t)$ is the baseline hazard and $\exp^{\sum_{i=1}^p\beta_iX_i}$ is the exponential of the linear predictors.
-
-### Null model
-
-```{r}
-cox.null <- coxph(Surv(time = days, event = outcome == 'dead') ~ 1,
-                 data = stroke2)
-summary(cox.null)
-```
-
-### Conditional model
-
-
-```{r}
-cox.sbp <- coxph(Surv(time = days, event = outcome == 'dead') ~ sbp,
-                 data = stroke2)
-summary(cox.sbp)
-```
-
-Main effect model
-
-```{r}
-cox.gcs.age <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
-                       age + gcs:age, data = stroke2)
-summary(cox.gcs.age)
-```
-
-Model with interaction
-
-```{r}
-cox.gcs.age.noia <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
-                       age, data = stroke2)
-summary(cox.gcs.age.noia)
-```
-
-## Inference
-
-## Model checking
-
-
-### Testing the assumption of proportional hazard 
-
-We can use `survival::cox.zph()`
-
-```{r}
-prop.h <- cox.zph(cox.gcs.age.noia, transform = 'km', global = TRUE)
-prop.h
-```
 
 # QA (5 mins)

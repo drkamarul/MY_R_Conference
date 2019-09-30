@@ -1,12 +1,14 @@
 ---
 title: "Regression Analysis in Health and Medicine Using R"
 author: "Assoc Prof Kamarul Imran Musa"
-date: "2019-09-29"
+date: "2019-09-30"
 output:
   html_document:
+    toc: true
+    toc_float: 
+      collapsed: true
     keep_md: yes
-  toc: TRUE
-  pdf_document: default
+    theme: lumen
 ---
 
 
@@ -17,9 +19,14 @@ output:
 
 ## About myself
 
-My name is Kamarul Imran. 
+My name is Kamarul Imran, but just call me KIM. 
 
-I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
+I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. 
+
+My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
+
+Currently also a teaching associate (sessional lecturer) at Monash Universiti Malaysia. I teach business analytics course for a Master programme. 
+
 
 ## Research profiles
 
@@ -27,13 +34,28 @@ My research profile at Google Scholar is available here  https://scholar.google.
 
 My SCOPUS author ID is 57194536466
 
-## Research interest
+<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/scopus.PNG" width="70%" style="display: block; margin: auto;" />
+
+## Research interests
 
 My research interests include medical epidemiology, statistical modelling and machine learning. 
 
-Recently, I was awarded with the FRGS grant (RM125,000) to understand the roles of machine learning and statistical models on mammography images to predict breast cancer. 
+Recently, I was awarded with the FRGS grant (RM125,000) to understand the roles of  mammography images and clinical conditions on the performance of machine learning and statistical models to predict breast cancer. 
 
-Emails: drkamarul@usm.my 
+Email: drkamarul@usm.my 
+
+Twitter: @kamarul_imran
+
+Personal page: https://myanalytics.com.my/
+
+<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/myweb.PNG" width="60%" style="display: block; margin: auto;" />
+
+## Our R course
+
+We conduct regular R courses. But we also receive invitation to conduct trainings on R and on data and statistical analysis.
+
+<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/short-course.PNG" width="50%" style="display: block; margin: auto;" />
+
 
 # Regression (5 mins)
 
@@ -63,31 +85,26 @@ Analysis of data with the outcome variable is a count variable and the expected 
 
 Analysis of data with the outcome variable is time-to-event variable, a Cox semi-parametric regression is the most regression. 
 
-# Setting up R environment
+# Setting up R environment (10 min)
 
 We will be using RStudio Cloud. 
 
-I have prepared the environment for our workshop in RStudio Cloud. Click this link http://bit.ly/Reg_in_med
+I have prepared the environment for our workshop in RStudio Cloud.
 
+Click this link http://bit.ly/Reg_in_med.
 
-```
-## here() starts at C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference
-```
+Please:
 
-<div class="figure" style="text-align: center">
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud1.PNG" alt="Linearity Assumptions" width="50%" />
-<p class="caption">Linearity Assumptions</p>
-</div>
+- Click on the link
+- Register
+- Log in
+- Click on the project **Regression Analysis in Health and Medicine**
 
-<div class="figure" style="text-align: center">
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud2.PNG" alt="Linearity Assumptions" width="50%" />
-<p class="caption">Linearity Assumptions</p>
-</div>
+<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud1.PNG" width="50%" style="display: block; margin: auto;" />
 
-<div class="figure" style="text-align: center">
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud3.PNG" alt="Linearity Assumptions" width="50%" />
-<p class="caption">Linearity Assumptions</p>
-</div>
+<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud2.PNG" width="50%" style="display: block; margin: auto;" />
+
+<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud3.PNG" width="50%" style="display: block; margin: auto;" />
 
 
 On its webpage, it is stated the THE MISSION as 
@@ -98,6 +115,13 @@ On its webpage, it is stated the THE MISSION as
 
 **Code-along** 
 
+Type and try to understand
+
+<div class="figure" style="text-align: center">
+<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/code.gif" alt="https://giphy.com/gifs/batman-arkham-footage-QHE5gWI0QjqF2" width="50%" />
+<p class="caption">https://giphy.com/gifs/batman-arkham-footage-QHE5gWI0QjqF2</p>
+</div>
+
 # Load required libraries
 
 
@@ -106,7 +130,7 @@ library(tidyverse)
 ```
 
 ```
-## -- Attaching packages ------------------------------------------------------------------ tidyverse 1.2.1 --
+## -- Attaching packages ------------------------------------------------------- tidyverse 1.2.1 --
 ```
 
 ```
@@ -117,7 +141,7 @@ library(tidyverse)
 ```
 
 ```
-## -- Conflicts --------------------------------------------------------------------- tidyverse_conflicts() --
+## -- Conflicts ---------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
@@ -155,7 +179,7 @@ library(survival)
 ```
 
 
-# Linear regression (15 mins)
+# Linear regression (25 mins)
 
 ## Statistical concepts
 
@@ -178,78 +202,19 @@ $$Y_i = \beta_0 + \beta_1X_{1i} + ... + \beta_kX_{ki} + \epsilon_i$$
 
 ## Read data
 
-This is the data that we collected in the general population. It is part of a larger dataset. 
+This is the data that our research team collected among the Malaysian general population. It is part of a larger dataset. 
 
-We would like to understand the problem of Metabolic Syndrome among Malaysians. There were more than 4000 participants. 
+We would like to understand the problem of Metabolic Syndrome among Malaysians. 
 
-We use **readxl::read_xlsx()** to read MS Excel datasets. And then use **dplyr::glimpse()** to briefly view the data.  
+There were more than 4000 participants. 
+
+We use **readxl::read_xlsx()** to read MS Excel datasets. 
+
+And then use **dplyr::glimpse()** to briefly view the data.  
 
 
 ```r
 met <- read_xlsx(here('datasets', 'metab_syndrome.xlsx'))
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in C2373 / R2373C3: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in F2406 / R2406C6: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in G2406 / R2406C7: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in H2406 / R2406C8: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in F2421 / R2421C6: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in G2421 / R2421C7: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in H2421 / R2421C8: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in G2493 / R2493C7: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in E4002 / R4002C5: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in G4041 / R4041C7: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in G4227 / R4227C7: got '#NULL!'
-```
-
-```
-## Warning in read_fun(path = enc2native(normalizePath(path)), sheet_i =
-## sheet, : Expecting numeric in E4250 / R4250C5: got '#NULL!'
-```
-
-```r
 glimpse(met)
 ```
 
@@ -283,7 +248,7 @@ You will see that there are a mix of variables
 That justify that MS Excel is not a good collection or data storage medium. You may want to use other alternatives like EpiData Entry or ODK. 
 
 
-## data wrangling
+## Data wrangling
 
 Let us get the summary of the data. You can use **summary()** to provide you with a brief but insightful summary or descriptive statistics for your data. 
 
@@ -383,6 +348,9 @@ met <- met %>% mutate_at(vars(-ID), ~as.numeric(.))
 ## Warning in ~as.numeric(.): NAs introduced by coercion
 ```
 
+Let us see the summary statistics again
+
+
 ```r
 summary(met)
 ```
@@ -432,7 +400,31 @@ summary(met)
 
 Look at variables for outliers and NA for variable PULSE, MOGTT2H, TOTCHOL, FBS.
 
-Let us do some more data wrangling
+## Exploratory data analysis
+
+For example, let us explore variable Hba1c
+
+
+```r
+met %>% ggplot(aes(x = HBA1C)) + geom_histogram() 
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+```
+## Warning: Removed 70 rows containing non-finite values (stat_bin).
+```
+
+![](regression_analysis_files/figure-html/unnamed-chunk-6-1.png)<!-- -->
+
+
+Let us do some more data wrangling using
+
+- filter()
+- mutate()
+
 
 
 ```r
@@ -495,7 +487,21 @@ summary(met)
 ##                  NA's   :2
 ```
 
-## EDA
+What happen to Hba1c?
+
+
+```r
+met %>% ggplot(aes(x = HBA1C)) + geom_histogram() +
+  facet_wrap(~DMDX)
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](regression_analysis_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+
+## Further EDA
 
 We could do correlational analysis to give us idea for possible multicollinearity issues.
 
@@ -540,7 +546,7 @@ This the correlogram to represent the correlation matrix:
 corrplot(cor.met, method="circle")
 ```
 
-![](regression_analysis_files/figure-html/unnamed-chunk-9-1.png)<!-- -->
+![](regression_analysis_files/figure-html/unnamed-chunk-12-1.png)<!-- -->
 
 
 
@@ -743,12 +749,27 @@ head(pred_met)
 Remember the LINE assumptions
 
 
+
+```r
+ggplot(data = pred_met, aes(x = .fitted)) +
+  geom_histogram()
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](regression_analysis_files/figure-html/unnamed-chunk-19-1.png)<!-- -->
+
+Next,
+
+
 ```r
 ggplot(data = pred_met, aes(x = .fitted, y = .std.resid)) +
   geom_point()
 ```
 
-![](regression_analysis_files/figure-html/unnamed-chunk-16-1.png)<!-- -->
+![](regression_analysis_files/figure-html/unnamed-chunk-20-1.png)<!-- -->
 
 Perhaps, we should do further treatment of our data. 
 
@@ -756,23 +777,127 @@ Perhaps, we should do further treatment of our data.
 ```r
 pred_met %>% filter(between(.std.resid, -3, 3)) %>% 
                       ggplot(aes(x = .fitted, y = .std.resid)) +
-                      geom_point()
+                      geom_point() 
 ```
 
-![](regression_analysis_files/figure-html/unnamed-chunk-17-1.png)<!-- -->
+![](regression_analysis_files/figure-html/unnamed-chunk-21-1.png)<!-- -->
 
 
-# Logistic regression (15 mins)
+
+
+
+
+\newpage
+
+# Logistic regression (20 mins)
 
 ## Read data
 
+The data comes from a surgeon (Dr Najmi). The data contains variables from patients with peptic ulcer disease. 
+
+It is in excel form. 
 
 
 ```r
 PUP2 <- read_excel(here('datasets', 'PUP2.xlsx'))
 ```
 
+Quickly examine types of variables and summary statistics
+
+
+```r
+glimpse(PUP2)
+```
+
+```
+## Observations: 121
+## Variables: 23
+## $ no                  <dbl> 105, 107, 94, 103, 109, 111, 79, 85, 88, 8...
+## $ age                 <dbl> 42, 66, 67, 19, 77, 39, 62, 71, 69, 97, 52...
+## $ gender              <chr> "male", "female", "male", "male", "male", ...
+## $ epigastric_pain     <chr> "yes", "yes", "yes", "yes", "yes", "yes", ...
+## $ onset_more_24_hrs   <chr> "no", "no", "no", "yes", "yes", "yes", "ye...
+## $ diabetes            <chr> "no", "no", "no", "no", "no", "no", "yes",...
+## $ NSAIDS              <chr> "no", "no", "yes", "no", "no", "no", "no",...
+## $ previous_OGDS       <chr> "no", "no", "no", "yes", "no", "no", "no",...
+## $ ASA                 <dbl> 1, 1, 1, 1, 2, 1, 2, 2, 1, 1, 2, 1, 2, 1, ...
+## $ systolic            <dbl> 141, 197, 126, 90, 147, 115, 103, 159, 145...
+## $ diastolic           <dbl> 98, 88, 73, 40, 82, 86, 55, 68, 75, 65, 74...
+## $ tenderness          <chr> "generalized", "generalized", "generalized...
+## $ guarding            <chr> "yes", "yes", "yes", "yes", "no", "yes", "...
+## $ hemoglobin          <dbl> 18.0, 12.0, 12.0, 12.0, 11.0, 18.0, 8.1, 1...
+## $ twc                 <dbl> 6.0, 6.0, 13.0, 20.0, 21.0, 4.0, 5.0, 12.0...
+## $ platelet            <dbl> 415, 292, 201, 432, 324, 260, 461, 210, 29...
+## $ PULP                <dbl> 2, 3, 3, 2, 7, 1, 2, 5, 3, 4, 2, 3, 4, 3, ...
+## $ admission_to_op_hrs <dbl> 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, 5, 5, 6, ...
+## $ perforation         <dbl> 0.5, 1.0, 0.5, 0.5, 1.0, 1.0, 3.0, 1.5, 0....
+## $ degree_perforation  <chr> "small", "small", "small", "small", "small...
+## $ SSSI                <chr> "no", "no", "no", "no", "no", "no", "no", ...
+## $ sepsis              <chr> "no", "no", "no", "no", "no", "no", "yes",...
+## $ outcome             <chr> "alive", "alive", "alive", "alive", "alive...
+```
+
+```r
+summary(PUP2)
+```
+
+```
+##        no           age           gender          epigastric_pain   
+##  Min.   :  1   Min.   :19.00   Length:121         Length:121        
+##  1st Qu.: 31   1st Qu.:49.00   Class :character   Class :character  
+##  Median : 61   Median :64.00   Mode  :character   Mode  :character  
+##  Mean   : 61   Mean   :60.43                                        
+##  3rd Qu.: 91   3rd Qu.:75.00                                        
+##  Max.   :121   Max.   :97.00                                        
+##  onset_more_24_hrs    diabetes            NSAIDS         
+##  Length:121         Length:121         Length:121        
+##  Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character  
+##                                                          
+##                                                          
+##                                                          
+##  previous_OGDS           ASA           systolic       diastolic     
+##  Length:121         Min.   :1.000   Min.   : 67.0   Min.   : 38.00  
+##  Class :character   1st Qu.:1.000   1st Qu.:112.0   1st Qu.: 63.00  
+##  Mode  :character   Median :1.000   Median :128.0   Median : 71.00  
+##                     Mean   :1.545   Mean   :128.6   Mean   : 72.07  
+##                     3rd Qu.:2.000   3rd Qu.:143.0   3rd Qu.: 81.00  
+##                     Max.   :3.000   Max.   :197.0   Max.   :116.00  
+##   tenderness          guarding           hemoglobin         twc       
+##  Length:121         Length:121         Min.   : 3.30   Min.   : 2.00  
+##  Class :character   Class :character   1st Qu.:10.00   1st Qu.: 9.00  
+##  Mode  :character   Mode  :character   Median :12.00   Median :12.00  
+##                                        Mean   :12.32   Mean   :13.03  
+##                                        3rd Qu.:15.00   3rd Qu.:16.00  
+##                                        Max.   :19.40   Max.   :37.00  
+##     platelet          PULP       admission_to_op_hrs  perforation   
+##  Min.   : 11.0   Min.   :0.000   Min.   : 1.00       Min.   :0.300  
+##  1st Qu.:224.0   1st Qu.:2.000   1st Qu.: 5.00       1st Qu.:0.500  
+##  Median :308.0   Median :3.000   Median : 8.00       Median :1.000  
+##  Mean   :314.4   Mean   :3.529   Mean   :10.07       Mean   :1.225  
+##  3rd Qu.:392.0   3rd Qu.:5.000   3rd Qu.:12.00       3rd Qu.:1.500  
+##  Max.   :798.0   Max.   :9.000   Max.   :72.00       Max.   :5.000  
+##  degree_perforation     SSSI              sepsis         
+##  Length:121         Length:121         Length:121        
+##  Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character  
+##                                                          
+##                                                          
+##                                                          
+##    outcome         
+##  Length:121        
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## 
+```
+
 ## Data wrangling and EDA
+
+You can use **summarytools::descr** to get a quick but more elaborate summary statistics
+
+This is the summary statistics for all numerical variables. 
 
 
 ```r
@@ -801,338 +926,122 @@ descr(PUP2)
 ```
 
 ```
-## Non-numerical variable(s) ignored: gender, citizenship, race, epigastric_pain, vomiting, nausea, fever, diarrhea, malena, onset_more_24_hrs, diabetes, hypertension, ihd, CKD, COAD, cirrhosis, active_malignant, trad_med_steroid, NSAIDS, acute_renal_f, septic_shock, previous_OGDS, inotropes, tenderness, guarding, albumin, degree_perforation, side_perforation, management, ICU, SSSI, anast_leak, rep_surgery, prolong_ventilation, CVS_complications, thromboembolic_complications, sepsis, outcome
+## Non-numerical variable(s) ignored: gender, epigastric_pain, onset_more_24_hrs, diabetes, NSAIDS, previous_OGDS, tenderness, guarding, degree_perforation, SSSI, sepsis, outcome
 ```
 
 ```
 ## Descriptive Statistics  
-## PUP2  
-## N: 121  
 ## 
-##                     admission_to_op_hrs      age      ASA   creatinine   diastolic   hemoglobin
-## ----------------- --------------------- -------- -------- ------------ ----------- ------------
-##              Mean                 10.07    60.43     1.55       147.40       72.07        12.32
-##           Std.Dev                  9.44    18.05     0.62       119.23       13.99         3.33
-##               Min                  1.00    19.00     1.00        37.00       38.00         3.30
-##                Q1                  5.00    49.00     1.00        78.00       63.00        10.00
-##            Median                  8.00    64.00     1.00       113.00       71.00        12.00
-##                Q3                 12.00    75.00     2.00       168.00       81.00        15.00
-##               Max                 72.00    97.00     3.00       843.00      116.00        19.40
-##               MAD                  5.93    17.79     0.00        63.75       13.34         2.97
-##               IQR                  7.00    26.00     1.00        90.00       18.00         5.00
-##                CV                  0.94     0.30     0.40         0.81        0.19         0.27
-##          Skewness                  3.36    -0.55     0.66         2.87        0.12        -0.22
-##       SE.Skewness                  0.22     0.22     0.22         0.22        0.22         0.22
-##          Kurtosis                 15.95    -0.53    -0.55        10.58        0.22         0.02
-##           N.Valid                121.00   121.00   121.00       121.00      121.00       121.00
-##         Pct.Valid                100.00   100.00   100.00       100.00      100.00       100.00
+##                     admission_to_op_hrs      age      ASA   diastolic   hemoglobin       no
+## ----------------- --------------------- -------- -------- ----------- ------------ --------
+##              Mean                 10.07    60.43     1.55       72.07        12.32    61.00
+##           Std.Dev                  9.44    18.05     0.62       13.99         3.33    35.07
+##               Min                  1.00    19.00     1.00       38.00         3.30     1.00
+##                Q1                  5.00    49.00     1.00       63.00        10.00    31.00
+##            Median                  8.00    64.00     1.00       71.00        12.00    61.00
+##                Q3                 12.00    75.00     2.00       81.00        15.00    91.00
+##               Max                 72.00    97.00     3.00      116.00        19.40   121.00
+##               MAD                  5.93    17.79     0.00       13.34         2.97    44.48
+##               IQR                  7.00    26.00     1.00       18.00         5.00    60.00
+##                CV                  0.94     0.30     0.40        0.19         0.27     0.57
+##          Skewness                  3.36    -0.55     0.66        0.12        -0.22     0.00
+##       SE.Skewness                  0.22     0.22     0.22        0.22         0.22     0.22
+##          Kurtosis                 15.95    -0.53    -0.55        0.22         0.02    -1.23
+##           N.Valid                121.00   121.00   121.00      121.00       121.00   121.00
+##         Pct.Valid                100.00   100.00   100.00      100.00       100.00   100.00
 ## 
 ## Table: Table continues below
 ## 
 ##  
 ## 
-##                         no   perforation   platelet     PULP    pulse   systolic   temperature      twc
-## ----------------- -------- ------------- ---------- -------- -------- ---------- ------------- --------
-##              Mean    61.00          1.22     314.43     3.53    94.69     128.56         37.06    13.03
-##           Std.Dev    35.07          0.91     140.32     2.28    19.63      24.51          0.42     6.66
-##               Min     1.00          0.30      11.00     0.00    55.00      67.00         35.00     2.00
-##                Q1    31.00          0.50     224.00     2.00    82.00     112.00         37.00     9.00
-##            Median    61.00          1.00     308.00     3.00    95.00     128.00         37.00    12.00
-##                Q3    91.00          1.50     392.00     5.00   105.00     143.00         37.00    16.00
-##               Max   121.00          5.00     798.00     9.00   155.00     197.00         39.00    37.00
-##               MAD    44.48          0.74     124.54     2.97    19.27      22.24          0.00     5.93
-##               IQR    60.00          1.00     168.00     3.00    23.00      31.00          0.00     7.00
-##                CV     0.57          0.74       0.45     0.65     0.21       0.19          0.01     0.51
-##          Skewness     0.00          1.66       0.75     0.25     0.49       0.36          0.22     0.78
-##       SE.Skewness     0.22          0.22       0.22     0.22     0.22       0.22          0.22     0.22
-##          Kurtosis    -1.23          3.34       1.02    -0.91     0.48       0.58          8.59     0.60
-##           N.Valid   121.00        121.00     121.00   121.00   121.00     121.00        121.00   121.00
-##         Pct.Valid   100.00        100.00     100.00   100.00   100.00     100.00        100.00   100.00
+##                     perforation   platelet     PULP   systolic      twc
+## ----------------- ------------- ---------- -------- ---------- --------
+##              Mean          1.22     314.43     3.53     128.56    13.03
+##           Std.Dev          0.91     140.32     2.28      24.51     6.66
+##               Min          0.30      11.00     0.00      67.00     2.00
+##                Q1          0.50     224.00     2.00     112.00     9.00
+##            Median          1.00     308.00     3.00     128.00    12.00
+##                Q3          1.50     392.00     5.00     143.00    16.00
+##               Max          5.00     798.00     9.00     197.00    37.00
+##               MAD          0.74     124.54     2.97      22.24     5.93
+##               IQR          1.00     168.00     3.00      31.00     7.00
+##                CV          0.74       0.45     0.65       0.19     0.51
+##          Skewness          1.66       0.75     0.25       0.36     0.78
+##       SE.Skewness          0.22       0.22     0.22       0.22     0.22
+##          Kurtosis          3.34       1.02    -0.91       0.58     0.60
+##           N.Valid        121.00     121.00   121.00     121.00   121.00
+##         Pct.Valid        100.00     100.00   100.00     100.00   100.00
 ```
 
+## Outcome and predictor variables
 
+The outcome of interest is variable *outcome*. It is a character variable labelled as *alive* or *dead*. 
+
+**Tidyverse** prefers to use character variables rather than factor variables. 
 
 
 ```r
-descr(PUP2[PUP2$outcome == 'dead',], stats = c('mean', 'sd', 'min', 'med', 'max'),
+PUP2 %>% group_by(outcome) %>% count()
+```
+
+```
+## # A tibble: 2 x 2
+## # Groups:   outcome [2]
+##   outcome     n
+##   <chr>   <int>
+## 1 alive      83
+## 2 dead       38
+```
+
+**descr** give also provide summary statistics based on the outcome of interest
+
+
+```r
+PUP2 %>% split(.$outcome) %>% 
+  map(~descr(.x, stats = c('mean', 'sd', 'min', 'med', 'max')),
       transpose = TRUE)
 ```
 
 ```
-## Non-numerical variable(s) ignored: gender, citizenship, race, epigastric_pain, vomiting, nausea, fever, diarrhea, malena, onset_more_24_hrs, diabetes, hypertension, ihd, CKD, COAD, cirrhosis, active_malignant, trad_med_steroid, NSAIDS, acute_renal_f, septic_shock, previous_OGDS, inotropes, tenderness, guarding, albumin, degree_perforation, side_perforation, management, ICU, SSSI, anast_leak, rep_surgery, prolong_ventilation, CVS_complications, thromboembolic_complications, sepsis, outcome
+## x must either be a summarytools object created with freq(), descr(), or a list of summarytools objects created using by()
 ```
 
-```
-## Descriptive Statistics  
-## PUP2  
-## N: 38  
-## 
-##                               Mean   Std.Dev     Min   Median      Max
-## ------------------------- -------- --------- ------- -------- --------
-##       admission_to_op_hrs    10.45      8.13    2.00     7.50    36.00
-##                       age    65.29     16.14   23.00    68.50    92.00
-##                       ASA     1.68      0.57    1.00     2.00     3.00
-##                creatinine   220.58    175.48   48.00   157.50   843.00
-##                 diastolic    69.50     13.75   38.00    67.00   100.00
-##                hemoglobin    11.41      3.57    3.30    11.25    17.00
-##                        no    58.76     40.97    1.00    51.00   121.00
-##               perforation     1.82      1.16    0.30     1.50     5.00
-##                  platelet   316.13    168.38   11.00   326.00   798.00
-##                      PULP     4.34      1.89    1.00     4.00     8.00
-##                     pulse    98.63     21.27   55.00   100.00   155.00
-##                  systolic   123.34     22.71   67.00   122.00   197.00
-##               temperature    37.01      0.43   35.00    37.00    38.00
-##                       twc    13.64      7.96    2.00    12.00    37.00
-```
+
+We convert the variable outcome from character to factor
 
 
 ```r
-descr(PUP2[PUP2$outcome == 'alive',], stats = c('mean', 'sd', 'min', 'med', 'max'),
-      transpose = TRUE)
+PUP2 <- PUP2 %>% mutate(oc2 = factor(outcome))
+PUP2 %>% ggplot(aes(x = oc2)) + geom_bar() + 
+  xlab('outcome') + ylab('freq')
 ```
 
-```
-## Non-numerical variable(s) ignored: gender, citizenship, race, epigastric_pain, vomiting, nausea, fever, diarrhea, malena, onset_more_24_hrs, diabetes, hypertension, ihd, CKD, COAD, cirrhosis, active_malignant, trad_med_steroid, NSAIDS, acute_renal_f, septic_shock, previous_OGDS, inotropes, tenderness, guarding, albumin, degree_perforation, side_perforation, management, ICU, SSSI, anast_leak, rep_surgery, prolong_ventilation, CVS_complications, thromboembolic_complications, sepsis, outcome
-```
+![](regression_analysis_files/figure-html/unnamed-chunk-29-1.png)<!-- -->
 
-```
-## Descriptive Statistics  
-## PUP2  
-## N: 83  
-## 
-##                               Mean   Std.Dev      Min   Median      Max
-## ------------------------- -------- --------- -------- -------- --------
-##       admission_to_op_hrs     9.89     10.02     1.00     8.00    72.00
-##                       age    58.20     18.53    19.00    62.00    97.00
-##                       ASA     1.48      0.63     1.00     1.00     3.00
-##                creatinine   113.89     57.37    37.00    97.00   368.00
-##                 diastolic    73.25     14.02    40.00    72.00   116.00
-##                hemoglobin    12.74      3.14     4.50    12.00    19.40
-##                        no    62.02     32.24     6.00    62.00   120.00
-##               perforation     0.95      0.60     0.30     0.70     3.00
-##                  platelet   313.65    126.56   133.00   290.00   754.00
-##                      PULP     3.16      2.35     0.00     3.00     9.00
-##                     pulse    92.89     18.68    57.00    94.00   150.00
-##                  systolic   130.95     25.06    70.00   129.00   197.00
-##               temperature    37.09      0.41    36.00    37.00    39.00
-##                       twc    12.75      6.00     3.70    12.00    32.00
-```
-
-Categorical and numerical
+How about variable ASA. It is not a numerical variable. Let us plot it against outcome. 
 
 
 ```r
-glimpse(PUP2)
+PUP2 %>% ggplot(aes(ASA)) + geom_bar() +
+  facet_wrap(~oc2)
 ```
 
-```
-## Observations: 121
-## Variables: 52
-## $ no                           <dbl> 105, 107, 94, 103, 109, 111, 79, ...
-## $ age                          <dbl> 42, 66, 67, 19, 77, 39, 62, 71, 6...
-## $ gender                       <chr> "male", "female", "male", "male",...
-## $ citizenship                  <chr> "malaysian", "malaysian", "malays...
-## $ race                         <chr> "chinese", "malay", "chinese", "c...
-## $ epigastric_pain              <chr> "yes", "yes", "yes", "yes", "yes"...
-## $ vomiting                     <chr> "no", "no", "no", "no", "yes", "n...
-## $ nausea                       <chr> "no", "no", "no", "no", "yes", "n...
-## $ fever                        <chr> "no", "no", "no", "no", "no", "ye...
-## $ diarrhea                     <chr> "no", "no", "yes", "no", "no", "n...
-## $ malena                       <chr> "no", "no", "no", "no", "no", "no...
-## $ onset_more_24_hrs            <chr> "no", "no", "no", "yes", "yes", "...
-## $ diabetes                     <chr> "no", "no", "no", "no", "no", "no...
-## $ hypertension                 <chr> "no", "no", "no", "no", "no", "no...
-## $ ihd                          <chr> "no", "no", "no", "no", "no", "no...
-## $ CKD                          <chr> "no", "no", "no", "no", "yes", "n...
-## $ COAD                         <chr> "no", "no", "no", "no", "no", "no...
-## $ cirrhosis                    <chr> "no", "no", "no", "no", "no", "no...
-## $ active_malignant             <chr> "no", "no", "no", "no", "no", "no...
-## $ trad_med_steroid             <chr> "no", "no", "no", "no", "no", "no...
-## $ NSAIDS                       <chr> "no", "no", "yes", "no", "no", "n...
-## $ acute_renal_f                <chr> "no", "no", "no", "no", "no", "no...
-## $ septic_shock                 <chr> "no", "no", "no", "no", "no", "no...
-## $ previous_OGDS                <chr> "no", "no", "no", "yes", "no", "n...
-## $ ASA                          <dbl> 1, 1, 1, 1, 2, 1, 2, 2, 1, 1, 2, ...
-## $ temperature                  <dbl> 37, 36, 37, 37, 37, 37, 37, 37, 3...
-## $ systolic                     <dbl> 141, 197, 126, 90, 147, 115, 103,...
-## $ diastolic                    <dbl> 98, 88, 73, 40, 82, 86, 55, 68, 7...
-## $ inotropes                    <chr> "no", "no", "no", "no", "no", "no...
-## $ pulse                        <dbl> 109, 126, 64, 112, 89, 96, 100, 5...
-## $ tenderness                   <chr> "generalized", "generalized", "ge...
-## $ guarding                     <chr> "yes", "yes", "yes", "yes", "no",...
-## $ hemoglobin                   <dbl> 18.0, 12.0, 12.0, 12.0, 11.0, 18....
-## $ twc                          <dbl> 6.0, 6.0, 13.0, 20.0, 21.0, 4.0, ...
-## $ platelet                     <dbl> 415, 292, 201, 432, 324, 260, 461...
-## $ creatinine                   <dbl> 135, 66, 80, 64, 137, 102, 69, 92...
-## $ albumin                      <chr> "27", "28", "32", "42", "38", "38...
-## $ PULP                         <dbl> 2, 3, 3, 2, 7, 1, 2, 5, 3, 4, 2, ...
-## $ admission_to_op_hrs          <dbl> 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, ...
-## $ perforation                  <dbl> 0.5, 1.0, 0.5, 0.5, 1.0, 1.0, 3.0...
-## $ degree_perforation           <chr> "small", "small", "small", "small...
-## $ side_perforation             <chr> "distal stomach", "distal stomach...
-## $ management                   <chr> "suture closure", "suture closure...
-## $ ICU                          <chr> "no", "no", "no", "no", "yes", "n...
-## $ SSSI                         <chr> "no", "no", "no", "no", "no", "no...
-## $ anast_leak                   <chr> "no", "no", "no", "no", "no", "no...
-## $ rep_surgery                  <chr> "no", "no", "no", "no", "no", "no...
-## $ prolong_ventilation          <chr> "no", "no", "no", "no", "no", "no...
-## $ CVS_complications            <chr> "no", "no", "no", "no", "no", "no...
-## $ thromboembolic_complications <chr> "no", "no", "no", "no", "no", "no...
-## $ sepsis                       <chr> "no", "no", "no", "no", "no", "no...
-## $ outcome                      <chr> "alive", "alive", "alive", "alive...
-```
-
-```r
-desc_cat <- PUP2 %>% group_by(outcome) %>% summarize_if(is.numeric, mean)
-desc_cat
-```
-
-```
-## # A tibble: 2 x 15
-##   outcome    no   age   ASA temperature systolic diastolic pulse hemoglobin
-##   <chr>   <dbl> <dbl> <dbl>       <dbl>    <dbl>     <dbl> <dbl>      <dbl>
-## 1 alive    62.0  58.2  1.48        37.1     131.      73.3  92.9       12.7
-## 2 dead     58.8  65.3  1.68        37.0     123.      69.5  98.6       11.4
-## # ... with 6 more variables: twc <dbl>, platelet <dbl>, creatinine <dbl>,
-## #   PULP <dbl>, admission_to_op_hrs <dbl>, perforation <dbl>
-```
-
-```r
-pivot_to_rowrecs(desc_cat, columnToTakeKeysFrom = 'outcome', columnToTakeValuesFrom = 'age',
-                 rowKeyColumns = c()) %>% print(.)
-```
-
-```
-## # A tibble: 1 x 15
-##      no   ASA temperature systolic diastolic pulse hemoglobin   twc
-##   <dbl> <dbl>       <dbl>    <dbl>     <dbl> <dbl>      <dbl> <dbl>
-## 1  62.0  1.48        37.1     131.      73.3  92.9       12.7  12.7
-## # ... with 7 more variables: platelet <dbl>, creatinine <dbl>, PULP <dbl>,
-## #   admission_to_op_hrs <dbl>, perforation <dbl>, alive <dbl>, dead <dbl>
-```
+![](regression_analysis_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
 
 
 ## Estimation
 
-### univariate 
+### Univariate logistic regression
 
 
 ```r
-library(broom)
 options(scipen = 999)
-glimpse(PUP2)
-```
-
-```
-## Observations: 121
-## Variables: 52
-## $ no                           <dbl> 105, 107, 94, 103, 109, 111, 79, ...
-## $ age                          <dbl> 42, 66, 67, 19, 77, 39, 62, 71, 6...
-## $ gender                       <chr> "male", "female", "male", "male",...
-## $ citizenship                  <chr> "malaysian", "malaysian", "malays...
-## $ race                         <chr> "chinese", "malay", "chinese", "c...
-## $ epigastric_pain              <chr> "yes", "yes", "yes", "yes", "yes"...
-## $ vomiting                     <chr> "no", "no", "no", "no", "yes", "n...
-## $ nausea                       <chr> "no", "no", "no", "no", "yes", "n...
-## $ fever                        <chr> "no", "no", "no", "no", "no", "ye...
-## $ diarrhea                     <chr> "no", "no", "yes", "no", "no", "n...
-## $ malena                       <chr> "no", "no", "no", "no", "no", "no...
-## $ onset_more_24_hrs            <chr> "no", "no", "no", "yes", "yes", "...
-## $ diabetes                     <chr> "no", "no", "no", "no", "no", "no...
-## $ hypertension                 <chr> "no", "no", "no", "no", "no", "no...
-## $ ihd                          <chr> "no", "no", "no", "no", "no", "no...
-## $ CKD                          <chr> "no", "no", "no", "no", "yes", "n...
-## $ COAD                         <chr> "no", "no", "no", "no", "no", "no...
-## $ cirrhosis                    <chr> "no", "no", "no", "no", "no", "no...
-## $ active_malignant             <chr> "no", "no", "no", "no", "no", "no...
-## $ trad_med_steroid             <chr> "no", "no", "no", "no", "no", "no...
-## $ NSAIDS                       <chr> "no", "no", "yes", "no", "no", "n...
-## $ acute_renal_f                <chr> "no", "no", "no", "no", "no", "no...
-## $ septic_shock                 <chr> "no", "no", "no", "no", "no", "no...
-## $ previous_OGDS                <chr> "no", "no", "no", "yes", "no", "n...
-## $ ASA                          <dbl> 1, 1, 1, 1, 2, 1, 2, 2, 1, 1, 2, ...
-## $ temperature                  <dbl> 37, 36, 37, 37, 37, 37, 37, 37, 3...
-## $ systolic                     <dbl> 141, 197, 126, 90, 147, 115, 103,...
-## $ diastolic                    <dbl> 98, 88, 73, 40, 82, 86, 55, 68, 7...
-## $ inotropes                    <chr> "no", "no", "no", "no", "no", "no...
-## $ pulse                        <dbl> 109, 126, 64, 112, 89, 96, 100, 5...
-## $ tenderness                   <chr> "generalized", "generalized", "ge...
-## $ guarding                     <chr> "yes", "yes", "yes", "yes", "no",...
-## $ hemoglobin                   <dbl> 18.0, 12.0, 12.0, 12.0, 11.0, 18....
-## $ twc                          <dbl> 6.0, 6.0, 13.0, 20.0, 21.0, 4.0, ...
-## $ platelet                     <dbl> 415, 292, 201, 432, 324, 260, 461...
-## $ creatinine                   <dbl> 135, 66, 80, 64, 137, 102, 69, 92...
-## $ albumin                      <chr> "27", "28", "32", "42", "38", "38...
-## $ PULP                         <dbl> 2, 3, 3, 2, 7, 1, 2, 5, 3, 4, 2, ...
-## $ admission_to_op_hrs          <dbl> 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4, ...
-## $ perforation                  <dbl> 0.5, 1.0, 0.5, 0.5, 1.0, 1.0, 3.0...
-## $ degree_perforation           <chr> "small", "small", "small", "small...
-## $ side_perforation             <chr> "distal stomach", "distal stomach...
-## $ management                   <chr> "suture closure", "suture closure...
-## $ ICU                          <chr> "no", "no", "no", "no", "yes", "n...
-## $ SSSI                         <chr> "no", "no", "no", "no", "no", "no...
-## $ anast_leak                   <chr> "no", "no", "no", "no", "no", "no...
-## $ rep_surgery                  <chr> "no", "no", "no", "no", "no", "no...
-## $ prolong_ventilation          <chr> "no", "no", "no", "no", "no", "no...
-## $ CVS_complications            <chr> "no", "no", "no", "no", "no", "no...
-## $ thromboembolic_complications <chr> "no", "no", "no", "no", "no", "no...
-## $ sepsis                       <chr> "no", "no", "no", "no", "no", "no...
-## $ outcome                      <chr> "alive", "alive", "alive", "alive...
-```
-
-```r
-PUP2 <- PUP2 %>% mutate(oc2 = factor(outcome))
-
-PUP2 %>% select(oc2, age, sepsis, SSSI) %>% 
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(., tidy, .id = 'variable')
-```
-
-```
-## Warning: glm.fit: algorithm did not converge
-```
-
-```
-## # A tibble: 8 x 6
-##   variable term        estimate  std.error statistic  p.value
-##   <chr>    <chr>          <dbl>      <dbl>     <dbl>    <dbl>
-## 1 oc2      (Intercept) -26.6    39090.     -0.000680 9.99e- 1
-## 2 oc2      .xdead       53.1    69753.      0.000762 9.99e- 1
-## 3 age      (Intercept)  -2.25       0.784  -2.86     4.18e- 3
-## 4 age      .x            0.0237     0.0120  1.98     4.79e- 2
-## 5 sepsis   (Intercept)  -2.90       0.513  -5.66     1.55e- 8
-## 6 sepsis   .xyes         4.13       0.627   6.58     4.58e-11
-## 7 SSSI     (Intercept)  -0.639      0.201  -3.19     1.44e- 3
-## 8 SSSI     .xyes       -16.9     1193.     -0.0142   9.89e- 1
-```
-
-```r
-PUP2 %>% select(oc2, age, sepsis, SSSI) %>% 
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(., broom::tidy, .id = 'variable')
-```
-
-```
-## Warning: glm.fit: algorithm did not converge
-```
-
-```
-## # A tibble: 8 x 6
-##   variable term        estimate  std.error statistic  p.value
-##   <chr>    <chr>          <dbl>      <dbl>     <dbl>    <dbl>
-## 1 oc2      (Intercept) -26.6    39090.     -0.000680 9.99e- 1
-## 2 oc2      .xdead       53.1    69753.      0.000762 9.99e- 1
-## 3 age      (Intercept)  -2.25       0.784  -2.86     4.18e- 3
-## 4 age      .x            0.0237     0.0120  1.98     4.79e- 2
-## 5 sepsis   (Intercept)  -2.90       0.513  -5.66     1.55e- 8
-## 6 sepsis   .xyes         4.13       0.627   6.58     4.58e-11
-## 7 SSSI     (Intercept)  -0.639      0.201  -3.19     1.44e- 3
-## 8 SSSI     .xyes       -16.9     1193.     -0.0142   9.89e- 1
-```
-
-```r
-PUP2 %>% select(oc2, age, sepsis, SSSI) %>% 
-  map_dfr(~tidy(glm(oc2 ~ .x, family = binomial, data = PUP2), conf.int = T), .id = 'variable')
+pup_uni <- PUP2 %>% select(oc2, age, gender, epigastric_pain, onset_more_24_hrs, diabetes, 
+                NSAIDS, previous_OGDS, systolic, diastolic, ASA, PULP, perforation,
+                admission_to_op_hrs, hemoglobin, twc) %>% 
+  map_dfr(~tidy(glm(oc2 ~ .x, family = binomial, data = PUP2), 
+                conf.int = T), .id = 'variable') %>%
+  filter(variable != 'oc2')
 ```
 
 ```
@@ -1186,428 +1095,1702 @@ PUP2 %>% select(oc2, age, sepsis, SSSI) %>%
 ## unique 'x' values
 ```
 
-```
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
-
-## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+```r
+kable(pup_uni) %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 ```
 
-```
-## # A tibble: 8 x 8
-##   variable term   estimate  std.error statistic  p.value conf.low conf.high
-##   <chr>    <chr>     <dbl>      <dbl>     <dbl>    <dbl>    <dbl>     <dbl>
-## 1 oc2      (Inte~ -26.6    39090.     -0.000680 9.99e- 1 -1.46e+4   1.34e+3
-## 2 oc2      .xdead  53.1    69753.      0.000762 9.99e- 1 -3.13e+3   2.19e+4
-## 3 age      (Inte~  -2.25       0.784  -2.86     4.18e- 3 -3.90e+0  -7.94e-1
-## 4 age      .x       0.0237     0.0120  1.98     4.79e- 2  1.09e-3   4.84e-2
-## 5 sepsis   (Inte~  -2.90       0.513  -5.66     1.55e- 8 -4.09e+0  -2.03e+0
-## 6 sepsis   .xyes    4.13       0.627   6.58     4.58e-11  3.00e+0   5.50e+0
-## 7 SSSI     (Inte~  -0.639      0.201  -3.19     1.44e- 3 -1.04e+0  -2.53e-1
-## 8 SSSI     .xyes  -16.9     1193.     -0.0142   9.89e- 1 NA         7.12e+1
-```
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> variable </th>
+   <th style="text-align:left;"> term </th>
+   <th style="text-align:right;"> estimate </th>
+   <th style="text-align:right;"> std.error </th>
+   <th style="text-align:right;"> statistic </th>
+   <th style="text-align:right;"> p.value </th>
+   <th style="text-align:right;"> conf.low </th>
+   <th style="text-align:right;"> conf.high </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -2.2466889 </td>
+   <td style="text-align:right;"> 0.7843206 </td>
+   <td style="text-align:right;"> -2.8645030 </td>
+   <td style="text-align:right;"> 0.0041766 </td>
+   <td style="text-align:right;"> -3.8954373 </td>
+   <td style="text-align:right;"> -0.7936808 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.0236740 </td>
+   <td style="text-align:right;"> 0.0119691 </td>
+   <td style="text-align:right;"> 1.9779287 </td>
+   <td style="text-align:right;"> 0.0479368 </td>
+   <td style="text-align:right;"> 0.0010929 </td>
+   <td style="text-align:right;"> 0.0483811 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gender </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -0.0800427 </td>
+   <td style="text-align:right;"> 0.4003204 </td>
+   <td style="text-align:right;"> -0.1999466 </td>
+   <td style="text-align:right;"> 0.8415223 </td>
+   <td style="text-align:right;"> -0.8789758 </td>
+   <td style="text-align:right;"> 0.7105500 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gender </td>
+   <td style="text-align:left;"> .xmale </td>
+   <td style="text-align:right;"> -0.9103560 </td>
+   <td style="text-align:right;"> 0.4615231 </td>
+   <td style="text-align:right;"> -1.9725036 </td>
+   <td style="text-align:right;"> 0.0485521 </td>
+   <td style="text-align:right;"> -1.8225388 </td>
+   <td style="text-align:right;"> 0.0007672 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> epigastric_pain </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.3862944 </td>
+   <td style="text-align:right;"> 1.1180337 </td>
+   <td style="text-align:right;"> -1.2399397 </td>
+   <td style="text-align:right;"> 0.2149977 </td>
+   <td style="text-align:right;"> -4.3598898 </td>
+   <td style="text-align:right;"> 0.5246956 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> epigastric_pain </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 0.6277644 </td>
+   <td style="text-align:right;"> 1.1356428 </td>
+   <td style="text-align:right;"> 0.5527833 </td>
+   <td style="text-align:right;"> 0.5804118 </td>
+   <td style="text-align:right;"> -1.3256526 </td>
+   <td style="text-align:right;"> 3.6198522 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> onset_more_24_hrs </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.0986123 </td>
+   <td style="text-align:right;"> 0.3333330 </td>
+   <td style="text-align:right;"> -3.2958397 </td>
+   <td style="text-align:right;"> 0.0009813 </td>
+   <td style="text-align:right;"> -1.7942261 </td>
+   <td style="text-align:right;"> -0.4749176 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> onset_more_24_hrs </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 0.5065612 </td>
+   <td style="text-align:right;"> 0.4133389 </td>
+   <td style="text-align:right;"> 1.2255348 </td>
+   <td style="text-align:right;"> 0.2203738 </td>
+   <td style="text-align:right;"> -0.2889264 </td>
+   <td style="text-align:right;"> 1.3414593 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diabetes </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -0.9019020 </td>
+   <td style="text-align:right;"> 0.2240691 </td>
+   <td style="text-align:right;"> -4.0251058 </td>
+   <td style="text-align:right;"> 0.0000569 </td>
+   <td style="text-align:right;"> -1.3566078 </td>
+   <td style="text-align:right;"> -0.4745240 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diabetes </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 0.5654298 </td>
+   <td style="text-align:right;"> 0.4707818 </td>
+   <td style="text-align:right;"> 1.2010441 </td>
+   <td style="text-align:right;"> 0.2297341 </td>
+   <td style="text-align:right;"> -0.3772175 </td>
+   <td style="text-align:right;"> 1.4849256 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NSAIDS </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -0.9490806 </td>
+   <td style="text-align:right;"> 0.2404072 </td>
+   <td style="text-align:right;"> -3.9478044 </td>
+   <td style="text-align:right;"> 0.0000789 </td>
+   <td style="text-align:right;"> -1.4390465 </td>
+   <td style="text-align:right;"> -0.4920164 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NSAIDS </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 0.5436154 </td>
+   <td style="text-align:right;"> 0.4205273 </td>
+   <td style="text-align:right;"> 1.2926994 </td>
+   <td style="text-align:right;"> 0.1961150 </td>
+   <td style="text-align:right;"> -0.2904184 </td>
+   <td style="text-align:right;"> 1.3672726 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> previous_OGDS </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -0.7753853 </td>
+   <td style="text-align:right;"> 0.2042775 </td>
+   <td style="text-align:right;"> -3.7957449 </td>
+   <td style="text-align:right;"> 0.0001472 </td>
+   <td style="text-align:right;"> -1.1870841 </td>
+   <td style="text-align:right;"> -0.3835253 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> previous_OGDS </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> -0.0719126 </td>
+   <td style="text-align:right;"> 0.7196661 </td>
+   <td style="text-align:right;"> -0.0999249 </td>
+   <td style="text-align:right;"> 0.9204039 </td>
+   <td style="text-align:right;"> -1.6508310 </td>
+   <td style="text-align:right;"> 1.2715818 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> systolic </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.9192236 </td>
+   <td style="text-align:right;"> 1.0873957 </td>
+   <td style="text-align:right;"> 0.8453441 </td>
+   <td style="text-align:right;"> 0.3979187 </td>
+   <td style="text-align:right;"> -1.1798631 </td>
+   <td style="text-align:right;"> 3.1196146 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> systolic </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> -0.0133813 </td>
+   <td style="text-align:right;"> 0.0085103 </td>
+   <td style="text-align:right;"> -1.5723584 </td>
+   <td style="text-align:right;"> 0.1158675 </td>
+   <td style="text-align:right;"> -0.0308281 </td>
+   <td style="text-align:right;"> 0.0028134 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diastolic </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.6301161 </td>
+   <td style="text-align:right;"> 1.0434752 </td>
+   <td style="text-align:right;"> 0.6038630 </td>
+   <td style="text-align:right;"> 0.5459347 </td>
+   <td style="text-align:right;"> -1.4068184 </td>
+   <td style="text-align:right;"> 2.7166343 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diastolic </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> -0.0197762 </td>
+   <td style="text-align:right;"> 0.0144968 </td>
+   <td style="text-align:right;"> -1.3641724 </td>
+   <td style="text-align:right;"> 0.1725133 </td>
+   <td style="text-align:right;"> -0.0491267 </td>
+   <td style="text-align:right;"> 0.0081354 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ASA </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.6065753 </td>
+   <td style="text-align:right;"> 0.5455487 </td>
+   <td style="text-align:right;"> -2.9448796 </td>
+   <td style="text-align:right;"> 0.0032308 </td>
+   <td style="text-align:right;"> -2.7150116 </td>
+   <td style="text-align:right;"> -0.5629706 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ASA </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.5224183 </td>
+   <td style="text-align:right;"> 0.3154616 </td>
+   <td style="text-align:right;"> 1.6560438 </td>
+   <td style="text-align:right;"> 0.0977129 </td>
+   <td style="text-align:right;"> -0.0941774 </td>
+   <td style="text-align:right;"> 1.1523982 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PULP </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.6645299 </td>
+   <td style="text-align:right;"> 0.4098748 </td>
+   <td style="text-align:right;"> -4.0610691 </td>
+   <td style="text-align:right;"> 0.0000488 </td>
+   <td style="text-align:right;"> -2.5155950 </td>
+   <td style="text-align:right;"> -0.8987627 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PULP </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.2361062 </td>
+   <td style="text-align:right;"> 0.0906398 </td>
+   <td style="text-align:right;"> 2.6048836 </td>
+   <td style="text-align:right;"> 0.0091905 </td>
+   <td style="text-align:right;"> 0.0624931 </td>
+   <td style="text-align:right;"> 0.4201174 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> perforation </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -2.3438540 </td>
+   <td style="text-align:right;"> 0.4324202 </td>
+   <td style="text-align:right;"> -5.4203151 </td>
+   <td style="text-align:right;"> 0.0000001 </td>
+   <td style="text-align:right;"> -3.2517343 </td>
+   <td style="text-align:right;"> -1.5466796 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> perforation </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 1.2032426 </td>
+   <td style="text-align:right;"> 0.2843708 </td>
+   <td style="text-align:right;"> 4.2312458 </td>
+   <td style="text-align:right;"> 0.0000232 </td>
+   <td style="text-align:right;"> 0.6827088 </td>
+   <td style="text-align:right;"> 1.8029077 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> admission_to_op_hrs </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -0.8431923 </td>
+   <td style="text-align:right;"> 0.2853226 </td>
+   <td style="text-align:right;"> -2.9552246 </td>
+   <td style="text-align:right;"> 0.0031244 </td>
+   <td style="text-align:right;"> -1.4139903 </td>
+   <td style="text-align:right;"> -0.2840466 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> admission_to_op_hrs </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.0060960 </td>
+   <td style="text-align:right;"> 0.0202384 </td>
+   <td style="text-align:right;"> 0.3012113 </td>
+   <td style="text-align:right;"> 0.7632534 </td>
+   <td style="text-align:right;"> -0.0373817 </td>
+   <td style="text-align:right;"> 0.0459273 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hemoglobin </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.7138662 </td>
+   <td style="text-align:right;"> 0.7573475 </td>
+   <td style="text-align:right;"> 0.9425874 </td>
+   <td style="text-align:right;"> 0.3458920 </td>
+   <td style="text-align:right;"> -0.7617317 </td>
+   <td style="text-align:right;"> 2.2369643 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hemoglobin </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> -0.1237478 </td>
+   <td style="text-align:right;"> 0.0615749 </td>
+   <td style="text-align:right;"> -2.0097125 </td>
+   <td style="text-align:right;"> 0.0444616 </td>
+   <td style="text-align:right;"> -0.2493337 </td>
+   <td style="text-align:right;"> -0.0057555 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> twc </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.0461722 </td>
+   <td style="text-align:right;"> 0.4361081 </td>
+   <td style="text-align:right;"> -2.3988830 </td>
+   <td style="text-align:right;"> 0.0164452 </td>
+   <td style="text-align:right;"> -1.9266672 </td>
+   <td style="text-align:right;"> -0.2058904 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> twc </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.0200912 </td>
+   <td style="text-align:right;"> 0.0291979 </td>
+   <td style="text-align:right;"> 0.6881022 </td>
+   <td style="text-align:right;"> 0.4913885 </td>
+   <td style="text-align:right;"> -0.0379630 </td>
+   <td style="text-align:right;"> 0.0776960 </td>
+  </tr>
+</tbody>
+</table>
 
-### for co-morbid
+Get the odds ratios
 
 
 ```r
-options(scipen = 999)
-crude_b_co <- PUP2 %>% select(diabetes, hypertension, systolic, diastolic, tenderness,
-                                guarding, PULP, trad_med_steroid, NSAIDS, admission_to_op_hrs,
-                              hemoglobin, platelet) %>%
+crude_or_co <- PUP2 %>% select(oc2, age, gender, epigastric_pain, onset_more_24_hrs, diabetes, 
+                NSAIDS, previous_OGDS, systolic, diastolic, ASA, PULP, perforation,
+                admission_to_op_hrs, hemoglobin, twc) %>%
   map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(~tidy(., conf.int = TRUE), .id = 'variable')
-crude_b_co
+  map_dfr(~tidy(., exponentiate = TRUE, conf.int = TRUE), .id = 'variable') %>%
+  filter(variable != 'oc2')
 ```
 
 ```
-## # A tibble: 24 x 8
-##    variable  term   estimate std.error statistic p.value conf.low conf.high
-##    <chr>     <chr>     <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl>
-##  1 diabetes  (Inte~  -0.902    0.224      -4.03  5.69e-5  -1.36    -0.475  
-##  2 diabetes  .xyes    0.565    0.471       1.20  2.30e-1  -0.377    1.48   
-##  3 hyperten~ (Inte~  -1.03     0.260      -3.95  7.73e-5  -1.56    -0.537  
-##  4 hyperten~ .xyes    0.624    0.401       1.56  1.19e-1  -0.163    1.41   
-##  5 systolic  (Inte~   0.919    1.09        0.845 3.98e-1  -1.18     3.12   
-##  6 systolic  .x      -0.0134   0.00851    -1.57  1.16e-1  -0.0308   0.00281
-##  7 diastolic (Inte~   0.630    1.04        0.604 5.46e-1  -1.41     2.72   
-##  8 diastolic .x      -0.0198   0.0145     -1.36  1.73e-1  -0.0491   0.00814
-##  9 tenderne~ (Inte~  -0.916    0.242      -3.79  1.48e-4  -1.41    -0.457  
-## 10 tenderne~ .xloc~   0.420    0.416       1.01  3.13e-1  -0.407    1.23   
-## # ... with 14 more rows
-```
-
-```r
-crude_or_co <- PUP2 %>% select(diabetes, hypertension, systolic, diastolic, tenderness,
-                                guarding, PULP, trad_med_steroid, NSAIDS, admission_to_op_hrs,
-                               hemoglobin, platelet) %>%
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(~tidy(., exponentiate = TRUE, conf.int = TRUE), .id = 'variable')
-crude_or_co
+## Warning: glm.fit: algorithm did not converge
 ```
 
 ```
-## # A tibble: 24 x 8
-##    variable  term   estimate std.error statistic p.value conf.low conf.high
-##    <chr>     <chr>     <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl>
-##  1 diabetes  (Inte~    0.406   0.224      -4.03  5.69e-5    0.258     0.622
-##  2 diabetes  .xyes     1.76    0.471       1.20  2.30e-1    0.686     4.41 
-##  3 hyperten~ (Inte~    0.357   0.260      -3.95  7.73e-5    0.209     0.585
-##  4 hyperten~ .xyes     1.87    0.401       1.56  1.19e-1    0.850     4.11 
-##  5 systolic  (Inte~    2.51    1.09        0.845 3.98e-1    0.307    22.6  
-##  6 systolic  .x        0.987   0.00851    -1.57  1.16e-1    0.970     1.00 
-##  7 diastolic (Inte~    1.88    1.04        0.604 5.46e-1    0.245    15.1  
-##  8 diastolic .x        0.980   0.0145     -1.36  1.73e-1    0.952     1.01 
-##  9 tenderne~ (Inte~    0.4     0.242      -3.79  1.48e-4    0.245     0.633
-## 10 tenderne~ .xloc~    1.52    0.416       1.01  3.13e-1    0.666     3.43 
-## # ... with 14 more rows
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+## Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 ```
 
-```r
-model_comorbid <- data.frame(crude_b_co, crude_or_co)
-model_comorbid
 ```
-
-```
-##               variable        term      estimate   std.error   statistic
-## 1             diabetes (Intercept) -0.9019019944 0.224069137 -4.02510585
-## 2             diabetes       .xyes  0.5654297578 0.470781849  1.20104409
-## 3         hypertension (Intercept) -1.0296194172 0.260493819 -3.95256755
-## 4         hypertension       .xyes  0.6241543091 0.400561633  1.55819794
-## 5             systolic (Intercept)  0.9192235666 1.087395709  0.84534412
-## 6             systolic          .x -0.0133812956 0.008510334 -1.57235839
-## 7            diastolic (Intercept)  0.6301160581 1.043475193  0.60386300
-## 8            diastolic          .x -0.0197761509 0.014496812 -1.36417243
-## 9           tenderness (Intercept) -0.9162907319 0.241522791 -3.79380649
-## 10          tenderness .xlocalized  0.4198538456 0.416221198  1.00872768
-## 11            guarding (Intercept) -1.0608719607 0.386745903 -2.74307226
-## 12            guarding       .xyes  0.3851165228 0.448997768  0.85772481
-## 13                PULP (Intercept) -1.6645298721 0.409874793 -4.06106914
-## 14                PULP          .x  0.2361061897 0.090639823  2.60488362
-## 15    trad_med_steroid (Intercept) -0.8013607652 0.203450018 -3.93885817
-## 16    trad_med_steroid       .xyes  0.2905351414 0.758106334  0.38323798
-## 17              NSAIDS (Intercept) -0.9490805547 0.240407190 -3.94780436
-## 18              NSAIDS       .xyes  0.5436154466 0.420527329  1.29269945
-## 19 admission_to_op_hrs (Intercept) -0.8431923396 0.285322589 -2.95522462
-## 20 admission_to_op_hrs          .x  0.0060960380 0.020238411  0.30121129
-## 21          hemoglobin (Intercept)  0.7138661811 0.757347500  0.94258736
-## 22          hemoglobin          .x -0.1237477926 0.061574874 -2.00971248
-## 23            platelet (Intercept) -0.8211677784 0.482516531 -1.70184382
-## 24            platelet          .x  0.0001267539 0.001398377  0.09064362
-##          p.value     conf.low    conf.high          variable.1      term.1
-## 1  0.00005694969 -1.356607771 -0.474524033            diabetes (Intercept)
-## 2  0.22973409855 -0.377217483  1.484925556            diabetes       .xyes
-## 3  0.00007731709 -1.563877428 -0.536795998        hypertension (Intercept)
-## 4  0.11918633423 -0.162634256  1.414483947        hypertension       .xyes
-## 5  0.39791873516 -1.179863054  3.119614617            systolic (Intercept)
-## 6  0.11586745784 -0.030828097  0.002813388            systolic          .x
-## 7  0.54593473149 -1.406818373  2.716634326           diastolic (Intercept)
-## 8  0.17251330218 -0.049126684  0.008135402           diastolic          .x
-## 9  0.00014835531 -1.408123007 -0.456670807          tenderness (Intercept)
-## 10 0.31310525064 -0.407189743  1.233378955          tenderness .xlocalized
-## 11 0.00608672889 -1.875947665 -0.340205990            guarding (Intercept)
-## 12 0.39104443962 -0.470375766  1.305700356            guarding       .xyes
-## 13 0.00004884850 -2.515595017 -0.898762680                PULP (Intercept)
-## 14 0.00919054728  0.062493108  0.420117383                PULP          .x
-## 15 0.00008187031 -1.211640816 -0.411352596    trad_med_steroid (Intercept)
-## 16 0.70154331842 -1.336933574  1.750779220    trad_med_steroid       .xyes
-## 17 0.00007887121 -1.439046527 -0.492016381              NSAIDS (Intercept)
-## 18 0.19611502883 -0.290418392  1.367272581              NSAIDS       .xyes
-## 19 0.00312441483 -1.413990306 -0.284046647 admission_to_op_hrs (Intercept)
-## 20 0.76325338105 -0.037381678  0.045927345 admission_to_op_hrs          .x
-## 21 0.34589200759 -0.761731711  2.236964339          hemoglobin (Intercept)
-## 22 0.04446162885 -0.249333730 -0.005755458          hemoglobin          .x
-## 23 0.08878464881 -1.786346864  0.118800781            platelet (Intercept)
-## 24 0.92777576980 -0.002685888  0.002854204            platelet          .x
-##    estimate.1 std.error.1 statistic.1     p.value.1 conf.low.1 conf.high.1
-## 1   0.4057971 0.224069137 -4.02510585 0.00005694969 0.25753291   0.6221811
-## 2   1.7602041 0.470781849  1.20104409 0.22973409855 0.68576691   4.4146368
-## 3   0.3571429 0.260493819 -3.95256755 0.00007731709 0.20932286   0.5846184
-## 4   1.8666667 0.400561633  1.55819794 0.11918633423 0.84990198   4.1143627
-## 5   2.5073428 1.087395709  0.84534412 0.39791873516 0.30732082  22.6376538
-## 6   0.9867078 0.008510334 -1.57235839 0.11586745784 0.96964224   1.0028173
-## 7   1.8778285 1.043475193  0.60386300 0.54593473149 0.24492129  15.1293161
-## 8   0.9804181 0.014496812 -1.36417243 0.17251330218 0.95206051   1.0081686
-## 9   0.4000000 0.241522791 -3.79380649 0.00014835531 0.24460197   0.6333888
-## 10  1.5217391 0.416221198  1.00872768 0.31310525064 0.66551790   3.4328093
-## 11  0.3461538 0.386745903 -2.74307226 0.00608672889 0.15320971   0.7116237
-## 12  1.4697856 0.448997768  0.85772481 0.39104443962 0.62476746   3.6902727
-## 13  0.1892796 0.409874793 -4.06106914 0.00004884850 0.08081481   0.4070730
-## 14  1.2663088 0.090639823  2.60488362 0.00919054728 1.06448712   1.5221402
-## 15  0.4487179 0.203450018 -3.93885817 0.00008187031 0.29770839   0.6627532
-## 16  1.3371429 0.758106334  0.38323798 0.70154331842 0.26264983   5.7590885
-## 17  0.3870968 0.240407190 -3.94780436 0.00007887121 0.23715377   0.6113924
-## 18  1.7222222 0.420527329  1.29269945 0.19611502883 0.74795057   3.9246320
-## 19  0.4303346 0.285322589 -2.95522462 0.00312441483 0.24317102   0.7527315
-## 20  1.0061147 0.020238411  0.30121129 0.76325338105 0.96330839   1.0469983
-## 21  2.0418703 0.757347500  0.94258736 0.34589200759 0.46685726   9.3648596
-## 22  0.8836027 0.061574874 -2.00971248 0.04446162885 0.77931985   0.9942611
-## 23  0.4399176 0.482516531 -1.70184382 0.08878464881 0.16757121   1.1261455
-## 24  1.0001268 0.001398377  0.09064362 0.92777576980 0.99731772   1.0028583
+## Warning in regularize.values(x, y, ties, missing(ties)): collapsing to
+## unique 'x' values
 ```
 
 ```r
-write_csv(model_comorbid, 'uni_var_comorbid.csv')
+kable(crude_or_co)  %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 ```
 
-### for co-clinical
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> variable </th>
+   <th style="text-align:left;"> term </th>
+   <th style="text-align:right;"> estimate </th>
+   <th style="text-align:right;"> std.error </th>
+   <th style="text-align:right;"> statistic </th>
+   <th style="text-align:right;"> p.value </th>
+   <th style="text-align:right;"> conf.low </th>
+   <th style="text-align:right;"> conf.high </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.1057488 </td>
+   <td style="text-align:right;"> 0.7843206 </td>
+   <td style="text-align:right;"> -2.8645030 </td>
+   <td style="text-align:right;"> 0.0041766 </td>
+   <td style="text-align:right;"> 0.0203345 </td>
+   <td style="text-align:right;"> 0.4521773 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 1.0239565 </td>
+   <td style="text-align:right;"> 0.0119691 </td>
+   <td style="text-align:right;"> 1.9779287 </td>
+   <td style="text-align:right;"> 0.0479368 </td>
+   <td style="text-align:right;"> 1.0010935 </td>
+   <td style="text-align:right;"> 1.0495706 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gender </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.9230769 </td>
+   <td style="text-align:right;"> 0.4003204 </td>
+   <td style="text-align:right;"> -0.1999466 </td>
+   <td style="text-align:right;"> 0.8415223 </td>
+   <td style="text-align:right;"> 0.4152080 </td>
+   <td style="text-align:right;"> 2.0351103 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gender </td>
+   <td style="text-align:left;"> .xmale </td>
+   <td style="text-align:right;"> 0.4023810 </td>
+   <td style="text-align:right;"> 0.4615231 </td>
+   <td style="text-align:right;"> -1.9725036 </td>
+   <td style="text-align:right;"> 0.0485521 </td>
+   <td style="text-align:right;"> 0.1616149 </td>
+   <td style="text-align:right;"> 1.0007675 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> epigastric_pain </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.2500000 </td>
+   <td style="text-align:right;"> 1.1180337 </td>
+   <td style="text-align:right;"> -1.2399397 </td>
+   <td style="text-align:right;"> 0.2149977 </td>
+   <td style="text-align:right;"> 0.0127798 </td>
+   <td style="text-align:right;"> 1.6899444 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> epigastric_pain </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 1.8734177 </td>
+   <td style="text-align:right;"> 1.1356428 </td>
+   <td style="text-align:right;"> 0.5527833 </td>
+   <td style="text-align:right;"> 0.5804118 </td>
+   <td style="text-align:right;"> 0.2656295 </td>
+   <td style="text-align:right;"> 37.3320493 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> onset_more_24_hrs </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.3333333 </td>
+   <td style="text-align:right;"> 0.3333330 </td>
+   <td style="text-align:right;"> -3.2958397 </td>
+   <td style="text-align:right;"> 0.0009813 </td>
+   <td style="text-align:right;"> 0.1662561 </td>
+   <td style="text-align:right;"> 0.6219363 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> onset_more_24_hrs </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 1.6595745 </td>
+   <td style="text-align:right;"> 0.4133389 </td>
+   <td style="text-align:right;"> 1.2255348 </td>
+   <td style="text-align:right;"> 0.2203738 </td>
+   <td style="text-align:right;"> 0.7490674 </td>
+   <td style="text-align:right;"> 3.8246207 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diabetes </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.4057971 </td>
+   <td style="text-align:right;"> 0.2240691 </td>
+   <td style="text-align:right;"> -4.0251058 </td>
+   <td style="text-align:right;"> 0.0000569 </td>
+   <td style="text-align:right;"> 0.2575329 </td>
+   <td style="text-align:right;"> 0.6221811 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diabetes </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 1.7602041 </td>
+   <td style="text-align:right;"> 0.4707818 </td>
+   <td style="text-align:right;"> 1.2010441 </td>
+   <td style="text-align:right;"> 0.2297341 </td>
+   <td style="text-align:right;"> 0.6857669 </td>
+   <td style="text-align:right;"> 4.4146368 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NSAIDS </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.3870968 </td>
+   <td style="text-align:right;"> 0.2404072 </td>
+   <td style="text-align:right;"> -3.9478044 </td>
+   <td style="text-align:right;"> 0.0000789 </td>
+   <td style="text-align:right;"> 0.2371538 </td>
+   <td style="text-align:right;"> 0.6113924 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NSAIDS </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 1.7222222 </td>
+   <td style="text-align:right;"> 0.4205273 </td>
+   <td style="text-align:right;"> 1.2926994 </td>
+   <td style="text-align:right;"> 0.1961150 </td>
+   <td style="text-align:right;"> 0.7479506 </td>
+   <td style="text-align:right;"> 3.9246320 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> previous_OGDS </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.4605263 </td>
+   <td style="text-align:right;"> 0.2042775 </td>
+   <td style="text-align:right;"> -3.7957449 </td>
+   <td style="text-align:right;"> 0.0001472 </td>
+   <td style="text-align:right;"> 0.3051097 </td>
+   <td style="text-align:right;"> 0.6814549 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> previous_OGDS </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 0.9306122 </td>
+   <td style="text-align:right;"> 0.7196661 </td>
+   <td style="text-align:right;"> -0.0999249 </td>
+   <td style="text-align:right;"> 0.9204039 </td>
+   <td style="text-align:right;"> 0.1918904 </td>
+   <td style="text-align:right;"> 3.5664897 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> systolic </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 2.5073428 </td>
+   <td style="text-align:right;"> 1.0873957 </td>
+   <td style="text-align:right;"> 0.8453441 </td>
+   <td style="text-align:right;"> 0.3979187 </td>
+   <td style="text-align:right;"> 0.3073208 </td>
+   <td style="text-align:right;"> 22.6376538 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> systolic </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.9867078 </td>
+   <td style="text-align:right;"> 0.0085103 </td>
+   <td style="text-align:right;"> -1.5723584 </td>
+   <td style="text-align:right;"> 0.1158675 </td>
+   <td style="text-align:right;"> 0.9696422 </td>
+   <td style="text-align:right;"> 1.0028173 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diastolic </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 1.8778285 </td>
+   <td style="text-align:right;"> 1.0434752 </td>
+   <td style="text-align:right;"> 0.6038630 </td>
+   <td style="text-align:right;"> 0.5459347 </td>
+   <td style="text-align:right;"> 0.2449213 </td>
+   <td style="text-align:right;"> 15.1293161 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diastolic </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.9804181 </td>
+   <td style="text-align:right;"> 0.0144968 </td>
+   <td style="text-align:right;"> -1.3641724 </td>
+   <td style="text-align:right;"> 0.1725133 </td>
+   <td style="text-align:right;"> 0.9520605 </td>
+   <td style="text-align:right;"> 1.0081686 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ASA </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.2005733 </td>
+   <td style="text-align:right;"> 0.5455487 </td>
+   <td style="text-align:right;"> -2.9448796 </td>
+   <td style="text-align:right;"> 0.0032308 </td>
+   <td style="text-align:right;"> 0.0662042 </td>
+   <td style="text-align:right;"> 0.5695148 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ASA </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 1.6861001 </td>
+   <td style="text-align:right;"> 0.3154616 </td>
+   <td style="text-align:right;"> 1.6560438 </td>
+   <td style="text-align:right;"> 0.0977129 </td>
+   <td style="text-align:right;"> 0.9101213 </td>
+   <td style="text-align:right;"> 3.1657760 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PULP </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.1892796 </td>
+   <td style="text-align:right;"> 0.4098748 </td>
+   <td style="text-align:right;"> -4.0610691 </td>
+   <td style="text-align:right;"> 0.0000488 </td>
+   <td style="text-align:right;"> 0.0808148 </td>
+   <td style="text-align:right;"> 0.4070730 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PULP </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 1.2663088 </td>
+   <td style="text-align:right;"> 0.0906398 </td>
+   <td style="text-align:right;"> 2.6048836 </td>
+   <td style="text-align:right;"> 0.0091905 </td>
+   <td style="text-align:right;"> 1.0644871 </td>
+   <td style="text-align:right;"> 1.5221402 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> perforation </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.0959571 </td>
+   <td style="text-align:right;"> 0.4324202 </td>
+   <td style="text-align:right;"> -5.4203151 </td>
+   <td style="text-align:right;"> 0.0000001 </td>
+   <td style="text-align:right;"> 0.0387070 </td>
+   <td style="text-align:right;"> 0.2129539 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> perforation </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 3.3309004 </td>
+   <td style="text-align:right;"> 0.2843708 </td>
+   <td style="text-align:right;"> 4.2312458 </td>
+   <td style="text-align:right;"> 0.0000232 </td>
+   <td style="text-align:right;"> 1.9792317 </td>
+   <td style="text-align:right;"> 6.0672637 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> admission_to_op_hrs </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.4303346 </td>
+   <td style="text-align:right;"> 0.2853226 </td>
+   <td style="text-align:right;"> -2.9552246 </td>
+   <td style="text-align:right;"> 0.0031244 </td>
+   <td style="text-align:right;"> 0.2431710 </td>
+   <td style="text-align:right;"> 0.7527315 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> admission_to_op_hrs </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 1.0061147 </td>
+   <td style="text-align:right;"> 0.0202384 </td>
+   <td style="text-align:right;"> 0.3012113 </td>
+   <td style="text-align:right;"> 0.7632534 </td>
+   <td style="text-align:right;"> 0.9633084 </td>
+   <td style="text-align:right;"> 1.0469983 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hemoglobin </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 2.0418703 </td>
+   <td style="text-align:right;"> 0.7573475 </td>
+   <td style="text-align:right;"> 0.9425874 </td>
+   <td style="text-align:right;"> 0.3458920 </td>
+   <td style="text-align:right;"> 0.4668573 </td>
+   <td style="text-align:right;"> 9.3648596 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hemoglobin </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.8836027 </td>
+   <td style="text-align:right;"> 0.0615749 </td>
+   <td style="text-align:right;"> -2.0097125 </td>
+   <td style="text-align:right;"> 0.0444616 </td>
+   <td style="text-align:right;"> 0.7793198 </td>
+   <td style="text-align:right;"> 0.9942611 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> twc </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.3512798 </td>
+   <td style="text-align:right;"> 0.4361081 </td>
+   <td style="text-align:right;"> -2.3988830 </td>
+   <td style="text-align:right;"> 0.0164452 </td>
+   <td style="text-align:right;"> 0.1456328 </td>
+   <td style="text-align:right;"> 0.8139223 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> twc </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 1.0202943 </td>
+   <td style="text-align:right;"> 0.0291979 </td>
+   <td style="text-align:right;"> 0.6881022 </td>
+   <td style="text-align:right;"> 0.4913885 </td>
+   <td style="text-align:right;"> 0.9627485 </td>
+   <td style="text-align:right;"> 1.0807940 </td>
+  </tr>
+</tbody>
+</table>
+
+Combine the results
 
 
 ```r
-options(scipen = 999)
-crude_b_clin <- PUP2 %>% select(age, ASA, gender, vomiting, nausea, fever, diarrhea, malena,
-                           onset_more_24_hrs, degree_perforation) %>%
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(~tidy(., conf.int = TRUE), .id = 'variable')
-crude_b_clin
+model_uni <- bind_cols(pup_uni, crude_or_co) %>% 
+  select(-c(variable1, term1, statistic1, p.value1)) %>%
+  rename(odds_ratio = estimate1)
+kable(model_uni)  %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 ```
 
-```
-## # A tibble: 21 x 8
-##    variable term    estimate std.error statistic p.value conf.low conf.high
-##    <chr>    <chr>      <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl>
-##  1 age      (Inter~  -2.25      0.784     -2.86  4.18e-3 -3.90    -0.794   
-##  2 age      .x        0.0237    0.0120     1.98  4.79e-2  0.00109  0.0484  
-##  3 ASA      (Inter~  -1.61      0.546     -2.94  3.23e-3 -2.72    -0.563   
-##  4 ASA      .x        0.522     0.315      1.66  9.77e-2 -0.0942   1.15    
-##  5 gender   (Inter~  -0.0800    0.400     -0.200 8.42e-1 -0.879    0.711   
-##  6 gender   .xmale   -0.910     0.462     -1.97  4.86e-2 -1.82     0.000767
-##  7 vomiting (Inter~  -0.693     0.240     -2.89  3.90e-3 -1.18    -0.233   
-##  8 vomiting .xyes    -0.256     0.416     -0.615 5.39e-1 -1.10     0.547   
-##  9 nausea   (Inter~  -0.801     0.203     -3.94  8.19e-5 -1.21    -0.411   
-## 10 nausea   .xyes     0.291     0.758      0.383 7.02e-1 -1.34     1.75    
-## # ... with 11 more rows
-```
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> variable </th>
+   <th style="text-align:left;"> term </th>
+   <th style="text-align:right;"> estimate </th>
+   <th style="text-align:right;"> std.error </th>
+   <th style="text-align:right;"> statistic </th>
+   <th style="text-align:right;"> p.value </th>
+   <th style="text-align:right;"> conf.low </th>
+   <th style="text-align:right;"> conf.high </th>
+   <th style="text-align:right;"> odds_ratio </th>
+   <th style="text-align:right;"> std.error1 </th>
+   <th style="text-align:right;"> conf.low1 </th>
+   <th style="text-align:right;"> conf.high1 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -2.2466889 </td>
+   <td style="text-align:right;"> 0.7843206 </td>
+   <td style="text-align:right;"> -2.8645030 </td>
+   <td style="text-align:right;"> 0.0041766 </td>
+   <td style="text-align:right;"> -3.8954373 </td>
+   <td style="text-align:right;"> -0.7936808 </td>
+   <td style="text-align:right;"> 0.1057488 </td>
+   <td style="text-align:right;"> 0.7843206 </td>
+   <td style="text-align:right;"> 0.0203345 </td>
+   <td style="text-align:right;"> 0.4521773 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.0236740 </td>
+   <td style="text-align:right;"> 0.0119691 </td>
+   <td style="text-align:right;"> 1.9779287 </td>
+   <td style="text-align:right;"> 0.0479368 </td>
+   <td style="text-align:right;"> 0.0010929 </td>
+   <td style="text-align:right;"> 0.0483811 </td>
+   <td style="text-align:right;"> 1.0239565 </td>
+   <td style="text-align:right;"> 0.0119691 </td>
+   <td style="text-align:right;"> 1.0010935 </td>
+   <td style="text-align:right;"> 1.0495706 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gender </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -0.0800427 </td>
+   <td style="text-align:right;"> 0.4003204 </td>
+   <td style="text-align:right;"> -0.1999466 </td>
+   <td style="text-align:right;"> 0.8415223 </td>
+   <td style="text-align:right;"> -0.8789758 </td>
+   <td style="text-align:right;"> 0.7105500 </td>
+   <td style="text-align:right;"> 0.9230769 </td>
+   <td style="text-align:right;"> 0.4003204 </td>
+   <td style="text-align:right;"> 0.4152080 </td>
+   <td style="text-align:right;"> 2.0351103 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gender </td>
+   <td style="text-align:left;"> .xmale </td>
+   <td style="text-align:right;"> -0.9103560 </td>
+   <td style="text-align:right;"> 0.4615231 </td>
+   <td style="text-align:right;"> -1.9725036 </td>
+   <td style="text-align:right;"> 0.0485521 </td>
+   <td style="text-align:right;"> -1.8225388 </td>
+   <td style="text-align:right;"> 0.0007672 </td>
+   <td style="text-align:right;"> 0.4023810 </td>
+   <td style="text-align:right;"> 0.4615231 </td>
+   <td style="text-align:right;"> 0.1616149 </td>
+   <td style="text-align:right;"> 1.0007675 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> epigastric_pain </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.3862944 </td>
+   <td style="text-align:right;"> 1.1180337 </td>
+   <td style="text-align:right;"> -1.2399397 </td>
+   <td style="text-align:right;"> 0.2149977 </td>
+   <td style="text-align:right;"> -4.3598898 </td>
+   <td style="text-align:right;"> 0.5246956 </td>
+   <td style="text-align:right;"> 0.2500000 </td>
+   <td style="text-align:right;"> 1.1180337 </td>
+   <td style="text-align:right;"> 0.0127798 </td>
+   <td style="text-align:right;"> 1.6899444 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> epigastric_pain </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 0.6277644 </td>
+   <td style="text-align:right;"> 1.1356428 </td>
+   <td style="text-align:right;"> 0.5527833 </td>
+   <td style="text-align:right;"> 0.5804118 </td>
+   <td style="text-align:right;"> -1.3256526 </td>
+   <td style="text-align:right;"> 3.6198522 </td>
+   <td style="text-align:right;"> 1.8734177 </td>
+   <td style="text-align:right;"> 1.1356428 </td>
+   <td style="text-align:right;"> 0.2656295 </td>
+   <td style="text-align:right;"> 37.3320493 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> onset_more_24_hrs </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.0986123 </td>
+   <td style="text-align:right;"> 0.3333330 </td>
+   <td style="text-align:right;"> -3.2958397 </td>
+   <td style="text-align:right;"> 0.0009813 </td>
+   <td style="text-align:right;"> -1.7942261 </td>
+   <td style="text-align:right;"> -0.4749176 </td>
+   <td style="text-align:right;"> 0.3333333 </td>
+   <td style="text-align:right;"> 0.3333330 </td>
+   <td style="text-align:right;"> 0.1662561 </td>
+   <td style="text-align:right;"> 0.6219363 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> onset_more_24_hrs </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 0.5065612 </td>
+   <td style="text-align:right;"> 0.4133389 </td>
+   <td style="text-align:right;"> 1.2255348 </td>
+   <td style="text-align:right;"> 0.2203738 </td>
+   <td style="text-align:right;"> -0.2889264 </td>
+   <td style="text-align:right;"> 1.3414593 </td>
+   <td style="text-align:right;"> 1.6595745 </td>
+   <td style="text-align:right;"> 0.4133389 </td>
+   <td style="text-align:right;"> 0.7490674 </td>
+   <td style="text-align:right;"> 3.8246207 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diabetes </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -0.9019020 </td>
+   <td style="text-align:right;"> 0.2240691 </td>
+   <td style="text-align:right;"> -4.0251058 </td>
+   <td style="text-align:right;"> 0.0000569 </td>
+   <td style="text-align:right;"> -1.3566078 </td>
+   <td style="text-align:right;"> -0.4745240 </td>
+   <td style="text-align:right;"> 0.4057971 </td>
+   <td style="text-align:right;"> 0.2240691 </td>
+   <td style="text-align:right;"> 0.2575329 </td>
+   <td style="text-align:right;"> 0.6221811 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diabetes </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 0.5654298 </td>
+   <td style="text-align:right;"> 0.4707818 </td>
+   <td style="text-align:right;"> 1.2010441 </td>
+   <td style="text-align:right;"> 0.2297341 </td>
+   <td style="text-align:right;"> -0.3772175 </td>
+   <td style="text-align:right;"> 1.4849256 </td>
+   <td style="text-align:right;"> 1.7602041 </td>
+   <td style="text-align:right;"> 0.4707818 </td>
+   <td style="text-align:right;"> 0.6857669 </td>
+   <td style="text-align:right;"> 4.4146368 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NSAIDS </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -0.9490806 </td>
+   <td style="text-align:right;"> 0.2404072 </td>
+   <td style="text-align:right;"> -3.9478044 </td>
+   <td style="text-align:right;"> 0.0000789 </td>
+   <td style="text-align:right;"> -1.4390465 </td>
+   <td style="text-align:right;"> -0.4920164 </td>
+   <td style="text-align:right;"> 0.3870968 </td>
+   <td style="text-align:right;"> 0.2404072 </td>
+   <td style="text-align:right;"> 0.2371538 </td>
+   <td style="text-align:right;"> 0.6113924 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NSAIDS </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> 0.5436154 </td>
+   <td style="text-align:right;"> 0.4205273 </td>
+   <td style="text-align:right;"> 1.2926994 </td>
+   <td style="text-align:right;"> 0.1961150 </td>
+   <td style="text-align:right;"> -0.2904184 </td>
+   <td style="text-align:right;"> 1.3672726 </td>
+   <td style="text-align:right;"> 1.7222222 </td>
+   <td style="text-align:right;"> 0.4205273 </td>
+   <td style="text-align:right;"> 0.7479506 </td>
+   <td style="text-align:right;"> 3.9246320 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> previous_OGDS </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -0.7753853 </td>
+   <td style="text-align:right;"> 0.2042775 </td>
+   <td style="text-align:right;"> -3.7957449 </td>
+   <td style="text-align:right;"> 0.0001472 </td>
+   <td style="text-align:right;"> -1.1870841 </td>
+   <td style="text-align:right;"> -0.3835253 </td>
+   <td style="text-align:right;"> 0.4605263 </td>
+   <td style="text-align:right;"> 0.2042775 </td>
+   <td style="text-align:right;"> 0.3051097 </td>
+   <td style="text-align:right;"> 0.6814549 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> previous_OGDS </td>
+   <td style="text-align:left;"> .xyes </td>
+   <td style="text-align:right;"> -0.0719126 </td>
+   <td style="text-align:right;"> 0.7196661 </td>
+   <td style="text-align:right;"> -0.0999249 </td>
+   <td style="text-align:right;"> 0.9204039 </td>
+   <td style="text-align:right;"> -1.6508310 </td>
+   <td style="text-align:right;"> 1.2715818 </td>
+   <td style="text-align:right;"> 0.9306122 </td>
+   <td style="text-align:right;"> 0.7196661 </td>
+   <td style="text-align:right;"> 0.1918904 </td>
+   <td style="text-align:right;"> 3.5664897 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> systolic </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.9192236 </td>
+   <td style="text-align:right;"> 1.0873957 </td>
+   <td style="text-align:right;"> 0.8453441 </td>
+   <td style="text-align:right;"> 0.3979187 </td>
+   <td style="text-align:right;"> -1.1798631 </td>
+   <td style="text-align:right;"> 3.1196146 </td>
+   <td style="text-align:right;"> 2.5073428 </td>
+   <td style="text-align:right;"> 1.0873957 </td>
+   <td style="text-align:right;"> 0.3073208 </td>
+   <td style="text-align:right;"> 22.6376538 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> systolic </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> -0.0133813 </td>
+   <td style="text-align:right;"> 0.0085103 </td>
+   <td style="text-align:right;"> -1.5723584 </td>
+   <td style="text-align:right;"> 0.1158675 </td>
+   <td style="text-align:right;"> -0.0308281 </td>
+   <td style="text-align:right;"> 0.0028134 </td>
+   <td style="text-align:right;"> 0.9867078 </td>
+   <td style="text-align:right;"> 0.0085103 </td>
+   <td style="text-align:right;"> 0.9696422 </td>
+   <td style="text-align:right;"> 1.0028173 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diastolic </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.6301161 </td>
+   <td style="text-align:right;"> 1.0434752 </td>
+   <td style="text-align:right;"> 0.6038630 </td>
+   <td style="text-align:right;"> 0.5459347 </td>
+   <td style="text-align:right;"> -1.4068184 </td>
+   <td style="text-align:right;"> 2.7166343 </td>
+   <td style="text-align:right;"> 1.8778285 </td>
+   <td style="text-align:right;"> 1.0434752 </td>
+   <td style="text-align:right;"> 0.2449213 </td>
+   <td style="text-align:right;"> 15.1293161 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diastolic </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> -0.0197762 </td>
+   <td style="text-align:right;"> 0.0144968 </td>
+   <td style="text-align:right;"> -1.3641724 </td>
+   <td style="text-align:right;"> 0.1725133 </td>
+   <td style="text-align:right;"> -0.0491267 </td>
+   <td style="text-align:right;"> 0.0081354 </td>
+   <td style="text-align:right;"> 0.9804181 </td>
+   <td style="text-align:right;"> 0.0144968 </td>
+   <td style="text-align:right;"> 0.9520605 </td>
+   <td style="text-align:right;"> 1.0081686 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ASA </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.6065753 </td>
+   <td style="text-align:right;"> 0.5455487 </td>
+   <td style="text-align:right;"> -2.9448796 </td>
+   <td style="text-align:right;"> 0.0032308 </td>
+   <td style="text-align:right;"> -2.7150116 </td>
+   <td style="text-align:right;"> -0.5629706 </td>
+   <td style="text-align:right;"> 0.2005733 </td>
+   <td style="text-align:right;"> 0.5455487 </td>
+   <td style="text-align:right;"> 0.0662042 </td>
+   <td style="text-align:right;"> 0.5695148 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> ASA </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.5224183 </td>
+   <td style="text-align:right;"> 0.3154616 </td>
+   <td style="text-align:right;"> 1.6560438 </td>
+   <td style="text-align:right;"> 0.0977129 </td>
+   <td style="text-align:right;"> -0.0941774 </td>
+   <td style="text-align:right;"> 1.1523982 </td>
+   <td style="text-align:right;"> 1.6861001 </td>
+   <td style="text-align:right;"> 0.3154616 </td>
+   <td style="text-align:right;"> 0.9101213 </td>
+   <td style="text-align:right;"> 3.1657760 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PULP </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.6645299 </td>
+   <td style="text-align:right;"> 0.4098748 </td>
+   <td style="text-align:right;"> -4.0610691 </td>
+   <td style="text-align:right;"> 0.0000488 </td>
+   <td style="text-align:right;"> -2.5155950 </td>
+   <td style="text-align:right;"> -0.8987627 </td>
+   <td style="text-align:right;"> 0.1892796 </td>
+   <td style="text-align:right;"> 0.4098748 </td>
+   <td style="text-align:right;"> 0.0808148 </td>
+   <td style="text-align:right;"> 0.4070730 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PULP </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.2361062 </td>
+   <td style="text-align:right;"> 0.0906398 </td>
+   <td style="text-align:right;"> 2.6048836 </td>
+   <td style="text-align:right;"> 0.0091905 </td>
+   <td style="text-align:right;"> 0.0624931 </td>
+   <td style="text-align:right;"> 0.4201174 </td>
+   <td style="text-align:right;"> 1.2663088 </td>
+   <td style="text-align:right;"> 0.0906398 </td>
+   <td style="text-align:right;"> 1.0644871 </td>
+   <td style="text-align:right;"> 1.5221402 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> perforation </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -2.3438540 </td>
+   <td style="text-align:right;"> 0.4324202 </td>
+   <td style="text-align:right;"> -5.4203151 </td>
+   <td style="text-align:right;"> 0.0000001 </td>
+   <td style="text-align:right;"> -3.2517343 </td>
+   <td style="text-align:right;"> -1.5466796 </td>
+   <td style="text-align:right;"> 0.0959571 </td>
+   <td style="text-align:right;"> 0.4324202 </td>
+   <td style="text-align:right;"> 0.0387070 </td>
+   <td style="text-align:right;"> 0.2129539 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> perforation </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 1.2032426 </td>
+   <td style="text-align:right;"> 0.2843708 </td>
+   <td style="text-align:right;"> 4.2312458 </td>
+   <td style="text-align:right;"> 0.0000232 </td>
+   <td style="text-align:right;"> 0.6827088 </td>
+   <td style="text-align:right;"> 1.8029077 </td>
+   <td style="text-align:right;"> 3.3309004 </td>
+   <td style="text-align:right;"> 0.2843708 </td>
+   <td style="text-align:right;"> 1.9792317 </td>
+   <td style="text-align:right;"> 6.0672637 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> admission_to_op_hrs </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -0.8431923 </td>
+   <td style="text-align:right;"> 0.2853226 </td>
+   <td style="text-align:right;"> -2.9552246 </td>
+   <td style="text-align:right;"> 0.0031244 </td>
+   <td style="text-align:right;"> -1.4139903 </td>
+   <td style="text-align:right;"> -0.2840466 </td>
+   <td style="text-align:right;"> 0.4303346 </td>
+   <td style="text-align:right;"> 0.2853226 </td>
+   <td style="text-align:right;"> 0.2431710 </td>
+   <td style="text-align:right;"> 0.7527315 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> admission_to_op_hrs </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.0060960 </td>
+   <td style="text-align:right;"> 0.0202384 </td>
+   <td style="text-align:right;"> 0.3012113 </td>
+   <td style="text-align:right;"> 0.7632534 </td>
+   <td style="text-align:right;"> -0.0373817 </td>
+   <td style="text-align:right;"> 0.0459273 </td>
+   <td style="text-align:right;"> 1.0061147 </td>
+   <td style="text-align:right;"> 0.0202384 </td>
+   <td style="text-align:right;"> 0.9633084 </td>
+   <td style="text-align:right;"> 1.0469983 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hemoglobin </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> 0.7138662 </td>
+   <td style="text-align:right;"> 0.7573475 </td>
+   <td style="text-align:right;"> 0.9425874 </td>
+   <td style="text-align:right;"> 0.3458920 </td>
+   <td style="text-align:right;"> -0.7617317 </td>
+   <td style="text-align:right;"> 2.2369643 </td>
+   <td style="text-align:right;"> 2.0418703 </td>
+   <td style="text-align:right;"> 0.7573475 </td>
+   <td style="text-align:right;"> 0.4668573 </td>
+   <td style="text-align:right;"> 9.3648596 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hemoglobin </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> -0.1237478 </td>
+   <td style="text-align:right;"> 0.0615749 </td>
+   <td style="text-align:right;"> -2.0097125 </td>
+   <td style="text-align:right;"> 0.0444616 </td>
+   <td style="text-align:right;"> -0.2493337 </td>
+   <td style="text-align:right;"> -0.0057555 </td>
+   <td style="text-align:right;"> 0.8836027 </td>
+   <td style="text-align:right;"> 0.0615749 </td>
+   <td style="text-align:right;"> 0.7793198 </td>
+   <td style="text-align:right;"> 0.9942611 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> twc </td>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -1.0461722 </td>
+   <td style="text-align:right;"> 0.4361081 </td>
+   <td style="text-align:right;"> -2.3988830 </td>
+   <td style="text-align:right;"> 0.0164452 </td>
+   <td style="text-align:right;"> -1.9266672 </td>
+   <td style="text-align:right;"> -0.2058904 </td>
+   <td style="text-align:right;"> 0.3512798 </td>
+   <td style="text-align:right;"> 0.4361081 </td>
+   <td style="text-align:right;"> 0.1456328 </td>
+   <td style="text-align:right;"> 0.8139223 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> twc </td>
+   <td style="text-align:left;"> .x </td>
+   <td style="text-align:right;"> 0.0200912 </td>
+   <td style="text-align:right;"> 0.0291979 </td>
+   <td style="text-align:right;"> 0.6881022 </td>
+   <td style="text-align:right;"> 0.4913885 </td>
+   <td style="text-align:right;"> -0.0379630 </td>
+   <td style="text-align:right;"> 0.0776960 </td>
+   <td style="text-align:right;"> 1.0202943 </td>
+   <td style="text-align:right;"> 0.0291979 </td>
+   <td style="text-align:right;"> 0.9627485 </td>
+   <td style="text-align:right;"> 1.0807940 </td>
+  </tr>
+</tbody>
+</table>
 
 ```r
-crude_or_clin <- PUP2 %>% select(age, ASA, gender, vomiting, nausea, fever, diarrhea, malena,
-                           onset_more_24_hrs, degree_perforation) %>% 
-  map(~glm(oc2 ~ .x, family = binomial, data = PUP2)) %>%
-  map_dfr(~tidy(., exponentiate = TRUE, conf.int = TRUE), .id = 'variable')
-crude_or_clin
+write_csv(model_uni, 'model_uni.csv')
 ```
 
-```
-## # A tibble: 21 x 8
-##    variable term    estimate std.error statistic p.value conf.low conf.high
-##    <chr>    <chr>      <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl>
-##  1 age      (Inter~    0.106    0.784     -2.86  4.18e-3   0.0203     0.452
-##  2 age      .x         1.02     0.0120     1.98  4.79e-2   1.00       1.05 
-##  3 ASA      (Inter~    0.201    0.546     -2.94  3.23e-3   0.0662     0.570
-##  4 ASA      .x         1.69     0.315      1.66  9.77e-2   0.910      3.17 
-##  5 gender   (Inter~    0.923    0.400     -0.200 8.42e-1   0.415      2.04 
-##  6 gender   .xmale     0.402    0.462     -1.97  4.86e-2   0.162      1.00 
-##  7 vomiting (Inter~    0.5      0.240     -2.89  3.90e-3   0.308      0.793
-##  8 vomiting .xyes      0.774    0.416     -0.615 5.39e-1   0.334      1.73 
-##  9 nausea   (Inter~    0.449    0.203     -3.94  8.19e-5   0.298      0.663
-## 10 nausea   .xyes      1.34     0.758      0.383 7.02e-1   0.263      5.76 
-## # ... with 11 more rows
-```
+### Multivariables logistic analysis
 
-```r
-model_clin <- data.frame(crude_b_clin, crude_or_clin)
-model_clin
-```
+We start with main effect models (no interaction)
 
-```
-##              variable        term    estimate  std.error  statistic
-## 1                 age (Intercept) -2.24668886 0.78432065 -2.8645030
-## 2                 age          .x  0.02367401 0.01196909  1.9779287
-## 3                 ASA (Intercept) -1.60657528 0.54554872 -2.9448796
-## 4                 ASA          .x  0.52241825 0.31546162  1.6560438
-## 5              gender (Intercept) -0.08004271 0.40032038 -0.1999466
-## 6              gender      .xmale -0.91035600 0.46152311 -1.9725036
-## 7            vomiting (Intercept) -0.69314718 0.24019219 -2.8858024
-## 8            vomiting       .xyes -0.25593337 0.41627337 -0.6148204
-## 9              nausea (Intercept) -0.80136077 0.20345002 -3.9388582
-## 10             nausea       .xyes  0.29053514 0.75810633  0.3832380
-## 11              fever (Intercept) -0.83739679 0.22227930 -3.7673180
-## 12              fever       .xyes  0.26203264 0.47224906  0.5548611
-## 13           diarrhea (Intercept) -0.74579091 0.19961843 -3.7360824
-## 14           diarrhea       .xyes -0.86364700 1.11348440 -0.7756256
-## 15             malena (Intercept) -0.81093022 0.20030832 -4.0484100
-## 16             malena       .xyes  0.81093022 1.01986441  0.7951353
-## 17  onset_more_24_hrs (Intercept) -1.09861229 0.33333305 -3.2958397
-## 18  onset_more_24_hrs       .xyes  0.50656122 0.41333890  1.2255348
-## 19 degree_perforation (Intercept)  0.63598877 0.41223125  1.5427961
-## 20 degree_perforation  .xmoderate -1.25502798 0.62427140 -2.0103884
-## 21 degree_perforation     .xsmall -2.10780530 0.50769735 -4.1516964
-##          p.value     conf.low     conf.high         variable.1      term.1
-## 1  0.00417664194 -3.895437329 -0.7936808094                age (Intercept)
-## 2  0.04793675422  0.001092926  0.0483811167                age          .x
-## 3  0.00323080378 -2.715011586 -0.5629705698                ASA (Intercept)
-## 4  0.09771294841 -0.094177436  1.1523982138                ASA          .x
-## 5  0.84152232931 -0.878975798  0.7105500298             gender (Intercept)
-## 6  0.04855214541 -1.822538836  0.0007671579             gender      .xmale
-## 7  0.00390417236 -1.178570906 -0.2325100149           vomiting (Intercept)
-## 8  0.53867331531 -1.095134949  0.5469741502           vomiting       .xyes
-## 9  0.00008187031 -1.211640816 -0.4113525958             nausea (Intercept)
-## 10 0.70154331842 -1.336933574  1.7507792197             nausea       .xyes
-## 11 0.00016501079 -1.287467050 -0.4125122139              fever (Intercept)
-## 12 0.57898965567 -0.694781312  1.1744354706              fever       .xyes
-## 13 0.00018690943 -1.147482745 -0.3623820735           diarrhea (Intercept)
-## 14 0.43797008601 -3.835217407  1.0070827054           diarrhea       .xyes
-## 15 0.00005156676 -1.214784310 -0.4269354547             malena (Intercept)
-## 16 0.42653479191 -1.340650455  2.9630141410             malena       .xyes
-## 17 0.00098127987 -1.794226108 -0.4749175507  onset_more_24_hrs (Intercept)
-## 18 0.22037376809 -0.288926356  1.3414592994  onset_more_24_hrs       .xyes
-## 19 0.12288025377 -0.149335744  1.4893723673 degree_perforation (Intercept)
-## 20 0.04439009810 -2.527856822 -0.0599349910 degree_perforation  .xmoderate
-## 21 0.00003300198 -3.144278017 -1.1400385990 degree_perforation     .xsmall
-##    estimate.1 std.error.1 statistic.1     p.value.1 conf.low.1 conf.high.1
-## 1   0.1057488  0.78432065  -2.8645030 0.00417664194 0.02033448   0.4521773
-## 2   1.0239565  0.01196909   1.9779287 0.04793675422 1.00109352   1.0495706
-## 3   0.2005733  0.54554872  -2.9448796 0.00323080378 0.06620419   0.5695148
-## 4   1.6861001  0.31546162   1.6560438 0.09771294841 0.91012126   3.1657760
-## 5   0.9230769  0.40032038  -0.1999466 0.84152232931 0.41520795   2.0351103
-## 6   0.4023810  0.46152311  -1.9725036 0.04855214541 0.16161492   1.0007675
-## 7   0.5000000  0.24019219  -2.8858024 0.00390417236 0.30771818   0.7925418
-## 8   0.7741935  0.41627337  -0.6148204 0.53867331531 0.33449446   1.7280164
-## 9   0.4487179  0.20345002  -3.9388582 0.00008187031 0.29770839   0.6627532
-## 10  1.3371429  0.75810633   0.3832380 0.70154331842 0.26264983   5.7590885
-## 11  0.4328358  0.22227930  -3.7673180 0.00016501079 0.27596891   0.6619851
-## 12  1.2995690  0.47224906   0.5548611 0.57898965567 0.49918360   3.2363154
-## 13  0.4743590  0.19961843  -3.7360824 0.00018690943 0.31743483   0.6960164
-## 14  0.4216216  1.11348440  -0.7756256 0.43797008601 0.02159664   2.7376030
-## 15  0.4444444  0.20030832  -4.0484100 0.00005156676 0.29677402   0.6525057
-## 16  2.2500000  1.01986441   0.7951353 0.42653479191 0.26167541  19.3562263
-## 17  0.3333333  0.33333305  -3.2958397 0.00098127987 0.16625607   0.6219363
-## 18  1.6595745  0.41333890   1.2255348 0.22037376809 0.74906737   3.8246207
-## 19  1.8888889  0.41223125   1.5427961 0.12288025377 0.86127990   4.4343115
-## 20  0.2850679  0.62427140  -2.0103884 0.04439009810 0.07982993   0.9418258
-## 21  0.1215043  0.50769735  -4.1516964 0.00003300198 0.04309803   0.3198067
-```
+Let us run this model with
 
-```r
-write_csv(model_clin, 'uni_var_clinical.csv')
-```
+- Outcome: oc2
+- Primary variables: ASA, degree of perforation, PULP, NSAIDS, Hg, malena, onset more than 24 
+- Confounding variables: age, gender, diabetes, hypertension
 
+Primary variables are variables of interest that would predict outcome of peptic ulcer. Confounding variables are variables that may alter the effect of the primary variables when they are in the model. This may happen due to different distribution of them at the beginning of the study.
 
-### Multivariables analysis
-
-Outcome - oc2
-primary variables - ASA, degree of perforation, PULP, NSAIDS, Hg, malena, onset more than 24 
-confounding - age, gender, diabetes, hypertension, 
+Do not control variables after the study (refer to Andrew Gelman argument)
 
 
 ```r
-model_mv <- glm(oc2 ~ ASA + degree_perforation + onset_more_24_hrs + PULP + 
-                  hemoglobin + malena + age + gender + diabetes +  hypertension, 
+model_multivar <- glm(oc2 ~ age + gender + epigastric_pain + onset_more_24_hrs + diabetes + 
+                  NSAIDS + factor(ASA) + PULP + perforation + hemoglobin, 
                 family = binomial(link = 'logit'), data = PUP2)
-summary(model_mv)
+model_multivar2<- tidy(model_multivar, conf.int = T)
+kable(model_multivar2)  %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
 ```
 
-```
-## 
-## Call:
-## glm(formula = oc2 ~ ASA + degree_perforation + onset_more_24_hrs + 
-##     PULP + hemoglobin + malena + age + gender + diabetes + hypertension, 
-##     family = binomial(link = "logit"), data = PUP2)
-## 
-## Deviance Residuals: 
-##     Min       1Q   Median       3Q      Max  
-## -1.9448  -0.7407  -0.5263   0.9022   2.0627  
-## 
-## Coefficients:
-##                            Estimate Std. Error z value Pr(>|z|)    
-## (Intercept)                -0.43989    1.79263  -0.245 0.806158    
-## ASA                         0.29377    0.49554   0.593 0.553302    
-## degree_perforationmoderate -1.26634    0.67430  -1.878 0.060380 .  
-## degree_perforationsmall    -2.03653    0.58522  -3.480 0.000501 ***
-## onset_more_24_hrsyes        0.30369    0.49751   0.610 0.541583    
-## PULP                        0.06703    0.16601   0.404 0.686413    
-## hemoglobin                  0.05039    0.08254   0.611 0.541515    
-## malenayes                   0.15810    1.29364   0.122 0.902730    
-## age                         0.00337    0.01950   0.173 0.862759    
-## gendermale                 -0.87131    0.58195  -1.497 0.134338    
-## diabetesyes                 0.32206    0.68544   0.470 0.638455    
-## hypertensionyes            -0.22820    0.59259  -0.385 0.700174    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-## (Dispersion parameter for binomial family taken to be 1)
-## 
-##     Null deviance: 150.60  on 120  degrees of freedom
-## Residual deviance: 126.37  on 109  degrees of freedom
-## AIC: 150.37
-## 
-## Number of Fisher Scoring iterations: 4
-```
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> term </th>
+   <th style="text-align:right;"> estimate </th>
+   <th style="text-align:right;"> std.error </th>
+   <th style="text-align:right;"> statistic </th>
+   <th style="text-align:right;"> p.value </th>
+   <th style="text-align:right;"> conf.low </th>
+   <th style="text-align:right;"> conf.high </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -3.7719198 </td>
+   <td style="text-align:right;"> 2.2578692 </td>
+   <td style="text-align:right;"> -1.6705661 </td>
+   <td style="text-align:right;"> 0.0948074 </td>
+   <td style="text-align:right;"> -8.5384323 </td>
+   <td style="text-align:right;"> 0.4634684 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:right;"> 0.0000431 </td>
+   <td style="text-align:right;"> 0.0205982 </td>
+   <td style="text-align:right;"> 0.0020928 </td>
+   <td style="text-align:right;"> 0.9983302 </td>
+   <td style="text-align:right;"> -0.0407516 </td>
+   <td style="text-align:right;"> 0.0409729 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gendermale </td>
+   <td style="text-align:right;"> -0.8327136 </td>
+   <td style="text-align:right;"> 0.5929182 </td>
+   <td style="text-align:right;"> -1.4044325 </td>
+   <td style="text-align:right;"> 0.1601901 </td>
+   <td style="text-align:right;"> -2.0218586 </td>
+   <td style="text-align:right;"> 0.3264799 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> epigastric_painyes </td>
+   <td style="text-align:right;"> 0.5371919 </td>
+   <td style="text-align:right;"> 1.2596323 </td>
+   <td style="text-align:right;"> 0.4264672 </td>
+   <td style="text-align:right;"> 0.6697674 </td>
+   <td style="text-align:right;"> -1.6838093 </td>
+   <td style="text-align:right;"> 3.6779167 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> onset_more_24_hrsyes </td>
+   <td style="text-align:right;"> 0.1541497 </td>
+   <td style="text-align:right;"> 0.5164268 </td>
+   <td style="text-align:right;"> 0.2984929 </td>
+   <td style="text-align:right;"> 0.7653270 </td>
+   <td style="text-align:right;"> -0.8588498 </td>
+   <td style="text-align:right;"> 1.1840249 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diabetesyes </td>
+   <td style="text-align:right;"> 0.0059755 </td>
+   <td style="text-align:right;"> 0.6874532 </td>
+   <td style="text-align:right;"> 0.0086922 </td>
+   <td style="text-align:right;"> 0.9930647 </td>
+   <td style="text-align:right;"> -1.3740242 </td>
+   <td style="text-align:right;"> 1.3454276 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NSAIDSyes </td>
+   <td style="text-align:right;"> 0.2909611 </td>
+   <td style="text-align:right;"> 0.4880827 </td>
+   <td style="text-align:right;"> 0.5961307 </td>
+   <td style="text-align:right;"> 0.5510879 </td>
+   <td style="text-align:right;"> -0.6832510 </td>
+   <td style="text-align:right;"> 1.2445234 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> factor(ASA)2 </td>
+   <td style="text-align:right;"> 0.7622642 </td>
+   <td style="text-align:right;"> 0.5989237 </td>
+   <td style="text-align:right;"> 1.2727234 </td>
+   <td style="text-align:right;"> 0.2031162 </td>
+   <td style="text-align:right;"> -0.4011611 </td>
+   <td style="text-align:right;"> 1.9676895 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> factor(ASA)3 </td>
+   <td style="text-align:right;"> -0.0945293 </td>
+   <td style="text-align:right;"> 1.1837434 </td>
+   <td style="text-align:right;"> -0.0798562 </td>
+   <td style="text-align:right;"> 0.9363516 </td>
+   <td style="text-align:right;"> -2.6255024 </td>
+   <td style="text-align:right;"> 2.1174561 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PULP </td>
+   <td style="text-align:right;"> 0.0750294 </td>
+   <td style="text-align:right;"> 0.1683727 </td>
+   <td style="text-align:right;"> 0.4456149 </td>
+   <td style="text-align:right;"> 0.6558754 </td>
+   <td style="text-align:right;"> -0.2564848 </td>
+   <td style="text-align:right;"> 0.4087811 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> perforation </td>
+   <td style="text-align:right;"> 1.1229983 </td>
+   <td style="text-align:right;"> 0.3317340 </td>
+   <td style="text-align:right;"> 3.3852377 </td>
+   <td style="text-align:right;"> 0.0007112 </td>
+   <td style="text-align:right;"> 0.5217920 </td>
+   <td style="text-align:right;"> 1.8243413 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hemoglobin </td>
+   <td style="text-align:right;"> 0.0683182 </td>
+   <td style="text-align:right;"> 0.0826810 </td>
+   <td style="text-align:right;"> 0.8262859 </td>
+   <td style="text-align:right;"> 0.4086419 </td>
+   <td style="text-align:right;"> -0.0941807 </td>
+   <td style="text-align:right;"> 0.2332461 </td>
+  </tr>
+</tbody>
+</table>
 
-## Model checking
+With interaction model. Because, the effect of covariates on outcome maybe different according to different level of PULP and extent of perforation size. 
 
-### ROC curve
-
-### Hosmer-Lemeshow test
-
-## Final model
-
+The interaction effect between perforation and PULP. 
 
 
 ```r
-model_ASA <- glm(oc2 ~ factor(ASA) + age + gender + diabetes + hypertension, 
+model_ia <- glm(oc2 ~ age + gender + epigastric_pain + onset_more_24_hrs + diabetes + 
+                  NSAIDS + factor(ASA) + PULP + perforation + hemoglobin + perforation:PULP,
                 family = binomial(link = 'logit'), data = PUP2)
-model_perf <- glm(oc2 ~ degree_perforation + age + gender + diabetes + hypertension, 
-                family = binomial(link = 'logit'), data = PUP2)
-model_PULP <- glm(oc2 ~ PULP + age + gender + diabetes + hypertension, 
-                family = binomial(link = 'logit'), data = PUP2)
-model_24hrs <- glm(oc2 ~ onset_more_24_hrs + age + gender + diabetes + hypertension, 
+model_ia <- tidy(model_ia, conf.int = T)
+kable(model_ia)  %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"))
+```
+
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> term </th>
+   <th style="text-align:right;"> estimate </th>
+   <th style="text-align:right;"> std.error </th>
+   <th style="text-align:right;"> statistic </th>
+   <th style="text-align:right;"> p.value </th>
+   <th style="text-align:right;"> conf.low </th>
+   <th style="text-align:right;"> conf.high </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> (Intercept) </td>
+   <td style="text-align:right;"> -4.0998681 </td>
+   <td style="text-align:right;"> 2.3260039 </td>
+   <td style="text-align:right;"> -1.7626231 </td>
+   <td style="text-align:right;"> 0.0779641 </td>
+   <td style="text-align:right;"> -8.9861364 </td>
+   <td style="text-align:right;"> 0.2724682 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> age </td>
+   <td style="text-align:right;"> -0.0012018 </td>
+   <td style="text-align:right;"> 0.0208996 </td>
+   <td style="text-align:right;"> -0.0575036 </td>
+   <td style="text-align:right;"> 0.9541440 </td>
+   <td style="text-align:right;"> -0.0426999 </td>
+   <td style="text-align:right;"> 0.0402279 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> gendermale </td>
+   <td style="text-align:right;"> -0.8121256 </td>
+   <td style="text-align:right;"> 0.5946346 </td>
+   <td style="text-align:right;"> -1.3657556 </td>
+   <td style="text-align:right;"> 0.1720157 </td>
+   <td style="text-align:right;"> -2.0044230 </td>
+   <td style="text-align:right;"> 0.3507217 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> epigastric_painyes </td>
+   <td style="text-align:right;"> 0.5648047 </td>
+   <td style="text-align:right;"> 1.2419028 </td>
+   <td style="text-align:right;"> 0.4547898 </td>
+   <td style="text-align:right;"> 0.6492604 </td>
+   <td style="text-align:right;"> -1.6300740 </td>
+   <td style="text-align:right;"> 3.6813556 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> onset_more_24_hrsyes </td>
+   <td style="text-align:right;"> 0.1684374 </td>
+   <td style="text-align:right;"> 0.5191416 </td>
+   <td style="text-align:right;"> 0.3244537 </td>
+   <td style="text-align:right;"> 0.7455946 </td>
+   <td style="text-align:right;"> -0.8492422 </td>
+   <td style="text-align:right;"> 1.2044757 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diabetesyes </td>
+   <td style="text-align:right;"> 0.0051572 </td>
+   <td style="text-align:right;"> 0.6882091 </td>
+   <td style="text-align:right;"> 0.0074937 </td>
+   <td style="text-align:right;"> 0.9940210 </td>
+   <td style="text-align:right;"> -1.3765049 </td>
+   <td style="text-align:right;"> 1.3457319 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> NSAIDSyes </td>
+   <td style="text-align:right;"> 0.2789421 </td>
+   <td style="text-align:right;"> 0.4874188 </td>
+   <td style="text-align:right;"> 0.5722843 </td>
+   <td style="text-align:right;"> 0.5671294 </td>
+   <td style="text-align:right;"> -0.6935094 </td>
+   <td style="text-align:right;"> 1.2314276 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> factor(ASA)2 </td>
+   <td style="text-align:right;"> 0.7395709 </td>
+   <td style="text-align:right;"> 0.6010129 </td>
+   <td style="text-align:right;"> 1.2305409 </td>
+   <td style="text-align:right;"> 0.2184946 </td>
+   <td style="text-align:right;"> -0.4272342 </td>
+   <td style="text-align:right;"> 1.9492697 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> factor(ASA)3 </td>
+   <td style="text-align:right;"> -0.0133695 </td>
+   <td style="text-align:right;"> 1.1511487 </td>
+   <td style="text-align:right;"> -0.0116140 </td>
+   <td style="text-align:right;"> 0.9907336 </td>
+   <td style="text-align:right;"> -2.5065349 </td>
+   <td style="text-align:right;"> 2.1403235 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PULP </td>
+   <td style="text-align:right;"> 0.1863448 </td>
+   <td style="text-align:right;"> 0.2503740 </td>
+   <td style="text-align:right;"> 0.7442659 </td>
+   <td style="text-align:right;"> 0.4567156 </td>
+   <td style="text-align:right;"> -0.3041504 </td>
+   <td style="text-align:right;"> 0.6860178 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> perforation </td>
+   <td style="text-align:right;"> 1.4600565 </td>
+   <td style="text-align:right;"> 0.6630358 </td>
+   <td style="text-align:right;"> 2.2020779 </td>
+   <td style="text-align:right;"> 0.0276598 </td>
+   <td style="text-align:right;"> 0.2495542 </td>
+   <td style="text-align:right;"> 2.8457067 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hemoglobin </td>
+   <td style="text-align:right;"> 0.0642286 </td>
+   <td style="text-align:right;"> 0.0830514 </td>
+   <td style="text-align:right;"> 0.7733604 </td>
+   <td style="text-align:right;"> 0.4393091 </td>
+   <td style="text-align:right;"> -0.0989351 </td>
+   <td style="text-align:right;"> 0.2298803 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PULP:perforation </td>
+   <td style="text-align:right;"> -0.0812585 </td>
+   <td style="text-align:right;"> 0.1343404 </td>
+   <td style="text-align:right;"> -0.6048699 </td>
+   <td style="text-align:right;"> 0.5452655 </td>
+   <td style="text-align:right;"> -0.3456000 </td>
+   <td style="text-align:right;"> 0.1862839 </td>
+  </tr>
+</tbody>
+</table>
+
+## Alternative models
+
+For ASA adjusting for baseline covariates (age, gender, diabetes, onset_more_24_hrs)
+
+
+```r
+model_ASA <- glm(oc2 ~ factor(ASA) + age + gender + diabetes + onset_more_24_hrs, 
                 family = binomial(link = 'logit'), data = PUP2)
 m_ASA <- tidy(model_ASA, exponentiate = TRUE, conf.int = TRUE)
-m_perf <- tidy(model_perf,  exponentiate = TRUE, conf.int = TRUE)
-m_pulp <- tidy(model_PULP,  exponentiate = TRUE, conf.int = TRUE)
-m_24 <- tidy(model_24hrs,  exponentiate = TRUE, conf.int = TRUE)
-multi_var <- bind_rows(m_ASA, m_perf, m_pulp, m_24) %>% 
-  filter(term %in% c("factor(ASA)2", "factor(ASA)3", 
-                     "degree_perforationmoderate", "degree_perforationsmall",
-                     "PULP", "onset_more_24_hrsyes"))
 ```
 
-# Poisson regression (10 mins)
+For Perforation
 
-## Read data
 
-## Estimation
+```r
+model_perf <- glm(oc2 ~ degree_perforation + age + gender + diabetes + onset_more_24_hrs,
+                family = binomial(link = 'logit'), data = PUP2)
+m_perf <- tidy(model_perf,  exponentiate = TRUE, conf.int = TRUE)
+```
 
-## Inference
+For PULP
+
+
+```r
+model_PULP <- glm(oc2 ~ PULP + age + gender + diabetes + onset_more_24_hrs, 
+                family = binomial(link = 'logit'), data = PUP2)
+m_pulp <- tidy(model_PULP,  exponentiate = TRUE, conf.int = TRUE)
+```
+
+For perforation
+
+
+```r
+model_perf2 <- glm(oc2 ~ perforation + age + gender + diabetes + onset_more_24_hrs, 
+                family = binomial(link = 'logit'), data = PUP2)
+m_perf2 <- tidy(model_perf2,  exponentiate = TRUE, conf.int = TRUE)
+```
+
+
+For haemoglobin
+
+
+```r
+model_hg <- glm(oc2 ~ hemoglobin + age + gender + diabetes + onset_more_24_hrs, 
+                family = binomial(link = 'logit'), data = PUP2)
+m_hg <- tidy(model_hg,  exponentiate = TRUE, conf.int = TRUE)
+```
+
+
+Results in combined nicer tidy format
+
+
+```r
+multi_confirm <- bind_rows(m_ASA, m_perf, m_pulp, m_perf2, m_hg) %>% 
+  filter(term %in% c("factor(ASA)2", "factor(ASA)3", 
+                     "degree_perforationmoderate", "degree_perforationsmall",
+                     "PULP", "perforation", "hemoglobin")) %>%
+  rename(adjOR = estimate, lower_CI = conf.low, upper_CI = conf.high)
+kable(multi_confirm) %>% 
+  kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive")) 
+```
+
+<table class="table table-striped table-hover table-condensed table-responsive" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> term </th>
+   <th style="text-align:right;"> adjOR </th>
+   <th style="text-align:right;"> std.error </th>
+   <th style="text-align:right;"> statistic </th>
+   <th style="text-align:right;"> p.value </th>
+   <th style="text-align:right;"> lower_CI </th>
+   <th style="text-align:right;"> upper_CI </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> factor(ASA)2 </td>
+   <td style="text-align:right;"> 2.4756866 </td>
+   <td style="text-align:right;"> 0.5103041 </td>
+   <td style="text-align:right;"> 1.7764265 </td>
+   <td style="text-align:right;"> 0.0756626 </td>
+   <td style="text-align:right;"> 0.9196786 </td>
+   <td style="text-align:right;"> 6.8907542 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> factor(ASA)3 </td>
+   <td style="text-align:right;"> 1.1375937 </td>
+   <td style="text-align:right;"> 0.9615300 </td>
+   <td style="text-align:right;"> 0.1340730 </td>
+   <td style="text-align:right;"> 0.8933448 </td>
+   <td style="text-align:right;"> 0.1354452 </td>
+   <td style="text-align:right;"> 6.8469894 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> degree_perforationmoderate </td>
+   <td style="text-align:right;"> 0.2944452 </td>
+   <td style="text-align:right;"> 0.6383464 </td>
+   <td style="text-align:right;"> -1.9153591 </td>
+   <td style="text-align:right;"> 0.0554467 </td>
+   <td style="text-align:right;"> 0.0801986 </td>
+   <td style="text-align:right;"> 1.0005652 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> degree_perforationsmall </td>
+   <td style="text-align:right;"> 0.1388571 </td>
+   <td style="text-align:right;"> 0.5347515 </td>
+   <td style="text-align:right;"> -3.6920143 </td>
+   <td style="text-align:right;"> 0.0002225 </td>
+   <td style="text-align:right;"> 0.0467385 </td>
+   <td style="text-align:right;"> 0.3864164 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> PULP </td>
+   <td style="text-align:right;"> 1.2209041 </td>
+   <td style="text-align:right;"> 0.1349680 </td>
+   <td style="text-align:right;"> 1.4788077 </td>
+   <td style="text-align:right;"> 0.1391917 </td>
+   <td style="text-align:right;"> 0.9404310 </td>
+   <td style="text-align:right;"> 1.6027977 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> perforation </td>
+   <td style="text-align:right;"> 3.0238388 </td>
+   <td style="text-align:right;"> 0.2988394 </td>
+   <td style="text-align:right;"> 3.7027485 </td>
+   <td style="text-align:right;"> 0.0002133 </td>
+   <td style="text-align:right;"> 1.7672258 </td>
+   <td style="text-align:right;"> 5.7287607 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> hemoglobin </td>
+   <td style="text-align:right;"> 0.9504030 </td>
+   <td style="text-align:right;"> 0.0711117 </td>
+   <td style="text-align:right;"> -0.7153421 </td>
+   <td style="text-align:right;"> 0.4743977 </td>
+   <td style="text-align:right;"> 0.8247297 </td>
+   <td style="text-align:right;"> 1.0928258 </td>
+  </tr>
+</tbody>
+</table>
+
+```r
+write_csv(multi_confirm, 'multivar_final.csv')
+```
 
 ## Model checking
 
-# Cox proportional hazard regression (10 min)
+Making predictions
 
-Survival analysis is just another name for time to event  analysis. The term survival analysis is predominately used in biomedical sciences where the interest is in observing time to death either of patients or of laboratory animals. Time to event analysis has also been used widely in the social sciences where interest is on analyzing time to events such as job changes, marriage, birth of children and so forth.
+- log-odds
+- probability
 
-Regression is popular because plausible model can be fitted. In survival analysis, one method of analyses is the Cox proportional hazard regression. In survival analysis, the outcome variable (dependent variable) is TIME TO THE OCCURRENCE OF AN EVENT or shortly known as the time-to-event variable.
+
+```r
+#augment(model_multivar, type = c('link', 'response'))
+augment(model_multivar, type.predict = 'link')
+```
+
+```
+## # A tibble: 121 x 18
+##    oc2     age gender epigastric_pain onset_more_24_h~ diabetes NSAIDS
+##    <fct> <dbl> <chr>  <chr>           <chr>            <chr>    <chr> 
+##  1 alive    42 male   yes             no               no       no    
+##  2 alive    66 female yes             no               no       no    
+##  3 alive    67 male   yes             no               no       yes   
+##  4 alive    19 male   yes             yes              no       no    
+##  5 alive    77 male   yes             yes              no       no    
+##  6 alive    39 male   yes             yes              no       no    
+##  7 dead     62 female yes             yes              yes      no    
+##  8 alive    71 female yes             no               no       no    
+##  9 alive    69 male   yes             no               yes      yes   
+## 10 alive    97 female yes             yes              no       yes   
+## # ... with 111 more rows, and 11 more variables: factor.ASA. <fct>,
+## #   PULP <dbl>, perforation <dbl>, hemoglobin <dbl>, .fitted <dbl>,
+## #   .se.fit <dbl>, .resid <dbl>, .hat <dbl>, .sigma <dbl>, .cooksd <dbl>,
+## #   .std.resid <dbl>
+```
+
+```r
+augment(model_multivar, type.predict = 'response')
+```
+
+```
+## # A tibble: 121 x 18
+##    oc2     age gender epigastric_pain onset_more_24_h~ diabetes NSAIDS
+##    <fct> <dbl> <chr>  <chr>           <chr>            <chr>    <chr> 
+##  1 alive    42 male   yes             no               no       no    
+##  2 alive    66 female yes             no               no       no    
+##  3 alive    67 male   yes             no               no       yes   
+##  4 alive    19 male   yes             yes              no       no    
+##  5 alive    77 male   yes             yes              no       no    
+##  6 alive    39 male   yes             yes              no       no    
+##  7 dead     62 female yes             yes              yes      no    
+##  8 alive    71 female yes             no               no       no    
+##  9 alive    69 male   yes             no               yes      yes   
+## 10 alive    97 female yes             yes              no       yes   
+## # ... with 111 more rows, and 11 more variables: factor.ASA. <fct>,
+## #   PULP <dbl>, perforation <dbl>, hemoglobin <dbl>, .fitted <dbl>,
+## #   .se.fit <dbl>, .resid <dbl>, .hat <dbl>, .sigma <dbl>, .cooksd <dbl>,
+## #   .std.resid <dbl>
+```
+
+
+
+
+\newpage
+
+
+# Cox proportional hazard regression (15 min)
+
+Survival analysis is just another name for time to event  analysis. Regression is popular because plausible model can be fitted. 
+
+In survival analysis, one method of analyses is the Cox proportional hazard regression. In survival analysis, the outcome variable (dependent variable) is TIME TO THE OCCURRENCE OF AN EVENT or shortly known as the time-to-event variable.
 
 ## Survival data
 
 In survival analysis, we follow a subject of interest until a certain time (the last follow up). Different patients will have different follow-up times.
 
-For example, we observe a group of patients; with the outcome variable named as 'status' and the outcome coded as 'death' or 'alive'. The status at the last follow up, can be an event either of 'death' or of other than death - 'non-death'. The researcher must choose between 'death' and 'non-death to consider if the event of interest has occurred or not. If he chooses (interested in) 'death', then any patient (who is under the follow-up) who dies during the follow-up will be considered as a 'failure'. Any other patients who are under  the same follow-up and still survive until the latest follow-up is known as a 'censor' case.
+For example, we observe a group of patients; with the outcome variable named as 'status' and the outcome coded as 'death' or 'alive'. The status at the last follow up, can be an event either of 'death' or of other than death - 'non-death'. 
+
+The researcher must choose between 'death' and 'non-death to consider if the event of interest has occurred or not. If he chooses (interested in) 'death', then any patient (who is under the follow-up) who dies during the follow-up will be considered as a 'failure'. Any other patients who are under  the same follow-up and still survive until the latest follow-up is known as a 'censor' case.
 
 
 In survival data, time (duration of follow up) is the 'survival time' (example months, weeks, days) and event is 'the failure status' (for example death, relapse and recurrence)
 
 ## Read data
 
+Data comes from stroke patients. It is a stata format. 
+
 
 ```r
 stroke <- read_dta(here('datasets', 'stroke_outcome.dta'))
+```
+
+Let's get a brief view of data
+
+
+```r
 str(stroke)
 ```
 
@@ -1669,27 +2852,11 @@ glimpse(stroke)
 
 ## Data wrangling
 
+We would like to convert labelled variable to factors variables
+
 
 ```r
-stroke2 <- stroke %>% mutate_if(is.labelled, funs(as_factor(.))) 
-```
-
-```
-## Warning: funs() is soft deprecated as of dplyr 0.8.0
-## Please use a list of either functions or lambdas: 
-## 
-##   # Simple named list: 
-##   list(mean = mean, median = median)
-## 
-##   # Auto named with `tibble::lst()`: 
-##   tibble::lst(mean, median)
-## 
-##   # Using lambdas
-##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
-## This warning is displayed once per session.
-```
-
-```r
+stroke2 <- stroke %>% mutate_if(is.labelled, ~as_factor(.)) 
 glimpse(stroke2)
 ```
 
@@ -1739,6 +2906,8 @@ where $h_0(t)$ is the baseline hazard and $\exp^{\sum_{i=1}^p\beta_iX_i}$ is the
 
 ### Null model
 
+The null model contains no covariates.
+
 
 ```r
 cox.null <- coxph(Surv(time = days, event = outcome == 'dead') ~ 1,
@@ -1757,6 +2926,7 @@ summary(cox.null)
 
 ### Conditional model
 
+We include systolic blood pressure as the covariate
 
 
 ```r
@@ -1786,6 +2956,43 @@ summary(cox.sbp)
 ```
 
 Main effect model
+
+The model the risk for death as a function of Glasgow Coma Scale and age. 
+
+
+```r
+cox.gcs.age.noia <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
+                       age, data = stroke2)
+summary(cox.gcs.age.noia)
+```
+
+```
+## Call:
+## coxph(formula = Surv(time = days, event = outcome == "dead") ~ 
+##     gcs + age, data = stroke2)
+## 
+##   n= 225, number of events= 52 
+##    (1 observation deleted due to missingness)
+## 
+##         coef exp(coef) se(coef)      z      Pr(>|z|)    
+## gcs -0.20001   0.81872  0.03288 -6.082 0.00000000118 ***
+## age  0.02982   1.03027  0.01129  2.642       0.00823 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+##     exp(coef) exp(-coef) lower .95 upper .95
+## gcs    0.8187     1.2214    0.7676    0.8732
+## age    1.0303     0.9706    1.0077    1.0533
+## 
+## Concordance= 0.814  (se = 0.03 )
+## Likelihood ratio test= 42.2  on 2 df,   p=0.0000000007
+## Wald test            = 41  on 2 df,   p=0.000000001
+## Score (logrank) test = 47.67  on 2 df,   p=0.00000000004
+```
+
+Model with interaction
+
+We add an interaction between gcs and age into our covariate. 
 
 
 ```r
@@ -1820,43 +3027,12 @@ summary(cox.gcs.age)
 ## Score (logrank) test = 48.93  on 3 df,   p=0.0000000001
 ```
 
-Model with interaction
-
-
-```r
-cox.gcs.age.noia <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
-                       age, data = stroke2)
-summary(cox.gcs.age.noia)
-```
-
-```
-## Call:
-## coxph(formula = Surv(time = days, event = outcome == "dead") ~ 
-##     gcs + age, data = stroke2)
-## 
-##   n= 225, number of events= 52 
-##    (1 observation deleted due to missingness)
-## 
-##         coef exp(coef) se(coef)      z      Pr(>|z|)    
-## gcs -0.20001   0.81872  0.03288 -6.082 0.00000000118 ***
-## age  0.02982   1.03027  0.01129  2.642       0.00823 ** 
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-## 
-##     exp(coef) exp(-coef) lower .95 upper .95
-## gcs    0.8187     1.2214    0.7676    0.8732
-## age    1.0303     0.9706    1.0077    1.0533
-## 
-## Concordance= 0.814  (se = 0.03 )
-## Likelihood ratio test= 42.2  on 2 df,   p=0.0000000007
-## Wald test            = 41  on 2 df,   p=0.000000001
-## Score (logrank) test = 47.67  on 2 df,   p=0.00000000004
-```
 
 ## Inference
 
 ## Model checking
 
+One of the most important assumption in Cox proportional hazars regression is the proportional hazard assumptions. 
 
 ### Testing the assumption of proportional hazard 
 
@@ -1864,15 +3040,18 @@ We can use `survival::cox.zph()`
 
 
 ```r
-prop.h <- cox.zph(cox.gcs.age.noia, transform = 'km', global = TRUE)
+prop.h <- cox.zph(cox.gcs.age, transform = 'km', global = TRUE)
 prop.h
 ```
 
 ```
-##            rho chisq     p
-## gcs     0.0779 0.262 0.609
-## age    -0.0857 0.515 0.473
-## GLOBAL      NA 0.706 0.703
+##              rho   chisq     p
+## gcs     -0.00818 0.00366 0.952
+## age     -0.05778 0.22254 0.637
+## gcs:age  0.02679 0.04062 0.840
+## GLOBAL        NA 0.86560 0.834
 ```
+
+
 
 # QA (5 mins)
