@@ -3,7 +3,7 @@ title: "Regression Analysis in Health and Medicine Using R"
 author: "Assoc Prof Kamarul Imran Musa"
 date: "`r Sys.Date()`"
 output:
-  html_document:
+  bookdown::html_document2: 
     toc: true
     toc_float: 
       collapsed: true
@@ -23,7 +23,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 My name is Kamarul Imran, but just call me KIM. 
 
-I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. 
+I hold the position of Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. 
 
 My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
 

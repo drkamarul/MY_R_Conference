@@ -1,9 +1,9 @@
 ---
 title: "Regression Analysis in Health and Medicine Using R"
 author: "Assoc Prof Kamarul Imran Musa"
-date: "2019-09-30"
+date: "2019-10-02"
 output:
-  html_document:
+  bookdown::html_document2: 
     toc: true
     toc_float: 
       collapsed: true
@@ -21,7 +21,7 @@ output:
 
 My name is Kamarul Imran, but just call me KIM. 
 
-I am the Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. 
+I hold the position of Associate Professor in Epidemiology and Statistics at the School of Medical Sciences, Universiti Sains Malaysia. 
 
 My academic profile is available here http://www.medic.usm.my/jpm/index.php/en/academic-information/587-prof-madya-dr-kamarul-imran-musa
 
@@ -119,7 +119,7 @@ Type and try to understand
 
 <div class="figure" style="text-align: center">
 <img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/code.gif" alt="https://giphy.com/gifs/batman-arkham-footage-QHE5gWI0QjqF2" width="50%" />
-<p class="caption">https://giphy.com/gifs/batman-arkham-footage-QHE5gWI0QjqF2</p>
+<p class="caption">(\#fig:coding)https://giphy.com/gifs/batman-arkham-footage-QHE5gWI0QjqF2</p>
 </div>
 
 # Load required libraries
@@ -130,7 +130,7 @@ library(tidyverse)
 ```
 
 ```
-## -- Attaching packages ------------------------------------------------------- tidyverse 1.2.1 --
+## -- Attaching packages ------------------------------------------------------------------------------ tidyverse 1.2.1 --
 ```
 
 ```
@@ -141,7 +141,7 @@ library(tidyverse)
 ```
 
 ```
-## -- Conflicts ---------------------------------------------------------- tidyverse_conflicts() --
+## -- Conflicts --------------------------------------------------------------------------------- tidyverse_conflicts() --
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()
 ```
@@ -193,7 +193,7 @@ Figure \@ref(fig:LinearityAssumption) sums the first 3 assumptions:
 
 <div class="figure" style="text-align: center">
 <img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/linearity2.png" alt="Linearity Assumptions" width="50%" />
-<p class="caption">Linearity Assumptions</p>
+<p class="caption">(\#fig:LinearityAssumption)Linearity Assumptions</p>
 </div>
 
 Generally, the equation of multiple linear regression model is:
@@ -789,7 +789,7 @@ pred_met %>% filter(between(.std.resid, -3, 3)) %>%
 
 \newpage
 
-# Logistic regression (20 mins)
+# Logistic regression (25 mins)
 
 ## Read data
 
@@ -2763,31 +2763,38 @@ augment(model_multivar, type.predict = 'response')
 
 # Cox proportional hazard regression (15 min)
 
-Survival analysis is just another name for time to event  analysis. Regression is popular because plausible model can be fitted. 
+Survival analysis is a common analysis in medicine. It also known as the time to event  analysis or duration analysis. It is a type of regression.  
 
-In survival analysis, one method of analyses is the Cox proportional hazard regression. In survival analysis, the outcome variable (dependent variable) is TIME TO THE OCCURRENCE OF AN EVENT or shortly known as the time-to-event variable.
+In survival analysis, one of the most common modelling method is the Cox proportional hazard regression. 
+
+In survival analysis, the outcome variable (dependent variable) is TIME TO THE OCCURRENCE OF AN EVENT or shortly known as the time-to-event variable.
 
 ## Survival data
 
 In survival analysis, we follow a subject of interest until a certain time (the last follow up). Different patients will have different follow-up times.
 
-For example, we observe a group of patients; with the outcome variable named as 'status' and the outcome coded as 'death' or 'alive'. The status at the last follow up, can be an event either of 'death' or of other than death - 'non-death'. 
+For example, we observe a group of subjects; with the outcome variable named as 'status' and the outcome coded as 'death' or 'alive'. 
 
-The researcher must choose between 'death' and 'non-death to consider if the event of interest has occurred or not. If he chooses (interested in) 'death', then any patient (who is under the follow-up) who dies during the follow-up will be considered as a 'failure'. Any other patients who are under  the same follow-up and still survive until the latest follow-up is known as a 'censor' case.
+The status at the last follow up, can be an event either of 'death' or of other than death - 'non-death'. 
 
+Any other subjects who are under  the same follow-up and still survive until the latest follow-up is known as a 'censor' case.
 
-In survival data, time (duration of follow up) is the 'survival time' (example months, weeks, days) and event is 'the failure status' (for example death, relapse and recurrence)
 
 ## Read data
 
-Data comes from stroke patients. It is a stata format. 
+For our example, data comes from a group of stroke patients. 
+
+Data is in the stata format. 
 
 
 ```r
 stroke <- read_dta(here('datasets', 'stroke_outcome.dta'))
 ```
 
-Let's get a brief view of data
+Let's get a brief view 
+
+- class of variables
+- observations and variables 
 
 
 ```r
@@ -2852,7 +2859,7 @@ glimpse(stroke)
 
 ## Data wrangling
 
-We would like to convert labelled variable to factors variables
+We can convert many variables; in this case all labelled variable to factors variables.
 
 
 ```r
@@ -2874,31 +2881,48 @@ glimpse(stroke2)
 ## $ icd10   <fct> "CI,Others", "CI,Others", "ICB, Other Haemorrhage", "I...
 ```
 
-The data must have at least
+Collapse stroke types (variable icd10) from 3 categories to 2 categories 
+
+
+```r
+table(stroke2$icd10)
+```
+
+```
+## 
+##              CI,Others                    SAH ICB, Other Haemorrhage 
+##                    149                     19                     58
+```
+
+```r
+stroke2 <- stroke2 %>% mutate(icd10 = recode(icd10, 'SAH' = 'HS', 'ICB, Other Haemorrhage' = 'HS'))
+```
+
+Remember, data must have at least
 
 1.  duration taken to develop event of interest (time variable)
 2.  event of interest (event variable)
 
-You can calculate the duration from the starting point (for example, date of admission, date of discharge) until the point of event occurs (for example, date of death, date of relapse)
+Data can have censor observations too. 
+
 
 <div class="figure" style="text-align: center">
 <img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/censor2.png" alt="Types of censoring" width="70%" />
-<p class="caption">Types of censoring</p>
+<p class="caption">(\#fig:censoring)Types of censoring</p>
 </div>
 
 Figure \@ref(fig:censoring) shows types of censoring.
 
-Censoring is a problem is the survival analysis. Censoring occurs when we know the survival time for an individual but we do not know the survival time exactly. The common causes of censor are:
-
-1.  study ends - no event even after study ends
-2.  lost to follow up - abscond
-3.  withdraws
 
 ## Estimation
 
 ### The Cox proportional haazard regression
 
-In medicine and epidemiology, the most used survival model uses the Cox proportional hazard regression. It is a semi-parametric model. This is because we do not specify the exact distribution of the baseline hazard.
+In medicine and epidemiology, the most used survival model uses the Cox proportional hazard regression. 
+
+It is a semi-parametric model. 
+
+This is because we do not specify the exact distribution of the baseline hazard. But the other covariates follow some form or assumed distribution.
 
 The formula for Cox PH model $h(t,X) = h_0(t)\exp^{\sum_{i=1}^p\beta_iX_i}$
 
@@ -2906,7 +2930,7 @@ where $h_0(t)$ is the baseline hazard and $\exp^{\sum_{i=1}^p\beta_iX_i}$ is the
 
 ### Null model
 
-The null model contains no covariates.
+The null model contains no covariate.
 
 
 ```r
@@ -2926,44 +2950,46 @@ summary(cox.null)
 
 ### Conditional model
 
-We include systolic blood pressure as the covariate
+Main effect model
+
+Let us include Glasgow Coma Scale as the covariate
 
 
 ```r
-cox.sbp <- coxph(Surv(time = days, event = outcome == 'dead') ~ sbp,
+cox.gcs <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs,
                  data = stroke2)
-summary(cox.sbp)
+summary(cox.gcs)
 ```
 
 ```
 ## Call:
 ## coxph(formula = Surv(time = days, event = outcome == "dead") ~ 
-##     sbp, data = stroke2)
+##     gcs, data = stroke2)
 ## 
 ##   n= 225, number of events= 52 
 ##    (1 observation deleted due to missingness)
 ## 
-##          coef exp(coef)  se(coef)      z Pr(>|z|)
-## sbp -0.001470  0.998531  0.004291 -0.343    0.732
+##         coef exp(coef) se(coef)      z      Pr(>|z|)    
+## gcs -0.19188   0.82541  0.03261 -5.883 0.00000000402 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
 ##     exp(coef) exp(-coef) lower .95 upper .95
-## sbp    0.9985      1.001    0.9902     1.007
+## gcs    0.8254      1.212    0.7743    0.8799
 ## 
-## Concordance= 0.513  (se = 0.058 )
-## Likelihood ratio test= 0.12  on 1 df,   p=0.7
-## Wald test            = 0.12  on 1 df,   p=0.7
-## Score (logrank) test = 0.12  on 1 df,   p=0.7
+## Concordance= 0.787  (se = 0.035 )
+## Likelihood ratio test= 35.11  on 1 df,   p=0.000000003
+## Wald test            = 34.62  on 1 df,   p=0.000000004
+## Score (logrank) test = 40.65  on 1 df,   p=0.0000000002
 ```
 
-Main effect model
-
-The model the risk for death as a function of Glasgow Coma Scale and age. 
+Now, model the risk for death as a function of Glasgow Coma Scale and  age. 
 
 
 ```r
-cox.gcs.age.noia <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
+cox.gcs.age <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
                        age, data = stroke2)
-summary(cox.gcs.age.noia)
+summary(cox.gcs.age)
 ```
 
 ```
@@ -2996,9 +3022,9 @@ We add an interaction between gcs and age into our covariate.
 
 
 ```r
-cox.gcs.age <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
+cox.gcs.age.ia <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
                        age + gcs:age, data = stroke2)
-summary(cox.gcs.age)
+summary(cox.gcs.age.ia)
 ```
 
 ```
@@ -3027,8 +3053,112 @@ summary(cox.gcs.age)
 ## Score (logrank) test = 48.93  on 3 df,   p=0.0000000001
 ```
 
+### A more elaborate model
 
-## Inference
+
+```r
+cox.mv <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs + age +
+                icd10 + sex, data = stroke2)
+summary(cox.mv)
+```
+
+```
+## Call:
+## coxph(formula = Surv(time = days, event = outcome == "dead") ~ 
+##     gcs + age + icd10 + sex, data = stroke2)
+## 
+##   n= 225, number of events= 52 
+##    (1 observation deleted due to missingness)
+## 
+##               coef exp(coef) se(coef)      z     Pr(>|z|)    
+## gcs       -0.18619   0.83011  0.03463 -5.377 0.0000000757 ***
+## age        0.03173   1.03224  0.01137  2.790      0.00527 ** 
+## icd10HS    0.46930   1.59888  0.31615  1.484      0.13769    
+## sexfemale  0.12632   1.13464  0.31973  0.395      0.69279    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+##           exp(coef) exp(-coef) lower .95 upper .95
+## gcs          0.8301     1.2047    0.7756    0.8884
+## age          1.0322     0.9688    1.0095    1.0555
+## icd10HS      1.5989     0.6254    0.8604    2.9711
+## sexfemale    1.1346     0.8813    0.6063    2.1233
+## 
+## Concordance= 0.819  (se = 0.03 )
+## Likelihood ratio test= 44.56  on 4 df,   p=0.000000005
+## Wald test            = 42.07  on 4 df,   p=0.00000002
+## Score (logrank) test = 49.78  on 4 df,   p=0.0000000004
+```
+
+The problems when you have both GCS and stroke types (icd10)
+
+
+```r
+cox.mv2 <- coxph(Surv(time = days, event = outcome == 'dead') ~ age +
+                icd10 + sex, data = stroke2)
+summary(cox.mv2)
+```
+
+```
+## Call:
+## coxph(formula = Surv(time = days, event = outcome == "dead") ~ 
+##     age + icd10 + sex, data = stroke2)
+## 
+##   n= 226, number of events= 53 
+## 
+##              coef exp(coef) se(coef)     z Pr(>|z|)   
+## age       0.02865   1.02906  0.01141 2.510  0.01206 * 
+## icd10HS   0.89564   2.44889  0.31349 2.857  0.00428 **
+## sexfemale 0.39415   1.48312  0.30736 1.282  0.19972   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+##           exp(coef) exp(-coef) lower .95 upper .95
+## age           1.029     0.9718     1.006     1.052
+## icd10HS       2.449     0.4083     1.325     4.527
+## sexfemale     1.483     0.6743     0.812     2.709
+## 
+## Concordance= 0.719  (se = 0.045 )
+## Likelihood ratio test= 15.29  on 3 df,   p=0.002
+## Wald test            = 14.6  on 3 df,   p=0.002
+## Score (logrank) test = 14.77  on 3 df,   p=0.002
+```
+
+## Tidy output
+
+Model 1
+
+
+```r
+tidy(cox.mv, exponentiate = TRUE, conf.int = TRUE)
+```
+
+```
+## # A tibble: 4 x 7
+##   term      estimate std.error statistic      p.value conf.low conf.high
+##   <chr>        <dbl>     <dbl>     <dbl>        <dbl>    <dbl>     <dbl>
+## 1 gcs          0.830    0.0346    -5.38  0.0000000757    0.776     0.888
+## 2 age          1.03     0.0114     2.79  0.00527         1.01      1.06 
+## 3 icd10HS      1.60     0.316      1.48  0.138           0.860     2.97 
+## 4 sexfemale    1.13     0.320      0.395 0.693           0.606     2.12
+```
+
+Model 2
+
+
+```r
+tidy(cox.mv2, exponentiate = TRUE, conf.int = TRUE)
+```
+
+```
+## # A tibble: 3 x 7
+##   term      estimate std.error statistic p.value conf.low conf.high
+##   <chr>        <dbl>     <dbl>     <dbl>   <dbl>    <dbl>     <dbl>
+## 1 age           1.03    0.0114      2.51 0.0121     1.01       1.05
+## 2 icd10HS       2.45    0.313       2.86 0.00428    1.32       4.53
+## 3 sexfemale     1.48    0.307       1.28 0.200      0.812      2.71
+```
+
 
 ## Model checking
 
@@ -3040,16 +3170,16 @@ We can use `survival::cox.zph()`
 
 
 ```r
-prop.h <- cox.zph(cox.gcs.age, transform = 'km', global = TRUE)
+prop.h <- cox.zph(cox.mv2, transform = 'km', global = TRUE)
 prop.h
 ```
 
 ```
-##              rho   chisq     p
-## gcs     -0.00818 0.00366 0.952
-## age     -0.05778 0.22254 0.637
-## gcs:age  0.02679 0.04062 0.840
-## GLOBAL        NA 0.86560 0.834
+##               rho   chisq       p
+## age       -0.1734 2.19097 0.13882
+## icd10HS   -0.3417 7.40274 0.00651
+## sexfemale -0.0134 0.00993 0.92061
+## GLOBAL         NA 8.64898 0.03434
 ```
 
 

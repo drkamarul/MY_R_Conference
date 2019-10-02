@@ -14,30 +14,37 @@ output:
 
 # Cox proportional hazard regression (15 min)
 
-Survival analysis is just another name for time to event  analysis. Regression is popular because plausible model can be fitted. 
+Survival analysis is a common analysis in medicine. It also known as the time to event  analysis or duration analysis. It is a type of regression.  
 
-In survival analysis, one method of analyses is the Cox proportional hazard regression. In survival analysis, the outcome variable (dependent variable) is TIME TO THE OCCURRENCE OF AN EVENT or shortly known as the time-to-event variable.
+In survival analysis, one of the most common modelling method is the Cox proportional hazard regression. 
+
+In survival analysis, the outcome variable (dependent variable) is TIME TO THE OCCURRENCE OF AN EVENT or shortly known as the time-to-event variable.
 
 ## Survival data
 
 In survival analysis, we follow a subject of interest until a certain time (the last follow up). Different patients will have different follow-up times.
 
-For example, we observe a group of patients; with the outcome variable named as 'status' and the outcome coded as 'death' or 'alive'. The status at the last follow up, can be an event either of 'death' or of other than death - 'non-death'. 
+For example, we observe a group of subjects; with the outcome variable named as 'status' and the outcome coded as 'death' or 'alive'. 
 
-The researcher must choose between 'death' and 'non-death to consider if the event of interest has occurred or not. If he chooses (interested in) 'death', then any patient (who is under the follow-up) who dies during the follow-up will be considered as a 'failure'. Any other patients who are under  the same follow-up and still survive until the latest follow-up is known as a 'censor' case.
+The status at the last follow up, can be an event either of 'death' or of other than death - 'non-death'. 
 
+Any other subjects who are under  the same follow-up and still survive until the latest follow-up is known as a 'censor' case.
 
-In survival data, time (duration of follow up) is the 'survival time' (example months, weeks, days) and event is 'the failure status' (for example death, relapse and recurrence)
 
 ## Read data
 
-Data comes from stroke patients. It is a stata format. 
+For our example, data comes from a group of stroke patients. 
+
+Data is in the stata format. 
 
 ```{r}
 stroke <- read_dta(here('datasets', 'stroke_outcome.dta'))
 ```
 
-Let's get a brief view of data
+Let's get a brief view 
+
+- class of variables
+- observations and variables 
 
 ```{r}
 str(stroke)
@@ -46,19 +53,27 @@ glimpse(stroke)
 
 ## Data wrangling
 
-We would like to convert labelled variable to factors variables
+We can convert many variables; in this case all labelled variable to factors variables.
 
 ```{r}
 stroke2 <- stroke %>% mutate_if(is.labelled, ~as_factor(.)) 
 glimpse(stroke2)
 ```
 
-The data must have at least
+Collapse stroke types (variable icd10) from 3 categories to 2 categories 
+
+```{r}
+table(stroke2$icd10)
+stroke2 <- stroke2 %>% mutate(icd10 = recode(icd10, 'SAH' = 'HS', 'ICB, Other Haemorrhage' = 'HS'))
+```
+
+Remember, data must have at least
 
 1.  duration taken to develop event of interest (time variable)
 2.  event of interest (event variable)
 
-You can calculate the duration from the starting point (for example, date of admission, date of discharge) until the point of event occurs (for example, date of death, date of relapse)
+Data can have censor observations too. 
+
 
 ```{r  censoring, echo=FALSE, out.width='70%', fig.cap='Types of censoring', fig.align='center'}
 knitr::include_graphics(here('image', 'censor2.png')) 
@@ -66,17 +81,16 @@ knitr::include_graphics(here('image', 'censor2.png'))
 
 Figure \@ref(fig:censoring) shows types of censoring.
 
-Censoring is a problem is the survival analysis. Censoring occurs when we know the survival time for an individual but we do not know the survival time exactly. The common causes of censor are:
-
-1.  study ends - no event even after study ends
-2.  lost to follow up - abscond
-3.  withdraws
 
 ## Estimation
 
 ### The Cox proportional haazard regression
 
-In medicine and epidemiology, the most used survival model uses the Cox proportional hazard regression. It is a semi-parametric model. This is because we do not specify the exact distribution of the baseline hazard.
+In medicine and epidemiology, the most used survival model uses the Cox proportional hazard regression. 
+
+It is a semi-parametric model. 
+
+This is because we do not specify the exact distribution of the baseline hazard. But the other covariates follow some form or assumed distribution.
 
 The formula for Cox PH model $h(t,X) = h_0(t)\exp^{\sum_{i=1}^p\beta_iX_i}$
 
@@ -84,7 +98,7 @@ where $h_0(t)$ is the baseline hazard and $\exp^{\sum_{i=1}^p\beta_iX_i}$ is the
 
 ### Null model
 
-The null model contains no covariates.
+The null model contains no covariate.
 
 ```{r}
 cox.null <- coxph(Surv(time = days, event = outcome == 'dead') ~ 1,
@@ -94,22 +108,22 @@ summary(cox.null)
 
 ### Conditional model
 
-We include systolic blood pressure as the covariate
-
-```{r}
-cox.sbp <- coxph(Surv(time = days, event = outcome == 'dead') ~ sbp,
-                 data = stroke2)
-summary(cox.sbp)
-```
-
 Main effect model
 
-The model the risk for death as a function of Glasgow Coma Scale and age. 
+Let us include Glasgow Coma Scale as the covariate
 
 ```{r}
-cox.gcs.age.noia <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
+cox.gcs <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs,
+                 data = stroke2)
+summary(cox.gcs)
+```
+
+Now, model the risk for death as a function of Glasgow Coma Scale and  age. 
+
+```{r}
+cox.gcs.age <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
                        age, data = stroke2)
-summary(cox.gcs.age.noia)
+summary(cox.gcs.age)
 ```
 
 Model with interaction
@@ -117,13 +131,41 @@ Model with interaction
 We add an interaction between gcs and age into our covariate. 
 
 ```{r}
-cox.gcs.age <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
+cox.gcs.age.ia <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs +
                        age + gcs:age, data = stroke2)
-summary(cox.gcs.age)
+summary(cox.gcs.age.ia)
 ```
 
+### A more elaborate model
 
-## Inference
+```{r}
+cox.mv <- coxph(Surv(time = days, event = outcome == 'dead') ~ gcs + age +
+                icd10 + sex, data = stroke2)
+summary(cox.mv)
+```
+
+The problems when you have both GCS and stroke types (icd10)
+
+```{r}
+cox.mv2 <- coxph(Surv(time = days, event = outcome == 'dead') ~ age +
+                icd10 + sex, data = stroke2)
+summary(cox.mv2)
+```
+
+## Tidy output
+
+Model 1
+
+```{r}
+tidy(cox.mv, exponentiate = TRUE, conf.int = TRUE)
+```
+
+Model 2
+
+```{r}
+tidy(cox.mv2, exponentiate = TRUE, conf.int = TRUE)
+```
+
 
 ## Model checking
 
@@ -134,7 +176,7 @@ One of the most important assumption in Cox proportional hazars regression is th
 We can use `survival::cox.zph()`
 
 ```{r}
-prop.h <- cox.zph(cox.gcs.age, transform = 'km', global = TRUE)
+prop.h <- cox.zph(cox.mv2, transform = 'km', global = TRUE)
 prop.h
 ```
 
