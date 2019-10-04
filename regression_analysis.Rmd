@@ -41,6 +41,8 @@ library(here)
 knitr::include_graphics(here("image","scopus.PNG")) 
 ```
 
+![](regression_analysis_files/figure-html/scopus.PNG)
+
 ## Research interests
 
 My research interests include medical epidemiology, statistical modelling and machine learning. 
