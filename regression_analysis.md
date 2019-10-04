@@ -118,7 +118,7 @@ On its webpage, it is stated the THE MISSION as
 
 **Code-along** 
 
-Type and try to understand
+Type and try to understand!
 
 ![](regression_analysis_files/figure-html/code.gif)
 
