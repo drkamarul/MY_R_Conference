@@ -201,13 +201,6 @@ The independent variables are sometimes referred to as explanatory variables, be
 
 ## Model assumptions 
 
-Figure \@ref(fig:LinearityAssumption) sums the first 3 assumptions:
-
-<div class="figure" style="text-align: center">
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/linearity2.png" alt="Linearity Assumptions" width="50%" />
-<p class="caption">(\#fig:LinearityAssumption)Linearity Assumptions</p>
-</div>
-
 ![](regression_analysis_files/figure-html/linearity2.png)
 
 
@@ -2921,13 +2914,6 @@ Remember, data must have at least
 Data can have censor observations too. 
 
 ![](regression_analysis_files/figure-html/censor2.png)
-
-<div class="figure" style="text-align: center">
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/censor2.png" alt="Types of censoring" width="70%" />
-<p class="caption">(\#fig:censoring)Types of censoring</p>
-</div>
-
-Figure \@ref(fig:censoring) shows types of censoring.
 
 
 ## Estimation

@@ -76,12 +76,6 @@ Data can have censor observations too.
 
 ![](regression_analysis_files/figure-html/censor2.png)
 
-```{r  censoring, echo=FALSE, out.width='70%', fig.cap='Types of censoring', fig.align='center'}
-knitr::include_graphics(here('image', 'censor2.png')) 
-```
-
-Figure \@ref(fig:censoring) shows types of censoring.
-
 
 ## Estimation
 

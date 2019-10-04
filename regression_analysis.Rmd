@@ -154,12 +154,6 @@ The independent variables are sometimes referred to as explanatory variables, be
 
 ## Model assumptions 
 
-Figure \@ref(fig:LinearityAssumption) sums the first 3 assumptions:
-
-```{r  LinearityAssumption, echo=FALSE, out.width='50%', fig.cap='Linearity Assumptions', fig.align='center'}
-knitr::include_graphics(here("image","linearity2.png")) 
-```
-
 ![](regression_analysis_files/figure-html/linearity2.png)
 
 
