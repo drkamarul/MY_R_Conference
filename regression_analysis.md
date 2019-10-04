@@ -104,9 +104,11 @@ Please:
 
 ![](regression_analysis_files/figure-html/rstudio_cloud1.png)
 
+Then here
 
 ![](regression_analysis_files/figure-html/rstudio_cloud2.png)
 
+Then here
 
 ![](regression_analysis_files/figure-html/rstudio_cloud3.png)
 
@@ -205,6 +207,9 @@ Figure \@ref(fig:LinearityAssumption) sums the first 3 assumptions:
 <img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/linearity2.png" alt="Linearity Assumptions" width="50%" />
 <p class="caption">(\#fig:LinearityAssumption)Linearity Assumptions</p>
 </div>
+
+![](regression_analysis_files/figure-html/linearity2.png)
+
 
 Generally, the equation of multiple linear regression model is:
 
@@ -2915,6 +2920,7 @@ Remember, data must have at least
 
 Data can have censor observations too. 
 
+![](regression_analysis_files/figure-html/censor2.png)
 
 <div class="figure" style="text-align: center">
 <img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/censor2.png" alt="Types of censoring" width="70%" />

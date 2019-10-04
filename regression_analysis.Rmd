@@ -106,9 +106,11 @@ Please:
 
 ![](regression_analysis_files/figure-html/rstudio_cloud1.png)
 
+Then here
 
 ![](regression_analysis_files/figure-html/rstudio_cloud2.png)
 
+Then here
 
 ![](regression_analysis_files/figure-html/rstudio_cloud3.png)
 
@@ -157,6 +159,9 @@ Figure \@ref(fig:LinearityAssumption) sums the first 3 assumptions:
 ```{r  LinearityAssumption, echo=FALSE, out.width='50%', fig.cap='Linearity Assumptions', fig.align='center'}
 knitr::include_graphics(here("image","linearity2.png")) 
 ```
+
+![](regression_analysis_files/figure-html/linearity2.png)
+
 
 Generally, the equation of multiple linear regression model is:
 
