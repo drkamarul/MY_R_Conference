@@ -104,7 +104,9 @@ Please:
 
 ![](regression_analysis_files/figure-html/rstudio_cloud1.png)
 
+
 ![](regression_analysis_files/figure-html/rstudio_cloud2.png)
+
 
 ![](regression_analysis_files/figure-html/rstudio_cloud3.png)
 
