@@ -224,3 +224,9 @@ augment(model_multivar, type.predict = 'link')
 augment(model_multivar, type.predict = 'response')
 ```
 
+Others:
+
+- confusion matrix
+- overall model fitness (Hosmer Lemeshow test)
+- Area under the ROC curve
+- Model diagnostics

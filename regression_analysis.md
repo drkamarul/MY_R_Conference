@@ -759,7 +759,7 @@ Remember the LINE assumptions
 
 
 ```r
-ggplot(data = pred_met, aes(x = .fitted)) +
+ggplot(data = pred_met, aes(x = .resid)) +
   geom_histogram()
 ```
 
@@ -2763,6 +2763,12 @@ augment(model_multivar, type.predict = 'response')
 ## #   .std.resid <dbl>
 ```
 
+Others:
+
+- confusion matrix
+- overall model fitness (Hosmer Lemeshow test)
+- Area under the ROC curve
+- Model diagnostics
 
 
 

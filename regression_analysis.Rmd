@@ -337,7 +337,7 @@ Remember the LINE assumptions
 
 
 ```{r}
-ggplot(data = pred_met, aes(x = .fitted)) +
+ggplot(data = pred_met, aes(x = .resid)) +
   geom_histogram()
 ```
 
