@@ -41,7 +41,7 @@ library(here)
 knitr::include_graphics(here("image","scopus.PNG")) 
 ```
 
-![](regression_analysis_files/figure-html/scopus.PNG)
+![](regression_analysis_files/figure-html/scopus.png)
 
 ## Research interests
 

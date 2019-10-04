@@ -1,7 +1,7 @@
 ---
 title: "Regression Analysis in Health and Medicine Using R"
 author: "Assoc Prof Kamarul Imran Musa"
-date: "2019-10-02"
+date: "2019-10-04"
 output:
   bookdown::html_document2: 
     toc: true
@@ -35,6 +35,8 @@ My research profile at Google Scholar is available here  https://scholar.google.
 My SCOPUS author ID is 57194536466
 
 <img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/scopus.PNG" width="70%" style="display: block; margin: auto;" />
+
+![](regression_analysis_files/figure-html/scopus.PNG)
 
 ## Research interests
 
