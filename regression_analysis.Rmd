@@ -36,11 +36,6 @@ My research profile at Google Scholar is available here  https://scholar.google.
 
 My SCOPUS author ID is 57194536466
 
-```{r  scopus, echo=FALSE, message =FALSE, out.width='70%', fig.align='center'}
-library(here)
-knitr::include_graphics(here("image","scopus.PNG")) 
-```
-
 ![](regression_analysis_files/figure-html/scopus.png)
 
 ## Research interests
@@ -55,17 +50,15 @@ Twitter: @kamarul_imran
 
 Personal page: https://myanalytics.com.my/
 
-```{r  webpage1, echo=FALSE, out.width='60%', fig.align='center'}
-knitr::include_graphics(here("image","myweb.PNG")) 
-```
+![](regression_analysis_files/figure-html/myweb.png)
+
 
 ## Our R course
 
 We conduct regular R courses. But we also receive invitation to conduct trainings on R and on data and statistical analysis.
 
-```{r  webpage2, echo=FALSE, out.width='50%',  fig.align='center'}
-knitr::include_graphics(here("image","short-course.PNG")) 
-```
+![](regression_analysis_files/figure-html/short-course.png)
+
 
 
 # Regression (5 mins)
@@ -111,17 +104,12 @@ Please:
 - Log in
 - Click on the project **Regression Analysis in Health and Medicine**
 
-```{r  cloud1, echo=FALSE, out.width='50%', fig.align='center'}
-knitr::include_graphics(here("image","rstudio_cloud1.PNG")) 
-```
+![](regression_analysis_files/figure-html/rstudio_cloud1.png)
 
-```{r  cloud2, echo=FALSE, out.width='50%',  fig.align='center'}
-knitr::include_graphics(here("image","rstudio_cloud2.PNG")) 
-```
+![](regression_analysis_files/figure-html/rstudio_cloud2.png)
 
-```{r  cloud3, echo=FALSE, out.width='50%',  fig.align='center'}
-knitr::include_graphics(here("image","rstudio_cloud3.PNG")) 
-```
+![](regression_analysis_files/figure-html/rstudio_cloud3.png)
+
 
 
 On its webpage, it is stated the THE MISSION as 
@@ -134,9 +122,8 @@ On its webpage, it is stated the THE MISSION as
 
 Type and try to understand
 
-```{r  coding, echo=FALSE, out.width='50%', fig.cap='https://giphy.com/gifs/batman-arkham-footage-QHE5gWI0QjqF2', fig.align='center'}
-knitr::include_graphics(here("image","code.gif")) 
-```
+![](regression_analysis_files/figure-html/code.gif)
+
 
 # Load required libraries
 

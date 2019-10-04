@@ -34,9 +34,7 @@ My research profile at Google Scholar is available here  https://scholar.google.
 
 My SCOPUS author ID is 57194536466
 
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/scopus.PNG" width="70%" style="display: block; margin: auto;" />
-
-![](regression_analysis_files/figure-html/scopus.PNG)
+![](regression_analysis_files/figure-html/scopus.png)
 
 ## Research interests
 
@@ -50,13 +48,15 @@ Twitter: @kamarul_imran
 
 Personal page: https://myanalytics.com.my/
 
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/myweb.PNG" width="60%" style="display: block; margin: auto;" />
+![](regression_analysis_files/figure-html/myweb.png)
+
 
 ## Our R course
 
 We conduct regular R courses. But we also receive invitation to conduct trainings on R and on data and statistical analysis.
 
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/short-course.PNG" width="50%" style="display: block; margin: auto;" />
+![](regression_analysis_files/figure-html/short-course.png)
+
 
 
 # Regression (5 mins)
@@ -102,11 +102,12 @@ Please:
 - Log in
 - Click on the project **Regression Analysis in Health and Medicine**
 
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud1.PNG" width="50%" style="display: block; margin: auto;" />
+![](regression_analysis_files/figure-html/rstudio_cloud1.png)
 
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud2.PNG" width="50%" style="display: block; margin: auto;" />
+![](regression_analysis_files/figure-html/rstudio_cloud2.png)
 
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/rstudio_cloud3.PNG" width="50%" style="display: block; margin: auto;" />
+![](regression_analysis_files/figure-html/rstudio_cloud3.png)
+
 
 
 On its webpage, it is stated the THE MISSION as 
@@ -119,10 +120,8 @@ On its webpage, it is stated the THE MISSION as
 
 Type and try to understand
 
-<div class="figure" style="text-align: center">
-<img src="C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference/image/code.gif" alt="https://giphy.com/gifs/batman-arkham-footage-QHE5gWI0QjqF2" width="50%" />
-<p class="caption">(\#fig:coding)https://giphy.com/gifs/batman-arkham-footage-QHE5gWI0QjqF2</p>
-</div>
+![](regression_analysis_files/figure-html/code.gif)
+
 
 # Load required libraries
 
@@ -150,6 +149,13 @@ library(tidyverse)
 
 ```r
 library(here)
+```
+
+```
+## here() starts at C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference
+```
+
+```r
 library(haven)
 library(readxl)
 library(kableExtra)
