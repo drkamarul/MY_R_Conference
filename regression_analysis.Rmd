@@ -129,9 +129,30 @@ Type and try to understand!
 ![](regression_analysis_files/figure-html/code.gif)
 
 
+# Open a new R script file
+
+File -> New File -> R Script
+
+![](regression_analysis_files/figure-html/new-r-script1.jpg)
+
+
+You will get this
+
+![](regression_analysis_files/figure-html/new-r-script.png)
+
+Notes :
+
+1. **YOU WILL TYPE YOUR CODES INSIDE THIS BLANK R SCRIPT**
+2. **SAVE THE R SCRIPT AFTER YOU HAVE DONE**
+3. **REOPEN THE R SCRIPT, IF YOU NEED TO CONTINUE YOUR CODING**
+
 # Load required libraries
 
-```{r}
+Steps: 
+
+- Types the codes below inside your R script
+
+```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
 library(here)
 library(haven)
@@ -142,6 +163,19 @@ library(cdata)
 library(corrplot)
 library(survival)
 ```
+
+- Then to run each line of the code, either you 
+  
+  a. click the Run button, or
+  b. click CNTRL + ENTER keys on your keyboards
+  
+![](regression_analysis_files/figure-html/run.png)
+
+Note:
+
+If you received this error message `Error in library(kableExtra) : there is no package called ‘kableExtra’`, then you need to install the package. Go to `Package`, then click `Install`, then type the package you want to install. Make sure you click `install dependencies`. Then click `install`. 
+
+Wait for a few seconds for RStudio to dowloadn and install the package.  
 
 
 # Linear regression (25 mins)
@@ -311,7 +345,7 @@ We will add an interaction term (DMDX with AGE) in the covariates
 
 ```{r}
 met_hba1c_ia <- lm(HBA1C ~ FBS + AGE + MSBPR + MDBPR + BMI + HDL + LDL + 
-                     BMI + factor(DMDX):AGE, data = met)
+                     factor(DMDX):AGE, data = met)
 summary(met_hba1c_ia)
 ```
 

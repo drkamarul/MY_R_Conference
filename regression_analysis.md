@@ -1,7 +1,7 @@
 ---
 title: "Regression Analysis in Health and Medicine Using R"
 author: "Assoc Prof Kamarul Imran Musa"
-date: "2019-10-04"
+date: "2019-10-05"
 output:
   bookdown::html_document2: 
     toc: true
@@ -127,68 +127,52 @@ Type and try to understand!
 ![](regression_analysis_files/figure-html/code.gif)
 
 
+# Open a new R script file
+
+File -> New File -> R Script
+
+![](regression_analysis_files/figure-html/new-r-script1.jpg)
+
+
+You will get this
+
+![](regression_analysis_files/figure-html/new-r-script.png)
+
+Notes :
+
+1. **YOU WILL TYPE YOUR CODES INSIDE THIS BLANK R SCRIPT**
+2. **SAVE THE R SCRIPT AFTER YOU HAVE DONE**
+3. **REOPEN THE R SCRIPT, IF YOU NEED TO CONTINUE YOUR CODING**
+
 # Load required libraries
+
+Steps: 
+
+- Types the codes below inside your R script
 
 
 ```r
 library(tidyverse)
-```
-
-```
-## -- Attaching packages ------------------------------------------------------------------------------ tidyverse 1.2.1 --
-```
-
-```
-## v ggplot2 3.2.1     v purrr   0.3.2
-## v tibble  2.1.3     v dplyr   0.8.3
-## v tidyr   1.0.0     v stringr 1.4.0
-## v readr   1.3.1     v forcats 0.4.0
-```
-
-```
-## -- Conflicts --------------------------------------------------------------------------------- tidyverse_conflicts() --
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-```
-
-```r
 library(here)
-```
-
-```
-## here() starts at C:/Users/drkim/OneDrive - Universiti Sains Malaysia/1_Codes_Programming/my_GIT_repo/MY_R_Conference
-```
-
-```r
 library(haven)
 library(readxl)
 library(kableExtra)
-```
-
-```
-## 
-## Attaching package: 'kableExtra'
-```
-
-```
-## The following object is masked from 'package:dplyr':
-## 
-##     group_rows
-```
-
-```r
 library(broom)
 library(cdata)
 library(corrplot)
-```
-
-```
-## corrplot 0.84 loaded
-```
-
-```r
 library(survival)
 ```
+
+- Then to run each line of the code, either you 
+  
+  a. click the Run button, or
+  b. click CNTRL + ENTER keys on your keyboards
+  
+![](regression_analysis_files/figure-html/run.png)
+
+Note:
+
+If you received this error message `Error in library(kableExtra) : there is no package called ‘kableExtra’`, then you need to install the package. Go to `Package`, then click `Install`, then type the package you want to install. Make sure you click `install dependencies`. Then click `install`. Wait for a few seconds for RStudio to dowloadn and install the package.  
 
 
 # Linear regression (25 mins)
@@ -671,7 +655,7 @@ We will add an interaction term (DMDX with AGE) in the covariates
 
 ```r
 met_hba1c_ia <- lm(HBA1C ~ FBS + AGE + MSBPR + MDBPR + BMI + HDL + LDL + 
-                     BMI + factor(DMDX):AGE, data = met)
+                     factor(DMDX):AGE, data = met)
 summary(met_hba1c_ia)
 ```
 
@@ -679,7 +663,7 @@ summary(met_hba1c_ia)
 ## 
 ## Call:
 ## lm(formula = HBA1C ~ FBS + AGE + MSBPR + MDBPR + BMI + HDL + 
-##     LDL + BMI + factor(DMDX):AGE, data = met)
+##     LDL + factor(DMDX):AGE, data = met)
 ## 
 ## Residuals:
 ##     Min      1Q  Median      3Q     Max 
