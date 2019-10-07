@@ -1,3 +1,3 @@
 # MY_R_Conference
 
-test
+Workshop 'Regression Analysis in Health and Medicine Using R'
