@@ -1095,7 +1095,7 @@ PUP2 %>%
   xlab('outcome') + ylab('freq')
 ```
 
-![](regression_analysis_files/figure-html/unnamed-chunk-30-1.png)<!-- -->
+![](regression_analysis_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
 
 How about variable ASA. It is not a numerical variable. Let us plot it against outcome. 
 
@@ -1107,7 +1107,7 @@ PUP2 %>%
   facet_wrap(~oc2)
 ```
 
-![](regression_analysis_files/figure-html/unnamed-chunk-31-1.png)<!-- -->
+![](regression_analysis_files/figure-html/unnamed-chunk-32-1.png)<!-- -->
 
 
 ## Estimation
@@ -3119,5 +3119,55 @@ prop.h
 ```
 
 
+
+```r
+sessionInfo()
+```
+
+```
+## R version 4.0.2 (2020-06-22)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 19041)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] summarytools_0.9.6 survival_3.2-3     corrplot_0.84      cdata_1.1.8       
+##  [5] wrapr_2.0.2        broom_0.7.0        kableExtra_1.2.1   readxl_1.3.1      
+##  [9] haven_2.3.1        here_0.1           forcats_0.5.0      stringr_1.4.0     
+## [13] dplyr_1.0.2        purrr_0.3.4        readr_1.3.1        tidyr_1.1.2       
+## [17] tibble_3.0.3       ggplot2_3.3.2      tidyverse_1.3.0   
+## 
+## loaded via a namespace (and not attached):
+##  [1] matrixStats_0.56.0 fs_1.5.0           lubridate_1.7.9    webshot_0.5.2     
+##  [5] httr_1.4.2         rprojroot_1.3-2    tools_4.0.2        backports_1.1.9   
+##  [9] utf8_1.1.4         R6_2.4.1           DBI_1.1.0          colorspace_1.4-1  
+## [13] withr_2.2.0        tidyselect_1.1.0   compiler_4.0.2     cli_2.0.2         
+## [17] rvest_0.3.6        xml2_1.3.2         labeling_0.3       bookdown_0.20     
+## [21] scales_1.1.1       checkmate_2.0.0    rquery_1.4.5       digest_0.6.25     
+## [25] rmarkdown_2.3      rqdatatable_1.2.8  base64enc_0.1-3    pkgconfig_2.0.3   
+## [29] htmltools_0.5.0    dbplyr_1.4.4       highr_0.8          rlang_0.4.7       
+## [33] rstudioapi_0.11    pryr_0.1.4         farver_2.0.3       generics_0.0.2    
+## [37] jsonlite_1.7.0     magrittr_1.5       rapportools_1.0    Matrix_1.2-18     
+## [41] Rcpp_1.0.5         munsell_0.5.0      fansi_0.4.1        lifecycle_0.2.0   
+## [45] stringi_1.4.6      yaml_2.2.1         snakecase_0.11.0   MASS_7.3-52       
+## [49] plyr_1.8.6         grid_4.0.2         blob_1.2.1         parallel_4.0.2    
+## [53] crayon_1.3.4       lattice_0.20-41    splines_4.0.2      pander_0.6.3      
+## [57] hms_0.5.3          magick_2.4.0       knitr_1.29         pillar_1.4.6      
+## [61] tcltk_4.0.2        codetools_0.2-16   reprex_0.3.0       glue_1.4.2        
+## [65] evaluate_0.14      data.table_1.13.0  modelr_0.1.8       vctrs_0.3.4       
+## [69] cellranger_1.1.0   gtable_0.3.0       assertthat_0.2.1   xfun_0.16         
+## [73] janitor_2.0.1      viridisLite_0.3.0  ellipsis_0.3.1
+```
 
 # QA (5 mins)
